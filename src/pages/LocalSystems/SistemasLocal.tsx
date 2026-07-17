@@ -1,80 +1,7 @@
-import styled from "styled-components";
 import { Database, Network, Shield, HardDrive } from "lucide-react";
 import type { SolutionTypeCardItem } from "../../components/SolutionTypeCards";
 
-// ─── Styles ──────────────────────────────────────────────────────────────────────
-
-const Section = styled.section<{ $bg?: string }>`
-  padding: 5rem 1.5rem;
-  background: ${(p) => p.$bg || "#f7f9ff"};
-`;
-
-const Container = styled.div`
-  max-width: 1100px;
-  margin: 0 auto;
-`;
-
-const SectionLabel = styled.p`
-  font-family: "Inter", sans-serif;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #059669;
-  margin-bottom: 0.75rem;
-`;
-
-const SectionTitle = styled.h2`
-  font-family: "Plus Jakarta Sans", sans-serif;
-  font-size: clamp(1.6rem, 3vw, 2.25rem);
-  font-weight: 800;
-  color: #0c1445;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  margin-bottom: 1rem;
-`;
-
-// ─── Concept Block ───────────────────────────────────────────────────────────────
-
-const ConceptGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  margin-bottom: 4rem;
-
-  @media (max-width: 640px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-const ConceptCard = styled.div<{ $highlight?: boolean }>`
-  background: ${(p) =>
-    p.$highlight ? "linear-gradient(135deg, #042c1e, #059669)" : "white"};
-  border-radius: 16px;
-  padding: 2rem;
-  border: 1px solid
-    ${(p) => (p.$highlight ? "transparent" : "rgba(5, 150, 105, 0.12)")};
-`;
-
-const ConceptTitle = styled.h3<{ $light?: boolean }>`
-  font-family: "Plus Jakarta Sans", sans-serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: ${(p) => (p.$light ? "white" : "#0c1445")};
-  margin-bottom: 0.75rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-`;
-
-const ConceptDesc = styled.p<{ $light?: boolean }>`
-  font-family: "Inter", sans-serif;
-  font-size: 0.875rem;
-  color: ${(p) => (p.$light ? "rgba(255,255,255,0.7)" : "#4b5684")};
-  line-height: 1.75;
-`;
-
-const localTypes: SolutionTypeCardItem[] = [
+export const localTypes: SolutionTypeCardItem[] = [
   {
     id: "Sistema-Local",
 
@@ -137,15 +64,3 @@ const localTypes: SolutionTypeCardItem[] = [
     tag: { label: "Avançado", variant: "purple" as const },
   },
 ];
-
-export const SistemasLocal = {
-  Section,
-  Container,
-  SectionLabel,
-  SectionTitle,
-  ConceptGrid,
-  ConceptCard,
-  ConceptTitle,
-  ConceptDesc,
-  localTypes,
-};

@@ -11,7 +11,7 @@ const FooterWrap = styled.footer`
 `;
 
 const FooterGrid = styled.div`
-  max-width: 1366px;
+  // max-width: 1366px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;

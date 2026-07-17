@@ -1,72 +1,7 @@
-import styled from "styled-components";
 import { Server, Network, HardDrive, BarChart3 } from "lucide-react";
 import type { SolutionTypeCardItem } from "../../components/SolutionTypeCards";
 
-const Section = styled.section<{ $bg?: string }>`
-  padding: 5rem 1.5rem;
-  background: ${(p) => p.$bg || "#f7f9ff"};
-`;
-
-const Container = styled.div`
-  max-width: 1100px;
-  margin: 0 auto;
-`;
-
-const SectionLabel = styled.p`
-  font-family: "Inter", sans-serif;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #7c3aed;
-  margin-bottom: 0.75rem;
-`;
-
-const SectionTitle = styled.h2`
-  font-family: "Plus Jakarta Sans", sans-serif;
-  font-size: clamp(1.6rem, 3vw, 2.25rem);
-  font-weight: 800;
-  color: #0c1445;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  margin-bottom: 1rem;
-`;
-
-const SectionSubtitle = styled.p`
-  font-family: "Inter", sans-serif;
-  font-size: 1rem;
-  color: #4b5684;
-  line-height: 1.75;
-  max-width: 560px;
-  margin-bottom: 3rem;
-`;
-
-// ─── OS Badges ───────────────────────────────────────────────────────────────────
-
-const OSRow = styled.div`
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-bottom: 3rem;
-`;
-
-const OSBadge = styled.div<{ $bg: string; $color: string }>`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.625rem 1.25rem;
-  border-radius: 100px;
-  background: ${(p) => p.$bg};
-  border: 1px solid ${(p) => p.$color}40;
-  font-family: "Inter", sans-serif;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: ${(p) => p.$color};
-`;
-
-// ─── Data ────────────────────────────────────────────────────────────────────────
-
-const softwareTypes: SolutionTypeCardItem[] = [
+export const softwareTypes: SolutionTypeCardItem[] = [
   {
     id: "Software",
     accentColor: "#374151",
@@ -132,14 +67,3 @@ const softwareTypes: SolutionTypeCardItem[] = [
     tag: { label: "Avançado", variant: "green" as const },
   },
 ];
-
-export const Softwares = {
-  Section,
-  Container,
-  SectionLabel,
-  SectionTitle,
-  SectionSubtitle,
-  OSBadge,
-  OSRow,
-  softwareTypes,
-};

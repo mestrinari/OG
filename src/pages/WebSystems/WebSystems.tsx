@@ -1,46 +1,16 @@
 import { Globe, ArrowRight } from "lucide-react";
-import { useRef, useState } from "react";
 import { SolutionTypeCards } from "../../components/SolutionTypeCards";
 import { Hero, heroThemes } from "../../components/Hero";
-import { Web } from "./Web";
-import { RecursosExtras } from "./RecursosExtras";
+import { useSectionHighlight } from "../../hooks/useSectionHighlight";
+import { ContentSection } from "../../components/ContentSection";
+import { InfoCardGrid } from "../../components/InfoCardGrid";
+import { CtaBanner } from "../../components/CtaBanner";
+import { ActionAnchor } from "../../components/ActionButton";
+import { types } from "./Web";
+import { extras } from "./RecursosExtras";
 
 export default function WebSystems() {
-  const [highlighted, setHighlighted] = useState<string>("");
-  const highlightTimeoutRef = useRef<number>(0);
-  const activateHighlight = (id: string) => {
-    setHighlighted(id);
-
-    highlightTimeoutRef.current = window.setTimeout(() => {
-      setHighlighted("");
-      clearTimeout(highlightTimeoutRef.current);
-    }, 5000);
-  };
-  const navigateAndHighlight = (id: string) => {
-    const element = document.getElementById(id);
-
-    if (!element) return;
-
-    element.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        activateHighlight(id);
-        observer.disconnect();
-      }
-    });
-    observer.observe(element);
-  };
-
-  function click(id: string) {
-    setHighlighted("");
-    clearTimeout(highlightTimeoutRef.current);
-
-    navigateAndHighlight(id);
-  }
+  const { highlightedId, highlightSection } = useSectionHighlight();
 
   return (
     <>
@@ -51,67 +21,45 @@ export default function WebSystems() {
         subtitle="De um site básico para aparecer no Google até um sistema completo com login, banco de dados e inteligência artificial."
       />
 
-      <Web.Section id="web">
-        <Web.Container>
-          <Web.SectionLabel>Tipos de sistemas web</Web.SectionLabel>
-          <Web.SectionTitle>
-            Qual é o certo para o seu momento?
-          </Web.SectionTitle>
-          <Web.SectionSubtitle>
-            Você não precisa começar com tudo. Cada negócio tem uma necessidade
-            diferente — veja as opções e escolha o que faz sentido agora.
-          </Web.SectionSubtitle>
+      <ContentSection
+        id="web"
+        accentColor="#2563eb"
+        label="Tipos de sistemas web"
+        title="Qual é o certo para o seu momento?"
+        subtitle="Você não precisa começar com tudo. Cada negócio tem uma necessidade diferente — veja as opções e escolha o que faz sentido agora."
+      >
+        <SolutionTypeCards
+          items={types}
+          checkColor="#2563eb"
+          highlightedId={highlightedId}
+          onCardClick={highlightSection}
+        />
+      </ContentSection>
 
-          <SolutionTypeCards
-            items={Web.types}
-            checkColor="#2563eb"
-            highlightedId={highlighted}
-            onCardClick={click}
-          />
-        </Web.Container>
-      </Web.Section>
-
-      <RecursosExtras.Section $bg="#ffffff" id="hero">
-        <RecursosExtras.Container>
-          <RecursosExtras.SectionLabel>
-            Recursos extras
-          </RecursosExtras.SectionLabel>
-          <RecursosExtras.SectionTitle>
-            Funcionalidades que podem ser adicionadas
-          </RecursosExtras.SectionTitle>
-          <RecursosExtras.SectionSubtitle>
-            Qualquer sistema pode ser enriquecido com esses recursos — tudo
-            conforme a sua necessidade.
-          </RecursosExtras.SectionSubtitle>
-
-          <RecursosExtras.ExtraRow>
-            {RecursosExtras.extras.map((e) => (
-              <RecursosExtras.ExtraCard key={e.title}>
-                <RecursosExtras.ExtraIcon>{e.icon}</RecursosExtras.ExtraIcon>
-                <RecursosExtras.ExtraText>
-                  <RecursosExtras.ExtraTitle>
-                    {e.title}
-                  </RecursosExtras.ExtraTitle>
-                  <RecursosExtras.ExtraDesc>{e.desc}</RecursosExtras.ExtraDesc>
-                </RecursosExtras.ExtraText>
-              </RecursosExtras.ExtraCard>
-            ))}
-          </RecursosExtras.ExtraRow>
-
-          <RecursosExtras.CTABanner>
-            <RecursosExtras.CTATitle>
-              Não sabe qual escolher?
-            </RecursosExtras.CTATitle>
-            <RecursosExtras.CTASubtitle>
-              Explique o seu negócio e a gente indica a melhor opção — sem
-              compromisso.
-            </RecursosExtras.CTASubtitle>
-            <RecursosExtras.CTAButton href="https://wa.me/5511999999999" target="_blank">
+      <ContentSection
+        id="recursos"
+        accentColor="#2563eb"
+        background="#ffffff"
+        label="Recursos extras"
+        title="Funcionalidades que podem ser adicionadas"
+        subtitle="Qualquer sistema pode ser enriquecido com esses recursos — tudo conforme a sua necessidade."
+      >
+        <InfoCardGrid
+          items={extras}
+          accentColor="#2563eb"
+          iconBackground="#eff6ff"
+        />
+        <CtaBanner
+          background="linear-gradient(135deg, #0c1445, #1e3a8a)"
+          title="Não sabe qual escolher?"
+          subtitle="Explique o seu negócio e a gente indica a melhor opção — sem compromisso."
+          action={
+            <ActionAnchor href="https://wa.me/5511999999999" target="_blank">
               Falar pelo WhatsApp <ArrowRight size={16} />
-            </RecursosExtras.CTAButton>
-          </RecursosExtras.CTABanner>
-        </RecursosExtras.Container>
-      </RecursosExtras.Section>
+            </ActionAnchor>
+          }
+        />
+      </ContentSection>
     </>
   );
 }
