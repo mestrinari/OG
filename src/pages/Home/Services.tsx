@@ -22,7 +22,7 @@ const View = styled.section<{ $highlight?: boolean; $bg?: string }>`
   position: relative;
 
   z-index: ${({ $highlight }) => ($highlight ? 20 : 0)};
-  padding: 5rem 1.5rem;
+  padding: 5rem 4rem;
   scroll-margin-top: 250px;
 
   background: ${(p) => p.$bg || "#f7f9ff"};
@@ -34,7 +34,7 @@ const View = styled.section<{ $highlight?: boolean; $bg?: string }>`
 `;
 
 export const Container = styled.div<{ $highlight?: boolean }>`
-  max-width: 1366px;
+  // max-width: 1366px;
   margin: 0 auto;
   // transition: box-shadow 0.3s ease;
 `;

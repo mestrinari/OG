@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Bell, MapPin, Camera, ShoppingBag } from "lucide-react";
-import { HashLink } from "react-router-hash-link";
 
 const Section = styled.section<{ $bg?: string }>`
   padding: 5rem 1.5rem;
@@ -62,115 +61,6 @@ const PlatformBadge = styled.div<{ $color: string; $bg: string }>`
   font-size: 0.875rem;
   font-weight: 600;
   color: ${(p) => p.$color};
-`;
-
-// ─── Type Cards ──────────────────────────────────────────────────────────────────
-
-const TypeGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-`;
-
-const TypeCard = styled(HashLink)`
-  background: white;
-  border-radius: 16px;
-  border: 1px solid rgba(8, 145, 178, 0.1);
-  overflow: hidden;
-  transition:
-    box-shadow 0.25s,
-    transform 0.25s;
-  scroll-margin-top: 250px;
-
-  &:hover {
-    box-shadow: 0 10px 36px rgba(8, 145, 178, 0.12);
-    transform: translateY(-3px);
-  }
-`;
-
-const CardHeader = styled.div<{ $color: string }>`
-  background: ${(p) => p.$color};
-  padding: 1.5rem 1.75rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-`;
-
-const CardHeaderTitle = styled.h3`
-  font-family: "Plus Jakarta Sans", sans-serif;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: white;
-`;
-
-const CardHeaderSub = styled.p`
-  font-family: "Inter", sans-serif;
-  font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.75);
-  margin-top: 0.2rem;
-`;
-
-const CardBody = styled.div`
-  padding: 1.5rem 1.75rem;
-`;
-
-const CardDesc = styled.p`
-  font-family: "Inter", sans-serif;
-  font-size: 0.9rem;
-  color: #4b5684;
-  line-height: 1.7;
-  margin-bottom: 1.25rem;
-`;
-
-const CheckList = styled.ul`
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-`;
-
-const CheckItem = styled.li`
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-  font-family: "Inter", sans-serif;
-  font-size: 0.85rem;
-  color: #374151;
-  line-height: 1.5;
-`;
-
-const Tag = styled.span<{
-  $variant?: "blue" | "green" | "orange" | "purple" | "cyan";
-}>`
-  display: inline-block;
-  font-family: "Inter", sans-serif;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  padding: 0.2rem 0.6rem;
-  border-radius: 100px;
-  margin-top: 1rem;
-  background: ${(p) =>
-    p.$variant === "green"
-      ? "#dcfce7"
-      : p.$variant === "orange"
-        ? "#ffedd5"
-        : p.$variant === "purple"
-          ? "#ede9fe"
-          : p.$variant === "cyan"
-            ? "#cffafe"
-            : "#dbeafe"};
-  color: ${(p) =>
-    p.$variant === "green"
-      ? "#166534"
-      : p.$variant === "orange"
-        ? "#9a3412"
-        : p.$variant === "purple"
-          ? "#5b21b6"
-          : p.$variant === "cyan"
-            ? "#155e75"
-            : "#1e40af"};
 `;
 
 // ─── Profiles Section ────────────────────────────────────────────────────────────
@@ -341,16 +231,6 @@ export const Exemplos = {
   SectionSubtitle,
   PlatformRow,
   PlatformBadge,
-  TypeGrid,
-  TypeCard,
-  CardHeader,
-  CardHeaderTitle,
-  CardHeaderSub,
-  CheckList,
-  Tag,
-  CheckItem,
-  CardDesc,
-  CardBody,
   ProfileGrid,
   ProfileCard,
   ProfileIcon,

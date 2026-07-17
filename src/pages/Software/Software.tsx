@@ -1,8 +1,9 @@
-import { Monitor, Apple, Server, CheckCircle2, ArrowRight } from "lucide-react";
+import { Monitor, Apple, Server, ArrowRight } from "lucide-react";
+import { SolutionTypeCards } from "../../components/SolutionTypeCards";
 import { Softwares } from "./Softwares";
 import { Recursos } from "./Recursos";
 import { useRef, useState } from "react";
-import { Hero } from "./Hero";
+import { Hero, heroThemes } from "../../components/Hero";
 
 export default function Software() {
   const [highlighted, setHighlighted] = useState<string>("");
@@ -43,18 +44,12 @@ export default function Software() {
 
   return (
     <>
-      <Hero.Page id="hero">
-        <Hero.PageBadge>
-          <Monitor size={12} /> Softwares para PC
-        </Hero.PageBadge>
-        <Hero.PageTitle>
-          Programas para o seu computador — simples ou completos
-        </Hero.PageTitle>
-        <Hero.PageSubtitle>
-          De uma ferramenta para uso individual até um sistema de gestão para
-          toda a empresa — para Windows, Mac ou Linux.
-        </Hero.PageSubtitle>
-      </Hero.Page>
+      <Hero
+        theme={heroThemes.software}
+        badge={<><Monitor size={12} /> Softwares para PC</>}
+        title="Programas para o seu computador — simples ou completos"
+        subtitle="De uma ferramenta para uso individual até um sistema de gestão para toda a empresa — para Windows, Mac ou Linux."
+      />
 
       <Softwares.Section id="Softwares">
         <Softwares.Container>
@@ -79,45 +74,12 @@ export default function Software() {
             </Softwares.OSBadge>
           </Softwares.OSRow>
 
-          <Softwares.TypeGrid>
-            {Softwares.softwareTypes.map((t) => (
-              <Softwares.TypeCard
-                $color={t.cor}
-                onClick={() => click(`${t.id}`)}
-                $highlight={highlighted === `${t.id}`}
-                id={t.id}
-                key={t.title}
-              >
-                <Softwares.CardHeader $color={t.color}>
-                  {t.icon}
-                  <div>
-                    <Softwares.CardHeaderTitle>
-                      {t.title}
-                    </Softwares.CardHeaderTitle>
-                    <Softwares.CardHeaderSub>{t.sub}</Softwares.CardHeaderSub>
-                  </div>
-                </Softwares.CardHeader>
-                <Softwares.CardBody>
-                  <Softwares.CardDesc>{t.desc}</Softwares.CardDesc>
-                  <Softwares.CheckList>
-                    {t.checks.map((c) => (
-                      <Softwares.CheckItem key={c}>
-                        <CheckCircle2
-                          size={15}
-                          color="#7c3aed"
-                          style={{ flexShrink: 0, marginTop: 2 }}
-                        />
-                        {c}
-                      </Softwares.CheckItem>
-                    ))}
-                  </Softwares.CheckList>
-                  <Softwares.Tag $variant={t.tag.variant}>
-                    {t.tag.label}
-                  </Softwares.Tag>
-                </Softwares.CardBody>
-              </Softwares.TypeCard>
-            ))}
-          </Softwares.TypeGrid>
+          <SolutionTypeCards
+            items={Softwares.softwareTypes}
+            checkColor="#7c3aed"
+            highlightedId={highlighted}
+            onCardClick={click}
+          />
         </Softwares.Container>
       </Softwares.Section>
 

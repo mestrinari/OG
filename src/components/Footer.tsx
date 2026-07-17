@@ -6,7 +6,7 @@ import { Code2, Mail, Phone, Instagram } from "lucide-react";
 const FooterWrap = styled.footer`
   background: #0c1445;
   color: rgba(255, 255, 255, 0.7);
-  padding: 3rem 1.5rem 2rem;
+  padding: 3rem 4rem 2rem;
   font-family: 'Inter', sans-serif;
 `;
 
@@ -17,7 +17,7 @@ const FooterGrid = styled.div`
   grid-template-columns: 2fr 1fr 1fr;
   gap: 3rem;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1280px) {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
@@ -112,7 +112,7 @@ const Bottom = styled.div`
   flex-wrap: wrap;
   gap: 0.5rem;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1280px) {
     flex-direction: column;
     align-items: flex-start;
   }

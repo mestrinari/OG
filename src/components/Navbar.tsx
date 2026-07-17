@@ -20,15 +20,14 @@ const Nav = styled.nav<{ $scrolled: boolean; $navBackground: string }>`
 `;
 
 const NavInner = styled.div`
-  max-width: 1366px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 4rem;
   height: 68px;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1280px) {
     display: flex;
     justify-content: space-between;
   }
@@ -68,7 +67,7 @@ const NavLinks = styled.div`
   gap: 0.25rem;
   justify-self: center;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1280px) {
     display: none;
   }
 `;
@@ -133,7 +132,7 @@ const CtaButton = styled(HashLink)`
     transform: translateY(-1px);
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1280px) {
     display: none;
   }
 `;
@@ -148,7 +147,7 @@ const HamburgerButton = styled.button`
   align-items: center;
   justify-content: center;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1280px) {
     display: flex;
   }
 `;
@@ -156,7 +155,7 @@ const HamburgerButton = styled.button`
 const MobileMenu = styled.div<{ $open: boolean }>`
   display: none;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1280px) {
     display: flex;
     flex-direction: column;
     position: fixed;

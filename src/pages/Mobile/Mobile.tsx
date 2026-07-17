@@ -1,11 +1,11 @@
 import {
   Smartphone,
   Users,
-  CheckCircle2,
   ArrowRight,
   Apple,
 } from "lucide-react";
-import { Hero } from "./Hero";
+import { SolutionTypeCards } from "../../components/SolutionTypeCards";
+import { Hero, heroThemes } from "../../components/Hero";
 import { Plataformas } from "./Plataformas";
 import { Perfis } from "./Perfis";
 import { Exemplos } from "./Exemplos";
@@ -50,18 +50,12 @@ export default function Mobile() {
 
   return (
     <>
-      <Hero.Page id="hero">
-        <Hero.PageBadge>
-          <Smartphone size={12} /> Aplicativos Mobile
-        </Hero.PageBadge>
-        <Hero.PageTitle>
-          Apps para iPhone e Android — do simples ao completo
-        </Hero.PageTitle>
-        <Hero.PageSubtitle>
-          Seja para rodar sem internet ou para conectar equipes em tempo real,
-          temos o app certo para o seu negócio.
-        </Hero.PageSubtitle>
-      </Hero.Page>
+      <Hero
+        theme={heroThemes.mobile}
+        badge={<><Smartphone size={12} /> Aplicativos Mobile</>}
+        title="Apps para iPhone e Android — do simples ao completo"
+        subtitle="Seja para rodar sem internet ou para conectar equipes em tempo real, temos o app certo para o seu negócio."
+      />
 
       <Plataformas.Section id="mobile">
         <Plataformas.Container>
@@ -88,47 +82,13 @@ export default function Mobile() {
             </Plataformas.PlatformBadge>
           </Plataformas.PlatformRow>
 
-          <Plataformas.TypeGrid>
-            {Plataformas.appTypes.map((t) => (
-              <Plataformas.TypeCard
-                $color={t.cor}
-                onClick={() => click(`${t.id}`)}
-                $highlight={highlighted === `${t.id}`}
-                id={t.id}
-                key={t.title}
-              >
-                <Plataformas.CardHeader $color={t.color}>
-                  {t.icon}
-                  <div>
-                    <Plataformas.CardHeaderTitle>
-                      {t.title}
-                    </Plataformas.CardHeaderTitle>
-                    <Plataformas.CardHeaderSub>
-                      {t.sub}
-                    </Plataformas.CardHeaderSub>
-                  </div>
-                </Plataformas.CardHeader>
-                <Plataformas.CardBody>
-                  <Plataformas.CardDesc>{t.desc}</Plataformas.CardDesc>
-                  <Plataformas.CheckList>
-                    {t.checks.map((c) => (
-                      <Plataformas.CheckItem key={c}>
-                        <CheckCircle2
-                          size={15}
-                          color="#0891b2"
-                          style={{ flexShrink: 0, marginTop: 2 }}
-                        />
-                        {c}
-                      </Plataformas.CheckItem>
-                    ))}
-                  </Plataformas.CheckList>
-                  <Plataformas.Tag $variant={t.tag.variant}>
-                    {t.tag.label}
-                  </Plataformas.Tag>
-                </Plataformas.CardBody>
-              </Plataformas.TypeCard>
-            ))}
-          </Plataformas.TypeGrid>
+          <SolutionTypeCards
+            items={Plataformas.appTypes}
+            checkColor="#0891b2"
+            highlightedId={highlighted}
+            minCardWidth={280}
+            onCardClick={click}
+          />
         </Plataformas.Container>
       </Plataformas.Section>
 

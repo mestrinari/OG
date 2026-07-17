@@ -38,13 +38,13 @@ const PageOverlay = styled.div<{ $visible: boolean }>`
   transition: opacity 300ms ease;
 `;
 const Container = styled.div<{ $highlight?: boolean }>`
-  max-width: 1366px;
+  // max-width: 1366px;
   margin: 0 auto;
 `;
 const Section = styled.section<{ $highlight?: boolean }>`
   position: relative;
   background: linear-gradient(160deg, #0c1445 0%, #1e3a8a 100%);
-  padding: 5rem 1.5rem;
+  padding: 5rem 12rem;
   text-align: center;
 
 

@@ -92,15 +92,15 @@ export interface PageSectionProps {
 
 const SectionEl = styled.section<{ $bg?: string; $tight: boolean }>`
   background: ${p => p.$bg ?? "transparent"};
-  padding: ${p => p.$tight ? "3rem 1.5rem" : "5rem 1.5rem"};
+  padding: ${p => p.$tight ? "3rem 12rem" : "5rem 1.5rem"};
 
-  @media (max-width: 768px) {
+  @media (max-width: 1280px) {
     padding: ${p => p.$tight ? "2rem 1rem" : "3.5rem 1rem"};
   }
 `;
 
 const SectionInner = styled.div`
-  max-width: 1366px;
+  // max-width: 1366px;
   margin: 0 auto;
 `;
 

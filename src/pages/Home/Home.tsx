@@ -5,12 +5,11 @@ import { Feature } from "./Features";
 import { AI } from "./AI";
 import { Steps } from "./Steps";
 import { Contato } from "./Contato";
-import { Hero } from "./Hero";
+import { Hero, heroThemes } from "../../components/Hero";
 import { Section } from "./Section";
 import { Card } from "./Card";
 import { useRef, useState } from "react";
-import { HashLink } from "react-router-hash-link";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { Services } from "./Services";
 const CTAButtonW = styled.a`
   display: inline-flex;
@@ -91,33 +90,24 @@ export default function Home() {
       <Contato.PageOverlay $visible={highlighted !== ""} />
       {/* ── Hero ── */}
       
-      <Hero.Section  id="hero">
-        <Hero.Badge>
-          <Zap size={12} /> Soluções Digitais Completas
-        </Hero.Badge>
-        <Hero.Title>
-          Seu negócio no digital —<br />
-          <span>do simples ao completo</span>
-        </Hero.Title>
-        <Hero.Subtitle>
-          Site, aplicativo ou sistema — explicamos tudo de forma clara, sem
-          termos técnicos, e entregamos a solução certa para o seu negócio.
-        </Hero.Subtitle>
-        <Hero.Actions>
-          <Component.PrimaryBtn
-            onClick={() => click("como-funciona")}
-            //  smooth to="/#o-que-fazemos"
-          >
-            Ver o que fazemos <ArrowRight size={16} />
-          </Component.PrimaryBtn>
-          <Component.PrimaryBtn
-            onClick={() => click("contato")}
-            // to="/#contato"
-          >
-            Falar com a gente
-          </Component.PrimaryBtn>
-        </Hero.Actions>
-      </Hero.Section>
+      <Hero
+        animated
+        // fullHeight
+        theme={heroThemes.home}
+        badge={<><Zap size={12} /> Soluções Digitais Completas</>}
+        title={<>Seu negócio no digital -<br /><span>do simples ao completo</span></>}
+        subtitle="Site, aplicativo ou sistema — explicamos tudo de forma clara, sem termos técnicos, e entregamos a solução certa para o seu negócio."
+        actions={
+          <>
+            <Component.PrimaryBtn onClick={() => click("como-funciona")}>
+              Ver o que fazemos <ArrowRight size={16} />
+            </Component.PrimaryBtn>
+            <Component.PrimaryBtn onClick={() => click("contato")}>
+              Falar com a gente
+            </Component.PrimaryBtn>
+          </>
+        }
+      />
   
 
       {/* ── Services ── */}

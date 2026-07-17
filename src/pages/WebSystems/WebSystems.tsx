@@ -1,6 +1,7 @@
-import { Globe, CheckCircle2, ArrowRight } from "lucide-react";
+import { Globe, ArrowRight } from "lucide-react";
 import { useRef, useState } from "react";
-import { Hero } from "./Hero";
+import { SolutionTypeCards } from "../../components/SolutionTypeCards";
+import { Hero, heroThemes } from "../../components/Hero";
 import { Web } from "./Web";
 import { RecursosExtras } from "./RecursosExtras";
 
@@ -43,18 +44,12 @@ export default function WebSystems() {
 
   return (
     <>
-      <Hero.Page id="hero">
-        <Hero.PageBadge>
-          <Globe size={12} /> Sites e Sistemas Web
-        </Hero.PageBadge>
-        <Hero.PageTitle>
-          Tudo o que existe no mundo web — explicado de forma simples
-        </Hero.PageTitle>
-        <Hero.PageSubtitle>
-          De um site básico para aparecer no Google até um sistema completo com
-          login, banco de dados e inteligência artificial.
-        </Hero.PageSubtitle>
-      </Hero.Page>
+      <Hero
+        theme={heroThemes.web}
+        badge={<><Globe size={12} /> Sites e Sistemas Web</>}
+        title="Tudo o que existe no mundo web — explicado de forma simples"
+        subtitle="De um site básico para aparecer no Google até um sistema completo com login, banco de dados e inteligência artificial."
+      />
 
       <Web.Section id="web">
         <Web.Container>
@@ -67,41 +62,12 @@ export default function WebSystems() {
             diferente — veja as opções e escolha o que faz sentido agora.
           </Web.SectionSubtitle>
 
-          <Web.TypeGrid>
-            {Web.types.map((t) => (
-              <Web.TypeCard
-                $color={t.cor}
-                onClick={() => click(`${t.id}`)}
-                $highlight={highlighted === `${t.id}`}
-                id={t.id}
-                key={t.title}
-              >
-                <Web.CardHeader $color={t.color}>
-                  {t.icon}
-                  <Web.CardHeaderText>
-                    <Web.CardHeaderTitle>{t.title}</Web.CardHeaderTitle>
-                    <Web.CardHeaderSub>{t.sub}</Web.CardHeaderSub>
-                  </Web.CardHeaderText>
-                </Web.CardHeader>
-                <Web.CardBody>
-                  <Web.CardDesc>{t.desc}</Web.CardDesc>
-                  <Web.CheckList>
-                    {t.checks.map((c) => (
-                      <Web.CheckItem key={c}>
-                        <CheckCircle2
-                          size={15}
-                          color="#2563eb"
-                          style={{ flexShrink: 0, marginTop: 2 }}
-                        />
-                        {c}
-                      </Web.CheckItem>
-                    ))}
-                  </Web.CheckList>
-                  <Web.Tag $variant={t.tag.variant}>{t.tag.label}</Web.Tag>
-                </Web.CardBody>
-              </Web.TypeCard>
-            ))}
-          </Web.TypeGrid>
+          <SolutionTypeCards
+            items={Web.types}
+            checkColor="#2563eb"
+            highlightedId={highlighted}
+            onCardClick={click}
+          />
         </Web.Container>
       </Web.Section>
 

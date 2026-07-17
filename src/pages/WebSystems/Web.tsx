@@ -1,4 +1,4 @@
-import styled, { css, keyframes } from "styled-components";
+import styled from "styled-components";
 import {
   Globe,
   LayoutTemplate,
@@ -7,6 +7,7 @@ import {
   Database,
   Bot,
 } from "lucide-react";
+import type { SolutionTypeCardItem } from "../../components/SolutionTypeCards";
 
 // ─── Shared ──────────────────────────────────────────────────────────────────────
 
@@ -49,104 +50,13 @@ const SectionSubtitle = styled.p`
   margin-bottom: 3rem;
 `;
 
-// // ─── Type Cards ──────────────────────────────────────────────────────────────────
-
-const TypeGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-`;
-
-const CardHeader = styled.div<{ $color: string }>`
-  background: ${(p) => p.$color};
-  padding: 1.5rem 1.75rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-`;
-
-const CardHeaderText = styled.div``;
-
-const CardHeaderTitle = styled.h3`
-  font-family: "Plus Jakarta Sans", sans-serif;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: white;
-`;
-
-const CardHeaderSub = styled.p`
-  font-family: "Inter", sans-serif;
-  font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.75);
-  margin-top: 0.2rem;
-`;
-
-const CardBody = styled.div`
-  padding: 1.5rem 1.75rem;
-`;
-
-const CardDesc = styled.p`
-  font-family: "Inter", sans-serif;
-  font-size: 0.9rem;
-  color: #4b5684;
-  line-height: 1.7;
-  margin-bottom: 1.25rem;
-`;
-
-const CheckList = styled.ul`
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-`;
-
-const CheckItem = styled.li`
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-  font-family: "Inter", sans-serif;
-  font-size: 0.85rem;
-  color: #374151;
-  line-height: 1.5;
-`;
-
-const Tag = styled.span<{ $variant?: "blue" | "green" | "orange" | "purple" }>`
-  display: inline-block;
-  font-family: "Inter", sans-serif;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  padding: 0.2rem 0.6rem;
-  border-radius: 100px;
-  margin-top: 1rem;
-  background: ${(p) =>
-    p.$variant === "green"
-      ? "#dcfce7"
-      : p.$variant === "orange"
-        ? "#ffedd5"
-        : p.$variant === "purple"
-          ? "#ede9fe"
-          : "#dbeafe"};
-  color: ${(p) =>
-    p.$variant === "green"
-      ? "#166534"
-      : p.$variant === "orange"
-        ? "#9a3412"
-        : p.$variant === "purple"
-          ? "#5b21b6"
-          : "#1e40af"};
-`;
-
-// ─── Extras Row ──────────────────────────────────────────────────────────────────
-
 // ─── Data ────────────────────────────────────────────────────────────────────────
 
-const types = [
+const types: SolutionTypeCardItem[] = [
   {
     id: "One-Page",
     icon: <Globe size={22} color="white" />,
-    cor: "37, 99, 235",
+    accentColor: "#2563eb",
     color: "linear-gradient(135deg, rgb(37, 99, 235), rgb(29, 78, 216))",
     title: "Site de Uma Página (One Page)",
     sub: "Ideal para começar",
@@ -163,7 +73,7 @@ const types = [
     id: "Site",
 
     icon: <LayoutTemplate size={22} color="white" />,
-    cor: "8, 145, 178",
+    accentColor: "#0891b2",
     color: "linear-gradient(135deg, rgb(8, 145, 178), rgb(14, 116, 144))",
     title: "Site com Várias Páginas",
     sub: "Sobre nós, serviços, portfólio...",
@@ -179,7 +89,7 @@ const types = [
   {
     id: "Login",
     icon: <LogIn size={22} color="white" />,
-    cor: "124, 58, 237",
+    accentColor: "#7c3aed",
     color: "linear-gradient(135deg, rgb(124, 58, 237), rgb(109, 40, 217))",
     title: "Sistema com Login",
     sub: "Cada usuário vê o que é seu",
@@ -195,7 +105,7 @@ const types = [
   {
     id: "Loja",
     icon: <ShoppingCart size={22} color="white" />,
-    cor: "217, 119, 6",
+    accentColor: "#d97706",
     color: "linear-gradient(135deg, rgb(217, 119, 6), rgb(180, 83, 9))",
     title: "Loja Virtual",
     sub: "Venda pela internet",
@@ -211,7 +121,7 @@ const types = [
   {
     id: "Banco",
     icon: <Database size={22} color="white" />,
-    cor: "5, 150, 105",
+    accentColor: "#059669",
     color: "linear-gradient(135deg, rgb(5, 150, 105), rgb(4, 120, 87))",
     title: "Sistema Completo com Banco",
     sub: "Profissional e escalável",
@@ -227,7 +137,7 @@ const types = [
   {
     icon: <Bot size={22} color="white" />,
     id: "IA",
-    cor: "8, 145, 178",
+    accentColor: "#0891b2",
     color: "linear-gradient(135deg, rgb(8, 145, 178), rgb(37, 99, 235))",
     title: "IA e Chatbot Personalizado",
     sub: "Atendimento automático inteligente",
@@ -242,63 +152,11 @@ const types = [
   },
 ];
 
-// ─── Type Cards ──────────────────────────────────────────────────────────────────
-
-const highlight = keyframes`
-  from {
-       transform: scale(1.03);
-       box-shadow: 0 0 26px var(--highlight-color);
-       border: 0px none #fff;
-      }
-
-  to {
-    transform: scale(1);
-    border: 1px solid  var(--highlight-color);
-
-   box-shadow: 0 0 0 transparent;
-  }
-`;
-
-const TypeCard = styled("div")<{ $color: string; $highlight?: boolean }>`
-  background: white;
-  border-radius: 16px;
-  overflow: hidden;
-  scroll-margin-top: 250px;
-  // border: thin solid ${(p) => p.$color};
-
-  ${({ $highlight, $color }) =>
-    $highlight
-      ? css`
-          --highlight-color: rgba(${$color}, 1);
-          --highlight-color-soft: rgba(${$color}, 0.6);
-          animation: ${highlight} 4s linear;
-        `
-      : css`
-          &:hover {
-            box-shadow: 0 1px 16px rgba(${$color}, 0.6);
-            transform: scale(1.03);
-            border: 0px solid rgba(${$color}, 0.6);
-          }
-        `}
-`;
-
 export const Web = {
   Section,
   Container,
   SectionLabel,
   SectionTitle,
   SectionSubtitle,
-  CardHeaderText,
   types,
-  highlight,
-  TypeCard,
-  TypeGrid,
-  CardHeader,
-  CardHeaderTitle,
-  CardHeaderSub,
-  CardBody,
-  CardDesc,
-  CheckList,
-  CheckItem,
-  Tag,
 };

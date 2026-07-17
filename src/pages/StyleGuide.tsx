@@ -45,7 +45,7 @@ const Header = styled.div`
 `;
 
 const HeaderInner = styled.div`
-  max-width: 1366px;
+  // max-width: 1366px;
   margin: 0 auto;
   padding-bottom: 2rem;
 `;
@@ -82,7 +82,7 @@ const NavTabs = styled.div`
 `;
 
 const NavTabsInner = styled.div`
-  max-width: 1366px;
+  // max-width: 1366px;
   margin: 0 auto;
   display: flex;
   padding: 0 2rem;
@@ -103,7 +103,7 @@ const NavTab = styled.a`
 `;
 
 const Body = styled.div`
-  max-width: 1366px;
+  // max-width: 1366px;
   margin: 0 auto;
   padding: 3rem 2rem 0;
   display: flex;
