@@ -60,6 +60,44 @@ const HeroSection = styled.section`
     pointer-events: none;
   }
 `;
+const CTAButtonW = styled(HashLink)`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  background: linear-gradient(135deg, rgb(22, 163, 74), rgb(21, 128, 61));
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: opacity 0.2s, transform 0.2s;
+
+  &:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+`;
+const CTAButtonE = styled(HashLink)`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 10px;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: background 0.2s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.14);
+  }
+`;
 
 const HeroBadge = styled.div`
   display: inline-flex;
@@ -657,15 +695,12 @@ export default function Home() {
             e a gente cuida do resto.
           </CTASubtitle>
           <CTAActions>
-            <PrimaryBtn
-              to="https://wa.me/5511999999999"
-              style={{ background: "linear-gradient(135deg, #16a34a, #15803d)" }}
-            >
-              Falar pelo WhatsApp <ArrowRight size={16} />
-            </PrimaryBtn>
-            <SecondaryBtn to="mailto:contato@oglabs.com.br">
+            <CTAButtonW to="https://wa.me/5511999999999">
+                          Falar pelo WhatsApp<ArrowRight size={16} />
+                        </CTAButtonW>
+            <CTAButtonE to="mailto:contato@oglabs.com.br">
               Enviar e-mail
-            </SecondaryBtn>
+            </CTAButtonE>
           </CTAActions>
         </Container>
       </CTASection>

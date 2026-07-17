@@ -117,7 +117,7 @@ const NavRight = styled.div`
   justify-self: end;
 `;
 
-const CtaButton = styled(Link)`
+const CtaButton = styled(HashLink)`
   padding: 0.5rem 1.125rem;
   background: linear-gradient(135deg, #2563eb, #0891b2);
   color: white;
@@ -174,7 +174,7 @@ const MobileMenu = styled.div<{ $open: boolean }>`
   }
 `;
 
-const MobileLink = styled(Link)<{ $active: boolean }>`
+const MobileLink = styled(HashLink)<{ $active: boolean }>`
   padding: 1rem 1.25rem;
   border-radius: 10px;
   font-family: "Inter", sans-serif;
@@ -342,6 +342,12 @@ const links = [
   { to: "/sistemas-locais", label: "Sistemas Locais", color: "160deg, #042c1e 0%, #059669 100%" },
 ];
 
+const scrollToSection = (element: HTMLElement) => {
+  const navbarOffset = 68;
+  const top = element.getBoundingClientRect().top + window.scrollY - navbarOffset;
+  window.scrollTo({ top, behavior: "smooth" });
+};
+
 // --- COMPONENT ---
 
 export default function Navbar() {
@@ -465,7 +471,7 @@ export default function Navbar() {
 
           {/* Direita — CTA + hambúrguer mobile */}
           <NavRight>
-            <CtaButton to="/#contato">Falar Conosco</CtaButton>
+            <CtaButton to="/#contato" scroll={scrollToSection}>Falar Conosco</CtaButton>
             <HamburgerButton onClick={toggleMenu} aria-label="Menu">
               {menuOpen ? <X size={24} /> : <Menu size={24} />}
             </HamburgerButton>
@@ -526,6 +532,7 @@ export default function Navbar() {
 
         <MobileLink
           to="/#contato"
+          scroll={scrollToSection}
           $active={false}
           onClick={() => setMenuOpen(false)}
           style={{
