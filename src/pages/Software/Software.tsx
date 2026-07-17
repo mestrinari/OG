@@ -150,7 +150,7 @@ export default function Software() {
             <Recursos.CTASubtitle>
               A gente desenvolve do zero, do jeito que o seu negócio precisa.
             </Recursos.CTASubtitle>
-            <Recursos.CTAButton href="https://wa.me/5511999999999">
+            <Recursos.CTAButton href="https://wa.me/5511999999999" target="_blank">
               Falar pelo WhatsApp <ArrowRight size={16} />
             </Recursos.CTAButton>
           </Recursos.CTABanner>

@@ -475,7 +475,7 @@ export default function WebSystems() {
             <CTASubtitle>
               Explique o seu negócio e a gente indica a melhor opção — sem compromisso.
             </CTASubtitle>
-            <CTAButton href="https://wa.me/5511999999999">
+            <CTAButton href="https://wa.me/5511999999999" target="_blank">
               Falar pelo WhatsApp <ArrowRight size={16} />
             </CTAButton>
           </CTABanner>

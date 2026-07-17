@@ -558,7 +558,7 @@ export default function Mobile() {
             <CTASubtitle>
               Conta para a gente o que você precisa e a gente indica o tipo certo.
             </CTASubtitle>
-            <CTAButton href="https://wa.me/5511999999999">
+            <CTAButton href="https://wa.me/5511999999999" target="_blank">
               Falar pelo WhatsApp <ArrowRight size={16} />
             </CTAButton>
           </CTABanner>

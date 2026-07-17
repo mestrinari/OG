@@ -196,7 +196,7 @@ export default function Mobile() {
               Conta para a gente o que você precisa e a gente indica o tipo
               certo.
             </Exemplos.CTASubtitle>
-            <Exemplos.CTAButton href="https://wa.me/5511999999999">
+            <Exemplos.CTAButton href="https://wa.me/5511999999999" target="_blank">
               Falar pelo WhatsApp <ArrowRight size={16} />
             </Exemplos.CTAButton>
           </Exemplos.CTABanner>

@@ -488,7 +488,7 @@ export default function LocalSystems() {
             <CTASubtitle>
               A gente instala, configura e treina a equipe. Você fica no controle.
             </CTASubtitle>
-            <CTAButton href="https://wa.me/5511999999999">
+            <CTAButton href="https://wa.me/5511999999999" target="_blank">
               Falar pelo WhatsApp <ArrowRight size={16} />
             </CTAButton>
           </CTABanner>

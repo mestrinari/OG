@@ -240,7 +240,7 @@ export default function LocalSystems() {
               A gente instala, configura e treina a equipe. Você fica no
               controle.
             </ControleAcesso.CTASubtitle>
-            <ControleAcesso.CTAButton href="https://wa.me/5511999999999">
+            <ControleAcesso.CTAButton href="https://wa.me/5511999999999" target="_blank">
               Falar pelo WhatsApp <ArrowRight size={16} />
             </ControleAcesso.CTAButton>
           </ControleAcesso.CTABanner>

@@ -239,10 +239,10 @@ export default function Home() {
             precisa e a gente cuida do resto.
           </Contato.Subtitle>
           <Contato.Actions>
-            <CTAButtonW href="https://wa.me/5511999999999">
+            <CTAButtonW href="https://wa.me/5511999999999" target="_blank">
                                     Falar pelo WhatsApp<ArrowRight size={16} />
                                   </CTAButtonW>
-                      <CTAButtonE href="mailto:contato@oglabs.com.br">
+                      <CTAButtonE href="mailto:contato@oglabs.com.br" target="_blank">
                         Enviar e-mail
                       </CTAButtonE>
                     
