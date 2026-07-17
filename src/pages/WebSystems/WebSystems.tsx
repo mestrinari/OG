@@ -140,7 +140,7 @@ export default function WebSystems() {
               Explique o seu negócio e a gente indica a melhor opção — sem
               compromisso.
             </RecursosExtras.CTASubtitle>
-            <RecursosExtras.CTAButton to="https://wa.me/5511999999999">
+            <RecursosExtras.CTAButton href="https://wa.me/5511999999999">
               Falar pelo WhatsApp <ArrowRight size={16} />
             </RecursosExtras.CTAButton>
           </RecursosExtras.CTABanner>

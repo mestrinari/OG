@@ -333,7 +333,7 @@ const CTASubtitle = styled.p`
   margin-bottom: 1.75rem;
 `;
 
-const CTAButton = styled(HashLink)`
+const CTAButton = styled.a`
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -558,7 +558,7 @@ export default function Mobile() {
             <CTASubtitle>
               Conta para a gente o que você precisa e a gente indica o tipo certo.
             </CTASubtitle>
-            <CTAButton to="https://wa.me/5511999999999">
+            <CTAButton href="https://wa.me/5511999999999">
               Falar pelo WhatsApp <ArrowRight size={16} />
             </CTAButton>
           </CTABanner>

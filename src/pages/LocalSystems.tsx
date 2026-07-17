@@ -304,7 +304,7 @@ const CTASubtitle = styled.p`
   margin-bottom: 1.75rem;
 `;
 
-const CTAButton = styled(HashLink)`
+const CTAButton = styled.a`
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -488,7 +488,7 @@ export default function LocalSystems() {
             <CTASubtitle>
               A gente instala, configura e treina a equipe. Você fica no controle.
             </CTASubtitle>
-            <CTAButton to="https://wa.me/5511999999999">
+            <CTAButton href="https://wa.me/5511999999999">
               Falar pelo WhatsApp <ArrowRight size={16} />
             </CTAButton>
           </CTABanner>

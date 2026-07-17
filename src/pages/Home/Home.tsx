@@ -12,7 +12,7 @@ import { useRef, useState } from "react";
 import { HashLink } from "react-router-hash-link";
 import styled, { keyframes } from "styled-components";
 import { Services } from "./Services";
-const CTAButtonW = styled(HashLink)`
+const CTAButtonW = styled.a`
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -31,7 +31,7 @@ const CTAButtonW = styled(HashLink)`
     transform: translateY(-2px);
   }
 `;
-const CTAButtonE = styled(HashLink)`
+const CTAButtonE = styled.a`
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -239,10 +239,10 @@ export default function Home() {
             precisa e a gente cuida do resto.
           </Contato.Subtitle>
           <Contato.Actions>
-            <CTAButtonW to="https://wa.me/5511999999999">
+            <CTAButtonW href="https://wa.me/5511999999999">
                                     Falar pelo WhatsApp<ArrowRight size={16} />
                                   </CTAButtonW>
-                      <CTAButtonE to="mailto:contato@oglabs.com.br">
+                      <CTAButtonE href="mailto:contato@oglabs.com.br">
                         Enviar e-mail
                       </CTAButtonE>
                     

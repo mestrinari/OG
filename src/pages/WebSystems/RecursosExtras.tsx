@@ -109,7 +109,7 @@ const CTASubtitle = styled.p`
   margin-bottom: 1.75rem;
 `;
 
-const CTAButton = styled(HashLink)`
+const CTAButton = styled.a`
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
