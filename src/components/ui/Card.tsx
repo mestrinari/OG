@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { type CSSProperties, ReactNode } from "react";
 import styled, { css } from "styled-components";
 import { Check } from "lucide-react";
 
@@ -101,6 +101,7 @@ interface ServiceCardProps {
   text: string;
   onClick?: () => void;
   className?: string;
+  style?: CSSProperties;
 }
 
 const ServiceCardEl = styled.div<{
@@ -150,6 +151,7 @@ export function ServiceCard({
   text,
   onClick,
   className,
+  style,
 }: ServiceCardProps) {
   return (
     <ServiceCardEl
@@ -158,6 +160,7 @@ export function ServiceCard({
       onClick={state !== "disabled" ? onClick : undefined}
       data-disabled={state === "disabled"}
       className={className}
+      style={style}
     >
       {state === "selected" && (
         <SelectCheck $color={accentColor}>

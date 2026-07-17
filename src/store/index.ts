@@ -9,17 +9,19 @@ export const ContactSchema = z.object({
 
 export type ContactForm = z.infer<typeof ContactSchema>;
 
+export type QuizAnswer = string | string[];
+
 export interface QuizAnswers {
-  goal?: string;
-  content?: string;
-  login?: string;
-  platform?: string;
-  offline?: string;
-  database?: string;
-  notifications?: string;
-  chatbot?: string;
-  timeline?: string;
-  budget?: string;
+  goal?: QuizAnswer;
+  content?: QuizAnswer;
+  login?: QuizAnswer;
+  platform?: QuizAnswer;
+  offline?: QuizAnswer;
+  database?: QuizAnswer;
+  notifications?: QuizAnswer;
+  chatbot?: QuizAnswer;
+  timeline?: QuizAnswer;
+  budget?: QuizAnswer;
 }
 
 interface AppStore {
@@ -34,7 +36,7 @@ interface AppStore {
   quizStep: number;
   setQuizStep: (step: number) => void;
   quizAnswers: QuizAnswers;
-  setQuizAnswer: (key: keyof QuizAnswers, value: string) => void;
+  setQuizAnswer: (key: keyof QuizAnswers, value: QuizAnswer) => void;
   resetQuiz: () => void;
 }
 

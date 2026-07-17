@@ -169,11 +169,11 @@ const Canvas = styled.div<{ $dark?: boolean; $pad?: string; $bg?: string }>`
   margin-bottom: 0.75rem;
 `;
 
-const StateRow = styled.div`
+const StateRow = styled.div<{ $align?: string }>`
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
-  align-items: flex-end;
+  align-items: ${p => p.$align ?? "flex-end"};
 `;
 
 const StateCol = styled.div<{ $center?: boolean }>`
