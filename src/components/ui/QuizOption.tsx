@@ -22,54 +22,54 @@ const OptionWrap = styled.button<{
 }>`
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.875rem 1.25rem;
-  border-radius: 12px;
-  background: ${p => p.$selected ? p.$gradient : "white"};
-  border: 2px solid ${p => p.$selected ? "transparent" : "rgba(29,78,216,0.12)"};
+  gap: var(--space-3);
+  padding: var(--space-3-5) var(--space-5);
+  border-radius: var(--radius-card-sm);
+  background: ${p => p.$selected ? p.$gradient : "var(--color-surface)"};
+  border: var(--value-2px) solid ${p => p.$selected ? "transparent" : "var(--alpha-blue-12)"};
   cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.875rem;
-  font-weight: ${p => p.$selected ? 700 : 500};
-  color: ${p => p.$selected ? "white" : "#0c1445"};
-  transition: all 0.18s;
+  font-family: var(--font-body);
+  font-size: var(--font-size-base-sm);
+  font-weight: ${p => p.$selected ? "var(--font-weight-bold)" : "var(--font-weight-medium)"};
+  color: ${p => p.$selected ? "var(--color-surface)" : "var(--color-navy-950)"};
+  transition: all var(--value-0-18s);
   text-align: left;
-  width: 100%;
+  width: var(--percent-full);
   outline: none;
 
   /* when not selected, use solid bg highlight */
   ${p => !p.$selected && css`
     &:hover {
-      border-color: rgba(29,78,216,0.3);
-      background: #f5f8ff;
-      transform: translateX(3px);
+      border-color: var(--alpha-blue-30);
+      background: var(--color-background-alt);
+      transform: translateX(var(--value-3px));
     }
     &:focus-visible {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
+      border-color: var(--color-blue-600);
+      box-shadow: var(--number-zero) var(--number-zero) var(--number-zero) var(--value-3px) var(--alpha-primary-12);
     }
   `}
   ${p => p.$selected && css`
-    box-shadow: 0 4px 16px ${p.$color}35;
+    box-shadow: var(--number-zero) var(--value-4px) var(--value-16px) color-mix(in srgb, ${p.$color} var(--percent-22), transparent);
   `}
 `;
 
 const Dot = styled.div<{ $selected: boolean; $color: string }>`
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: 2px solid ${p => p.$selected ? "rgba(255,255,255,0.6)" : "#d1d5db"};
-  background: ${p => p.$selected ? "rgba(255,255,255,0.25)" : "transparent"};
+  width: var(--size-20);
+  height: var(--size-20);
+  border-radius: var(--radius-round);
+  border: var(--value-2px) solid ${p => p.$selected ? "var(--alpha-white-60)" : "var(--color-gray-300)"};
+  background: ${p => p.$selected ? "var(--alpha-white-25)" : "transparent"};
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: all 0.18s;
+  transition: all var(--value-0-18s);
 `;
 
 const Emoji = styled.span`
-  font-size: 1.125rem;
-  line-height: 1;
+  font-size: var(--font-size-body-lg);
+  line-height: var(--line-height-flat);
   flex-shrink: 0;
 `;
 
@@ -78,8 +78,8 @@ export function QuizOption({
   emoji,
   label,
   selected = false,
-  accentColor = "#2563eb",
-  accentGradient = "linear-gradient(135deg,#2563eb,#1d4ed8)",
+  accentColor = "var(--color-blue-600)",
+  accentGradient = "linear-gradient(var(--value-135deg),var(--color-blue-600),var(--color-blue-700))",
   onChange,
   className,
 }: QuizOptionProps) {
@@ -94,10 +94,10 @@ export function QuizOption({
       className={className}
     >
       <Dot $selected={selected} $color={accentColor}>
-        {selected && <Check size={11} color="white" strokeWidth={3} />}
+        {selected && <Check size="var(--size-11)" color="var(--color-surface)" strokeWidth="var(--outline-focus)" />}
       </Dot>
       {emoji && <Emoji>{emoji}</Emoji>}
-      <span style={{ flex: 1 }}>{label}</span>
+      <span style={{ flex: "var(--number-one)" }}>{label}</span>
     </OptionWrap>
   );
 }
@@ -121,7 +121,7 @@ const GroupWrap = styled.div<{ $gap: string }>`
   display: flex;
   flex-direction: column;
   gap: ${p => p.$gap};
-  width: 100%;
+  width: var(--percent-full);
 `;
 
 export function QuizOptionGroup({
@@ -130,7 +130,7 @@ export function QuizOptionGroup({
   options,
   accentColor,
   accentGradient,
-  gap = "0.625rem",
+  gap = "var(--value-0-625rem)",
   className,
 }: QuizOptionGroupProps) {
   return (

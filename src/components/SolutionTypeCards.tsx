@@ -28,31 +28,31 @@ interface SolutionTypeCardsProps {
   items: readonly SolutionTypeCardItem[];
   checkColor: string;
   highlightedId?: string;
-  minCardWidth?: number;
+  minCardWidth?: string;
   onCardClick?: (id: string) => void;
 }
 
 const highlight = keyframes`
   from {
     transform: scale(1.03);
-    box-shadow: 0 0 26px var(--type-card-accent);
+    box-shadow: var(--number-zero) var(--number-zero) var(--value-26px) var(--type-card-accent);
     border-color: transparent;
   }
 
   to {
-    transform: scale(1);
-    box-shadow: 0 0 0 transparent;
+    transform: scale(var(--number-one));
+    box-shadow: var(--number-zero) var(--number-zero) var(--number-zero) transparent;
     border-color: var(--type-card-accent);
   }
 `;
 
-const Grid = styled.div<{ $minCardWidth: number }>`
+const Grid = styled.div<{ $minCardWidth: string }>`
   display: grid;
   grid-template-columns: repeat(
     auto-fit,
-    minmax(min(${(p) => p.$minCardWidth}px, 100%), 1fr)
+    minmax(min(${(p) => p.$minCardWidth}, var(--percent-full)), var(--value-1fr))
   );
-  gap: 1.5rem;
+  gap: var(--space-6);
 `;
 
 const Card = styled.article<{
@@ -61,115 +61,115 @@ const Card = styled.article<{
   $interactive: boolean;
 }>`
   --type-card-accent: ${(p) => p.$accentColor};
-  background: white;
-  border: 1px solid color-mix(in srgb, var(--type-card-accent) 14%, transparent);
-  border-radius: 16px;
+  background: var(--color-surface);
+  border: var(--value-1px) solid color-mix(in srgb, var(--type-card-accent) var(--percent-14), transparent);
+  border-radius: var(--radius-card);
   overflow: hidden;
-  scroll-margin-top: 84px;
+  scroll-margin-top: var(--size-anchor-offset);
   cursor: ${(p) => (p.$interactive ? "pointer" : "default")};
-  transition: box-shadow 0.25s, transform 0.25s, border-color 0.25s;
+  transition: box-shadow var(--value-0-25s), transform var(--value-0-25s), border-color var(--value-0-25s);
 
   ${(p) =>
     p.$highlighted
       ? css`
-          animation: ${highlight} 4s linear;
+          animation: ${highlight} var(--value-4s) linear;
         `
       : css`
           &:hover {
             border-color: color-mix(
               in srgb,
-              var(--type-card-accent) 45%,
+              var(--type-card-accent) var(--percent-45),
               transparent
             );
-            box-shadow: 0 8px 28px
-              color-mix(in srgb, var(--type-card-accent) 22%, transparent);
-            transform: translateY(-3px);
+            box-shadow: var(--number-zero) var(--value-8px) var(--value-28px)
+              color-mix(in srgb, var(--type-card-accent) var(--percent-22), transparent);
+            transform: translateY(var(--value-neg-3px));
           }
         `}
 
   &:focus-visible {
-    outline: 3px solid
-      color-mix(in srgb, var(--type-card-accent) 45%, transparent);
-    outline-offset: 3px;
+    outline: var(--value-3px) solid
+      color-mix(in srgb, var(--type-card-accent) var(--percent-45), transparent);
+    outline-offset: var(--value-3px);
   }
 `;
 
 const Header = styled.div<{ $background: string }>`
   background: ${(p) => p.$background};
-  padding: 1.5rem 1.75rem;
+  padding: var(--space-6) var(--space-7);
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--space-4);
 `;
 
 const HeaderTitle = styled.h3`
-  margin: 0;
-  color: white;
-  font-family: "Plus Jakarta Sans", sans-serif;
-  font-size: 1.05rem;
-  font-weight: 700;
+  margin: var(--space-0);
+  color: var(--color-surface);
+  font-family: var(--font-display);
+  font-size: var(--font-size-card-title);
+  font-weight: var(--font-weight-bold);
 `;
 
 const HeaderSubtitle = styled.p`
-  margin: 0.2rem 0 0;
-  color: rgba(255, 255, 255, 0.75);
-  font-family: "Inter", sans-serif;
-  font-size: 0.78rem;
+  margin: var(--space-0-8) var(--number-zero) var(--number-zero);
+  color: var(--alpha-white-75);
+  font-family: var(--font-body);
+  font-size: var(--font-size-caption);
 `;
 
 const Body = styled.div`
-  padding: 1.5rem 1.75rem;
+  padding: var(--space-6) var(--space-7);
 `;
 
 const Description = styled.p`
-  margin: 0 0 1.25rem;
-  color: #4b5684;
-  font-family: "Inter", sans-serif;
-  font-size: 0.9rem;
-  line-height: 1.7;
+  margin: var(--number-zero) var(--number-zero) var(--space-5);
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-size: var(--font-size-body-sm);
+  line-height: var(--line-height-spacious);
 `;
 
 const CheckList = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  margin: 0;
-  padding: 0;
+  gap: var(--space-2);
+  margin: var(--space-0);
+  padding: var(--space-0);
   list-style: none;
 `;
 
 const CheckItem = styled.li`
   display: flex;
   align-items: flex-start;
-  gap: 0.5rem;
-  color: #374151;
-  font-family: "Inter", sans-serif;
-  font-size: 0.85rem;
-  line-height: 1.5;
+  gap: var(--space-2);
+  color: var(--color-gray-700);
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
 `;
 
 const tagColors: Record<
   TypeCardTagVariant,
   { background: string; color: string }
 > = {
-  blue: { background: "#dbeafe", color: "#1e40af" },
-  cyan: { background: "#cffafe", color: "#155e75" },
-  green: { background: "#dcfce7", color: "#166534" },
-  orange: { background: "#ffedd5", color: "#9a3412" },
-  purple: { background: "#ede9fe", color: "#5b21b6" },
+  blue: { background: "var(--color-blue-100)", color: "var(--color-blue-800)" },
+  cyan: { background: "var(--color-cyan-100)", color: "var(--color-cyan-800)" },
+  green: { background: "var(--color-green-100)", color: "var(--color-green-900)" },
+  orange: { background: "var(--color-orange-100)", color: "var(--color-orange-800)" },
+  purple: { background: "var(--color-purple-100)", color: "var(--color-purple-800)" },
 };
 
 const Tag = styled.span<{ $background: string; $color: string }>`
   display: inline-block;
-  margin-top: 1rem;
-  padding: 0.2rem 0.6rem;
-  border-radius: 100px;
+  margin-top: var(--space-4);
+  padding: var(--space-0-8) var(--space-2-4);
+  border-radius: var(--radius-pill);
   background: ${(p) => p.$background};
   color: ${(p) => p.$color};
-  font-family: "Inter", sans-serif;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
+  font-family: var(--font-body);
+  font-size: var(--font-size-2xs);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--value-0-05em);
   text-transform: uppercase;
 `;
 
@@ -177,7 +177,7 @@ export function SolutionTypeCards({
   items,
   checkColor,
   highlightedId,
-  minCardWidth = 300,
+  minCardWidth = "var(--size-300)",
   onCardClick,
 }: SolutionTypeCardsProps) {
   const handleKeyDown = (
@@ -222,9 +222,9 @@ export function SolutionTypeCards({
                 {item.checks.map((check) => (
                   <CheckItem key={check}>
                     <CheckCircle2
-                      size={15}
+                      size="var(--size-15)"
                       color={checkColor}
-                      style={{ flexShrink: 0, marginTop: 2 }}
+                      style={{ flexShrink: "var(--number-zero)", marginTop: "var(--size-2)" }}
                     />
                     {check}
                   </CheckItem>

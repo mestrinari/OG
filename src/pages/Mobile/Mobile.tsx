@@ -1,7 +1,6 @@
 import {
   Smartphone,
   Users,
-  ArrowRight,
   Apple,
 } from "lucide-react";
 import { SolutionTypeCards } from "../../components/SolutionTypeCards";
@@ -13,7 +12,7 @@ import { ContentSection } from "../../components/ContentSection";
 import { PillList } from "../../components/PillList";
 import { InfoCardGrid } from "../../components/InfoCardGrid";
 import { CtaBanner } from "../../components/CtaBanner";
-import { ActionAnchor } from "../../components/ActionButton";
+import { WhatsAppAction } from "../../components/ContactActions";
 
 export default function Mobile() {
   const { highlightedId, highlightSection } = useSectionHighlight();
@@ -22,74 +21,78 @@ export default function Mobile() {
     <>
       <Hero
         theme={heroThemes.mobile}
-        badge={<><Smartphone size={12} /> Aplicativos Mobile</>}
+        badge={<><Smartphone size="var(--size-12)" /> Aplicativos Mobile</>}
         title="Apps para iPhone e Android — do simples ao completo"
         subtitle="Seja para rodar sem internet ou para conectar equipes em tempo real, temos o app certo para o seu negócio."
       />
 
       <ContentSection
         id="mobile"
-        accentColor="#0891b2"
+        accentColor="var(--color-cyan-600)"
+        maxWidth="var(--max-width)"
         label="Plataformas disponíveis"
         title="iOS, Android ou os dois?"
         subtitle="Desenvolvemos para as duas plataformas mais usadas no Brasil. Você pode lançar nos dois ao mesmo tempo ou começar por um."
+        padding="var(--space-20) var(--space-16)"
       >
         <PillList items={[
-          { color: "#1d4ed8", background: "#dbeafe", content: <><Apple size={16} /> iOS (iPhone / iPad)</> },
-          { color: "#059669", background: "#dcfce7", content: <><Smartphone size={16} /> Android</> },
-          { color: "#7c3aed", background: "#ede9fe", content: <><Smartphone size={16} /> iOS + Android juntos</> },
+          { color: "var(--color-blue-700)", background: "var(--color-blue-100)", content: <><Apple size="var(--size-16)" /> iOS (iPhone / iPad)</> },
+          { color: "var(--color-green-500)", background: "var(--color-green-100)", content: <><Smartphone size="var(--size-16)" /> Android</> },
+          { color: "var(--color-purple-600)", background: "var(--color-purple-100)", content: <><Smartphone size="var(--size-16)" /> iOS + Android juntos</> },
         ]} />
         <SolutionTypeCards
           items={appTypes}
-          checkColor="#0891b2"
+          checkColor="var(--color-cyan-600)"
           highlightedId={highlightedId}
-          minCardWidth={280}
+          minCardWidth="var(--size-280)"
           onCardClick={highlightSection}
         />
       </ContentSection>
 
       <ContentSection
         id="perfis"
-        accentColor="#0891b2"
-        background="#ffffff"
+        accentColor="var(--color-cyan-600)"
+        background="var(--color-surface)"
+        maxWidth="var(--max-width)"
         label="Perfis de usuário"
         title="Cada pessoa vê o que é seu"
         subtitle="Em sistemas com login, é possível definir quem tem acesso a quê."
+        padding="var(--space-20) var(--space-16)"
       >
         <InfoCardGrid
-          accentColor="#0891b2"
-          iconBackground="#cffafe"
-          minCardWidth={180}
+          accentColor="var(--color-cyan-600)"
+          iconBackground="var(--color-cyan-100)"
+          minCardWidth="var(--size-180)"
           variant="centered"
           items={[
             { title: "Cliente", description: "Faz pedidos, acompanha histórico e recebe notificações." },
             { title: "Vendedor", description: "Vê e gerencia os pedidos da sua carteira." },
             { title: "Gerente", description: "Visualiza relatórios, equipe e todo o sistema." },
             { title: "Só um perfil", description: "Pode ser simples também — um único tipo de usuário." },
-          ].map((item) => ({ ...item, icon: <Users size={22} color="#0891b2" /> }))}
+          ].map((item) => ({ ...item, icon: <Users size="var(--size-22)" color="var(--color-cyan-600)" /> }))}
         />
       </ContentSection>
 
       <ContentSection
         id="exemplos"
-        accentColor="#0891b2"
+        accentColor="var(--color-cyan-600)"
         label="Exemplos de uso"
+        maxWidth="var(--max-width)"
         title="Para que tipo de negócio serve?"
+        padding="var(--space-20) var(--space-16)"
       >
         <InfoCardGrid
           items={useCases}
-          accentColor="#0891b2"
-          iconBackground="#cffafe"
-          minCardWidth={220}
+          accentColor="var(--color-cyan-600)"
+          iconBackground="var(--color-cyan-100)"
+          minCardWidth="var(--size-220)"
         />
         <CtaBanner
-          background="linear-gradient(135deg, #0a1930, #0e7490)"
+          background="linear-gradient(var(--value-135deg), var(--color-navy-850), var(--color-cyan-700))"
           title="Tem uma ideia de app?"
           subtitle="Conta para a gente o que você precisa e a gente indica o tipo certo."
           action={
-            <ActionAnchor href="https://wa.me/5511999999999" target="_blank" $background="linear-gradient(135deg, #0891b2, #0284c7)">
-              Falar pelo WhatsApp <ArrowRight size={16} />
-            </ActionAnchor>
+            <WhatsAppAction background="var(--gradient-cyan-sky)" />
           }
         />
       </ContentSection>

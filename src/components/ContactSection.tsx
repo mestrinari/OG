@@ -10,48 +10,48 @@ interface ContactSectionProps {
 }
 
 const pulse = keyframes`
-  from { box-shadow: 0 4px 30px rgba(76,127,239,0.5); }
-  to { box-shadow: 0 0 0 rgba(12,20,69,0); }
+  from { box-shadow: var(--number-zero) var(--value-4px) var(--value-30px) var(--alpha-contact-glow); }
+  to { box-shadow: var(--number-zero) var(--number-zero) var(--number-zero) transparent; }
 `;
 const overlayFade = keyframes`
-  from { background: rgba(15,1,86,0.1); }
-  to { background: rgba(15,1,86,0); }
+  from { background: var(--alpha-contact-highlight); }
+  to { background: transparent; }
 `;
 const Overlay = styled.div<{ $visible: boolean }>`
   position: fixed;
-  z-index: ${(p) => (p.$visible ? 201 : 10)};
+  z-index: ${(p) => (p.$visible ? "var(--z-page-overlay)" : "var(--z-dormant)")};
   inset: 0;
   pointer-events: none;
-  ${(p) => p.$visible && css`animation: ${overlayFade} 2s linear;`}
+  ${(p) => p.$visible && css`animation: ${overlayFade} var(--value-2s) linear;`}
 `;
 const Section = styled.section<{ $highlighted: boolean }>`
   position: relative;
-  padding: 5rem 1.5rem;
-  scroll-margin-top: 84px;
-  background: linear-gradient(160deg, #0c1445 0%, #1e3a8a 100%);
+  padding: var(--space-20) var(--space-6);
+  scroll-margin-top: var(--size-anchor-offset);
+  background: linear-gradient(var(--value-160deg), var(--color-navy-950) var(--percent-0), var(--color-blue-900) var(--percent-full));
   text-align: center;
-  ${(p) => p.$highlighted && css`z-index: 20; animation: ${pulse} 3s linear;`}
+  ${(p) => p.$highlighted && css`z-index: var(--z-highlighted); animation: ${pulse} var(--value-3s) linear;`}
 `;
 const Title = styled.h2`
-  margin: 0 0 1rem;
-  color: white;
-  font-family: "Plus Jakarta Sans", sans-serif;
-  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
-  font-weight: 800;
+  margin: var(--number-zero) var(--number-zero) var(--space-4);
+  color: var(--color-surface);
+  font-family: var(--font-display);
+  font-size: clamp(var(--value-1-75rem), var(--value-3-5vw), var(--value-2-5rem));
+  font-weight: var(--font-weight-extrabold);
 `;
 const Subtitle = styled.p`
-  max-width: 480px;
-  margin: 0 auto 2.5rem;
-  color: rgba(255,255,255,0.65);
-  font-family: "Inter", sans-serif;
-  font-size: 1rem;
-  line-height: 1.75;
+  max-width: var(--size-content-small);
+  margin: var(--number-zero) auto var(--space-10);
+  color: var(--alpha-white-65);
+  font-family: var(--font-body);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-airy);
 `;
 const Actions = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1rem;
+  gap: var(--space-4);
 `;
 
 export function ContactSection({

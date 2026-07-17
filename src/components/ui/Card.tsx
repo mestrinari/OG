@@ -7,20 +7,20 @@ import { Check } from "lucide-react";
 const BaseCard = styled.div<{
   $hover?: boolean;
   $pad?: string;
-  $radius?: number;
+  $radius?: string;
 }>`
-  background: white;
-  border-radius: ${p => p.$radius ?? 16}px;
-  border: 1px solid rgba(29,78,216,0.08);
-  padding: ${p => p.$pad ?? "1.5rem"};
-  transition: all 0.22s;
+  background: var(--color-surface);
+  border-radius: ${p => p.$radius ?? "var(--radius-card)"};
+  border: var(--value-1px) solid var(--alpha-blue-08);
+  padding: ${p => p.$pad ?? "var(--value-1-5rem)"};
+  transition: all var(--value-0-22s);
 
   ${p => p.$hover && css`
     cursor: pointer;
     &:hover {
-      border-color: rgba(29,78,216,0.22);
-      box-shadow: 0 10px 36px rgba(29,78,216,0.1);
-      transform: translateY(-2px);
+      border-color: var(--alpha-blue-22);
+      box-shadow: var(--number-zero) var(--value-10px) var(--value-36px) var(--alpha-blue-10);
+      transform: translateY(var(--value-neg-2px));
     }
   `}
 `;
@@ -29,7 +29,7 @@ export interface CardProps {
   children: ReactNode;
   hover?: boolean;
   padding?: string;
-  radius?: number;
+  radius?: string;
   className?: string;
   style?: React.CSSProperties;
   onClick?: () => void;
@@ -45,10 +45,10 @@ export function Card({ hover, padding, radius, children, ...rest }: CardProps) {
 
 // ─── Card.Icon ────────────────────────────────────────────────────────────────────
 
-const CardIconEl = styled.div<{ $bg: string; $size: number; $radius: number }>`
-  width: ${p => p.$size}px;
-  height: ${p => p.$size}px;
-  border-radius: ${p => p.$radius}px;
+const CardIconEl = styled.div<{ $bg: string; $size: string; $radius: string }>`
+  width: ${p => p.$size};
+  height: ${p => p.$size};
+  border-radius: ${p => p.$radius};
   background: ${p => p.$bg};
   display: flex;
   align-items: center;
@@ -58,13 +58,13 @@ const CardIconEl = styled.div<{ $bg: string; $size: number; $radius: number }>`
 
 export function CardIcon({
   gradient,
-  size = 48,
-  radius = 14,
+  size = "var(--size-48)",
+  radius = "var(--radius-card-sm)",
   children,
 }: {
   gradient: string;
-  size?: number;
-  radius?: number;
+  size?: string;
+  radius?: string;
   children: ReactNode;
 }) {
   return <CardIconEl $bg={gradient} $size={size} $radius={radius}>{children}</CardIconEl>;
@@ -73,19 +73,19 @@ export function CardIcon({
 // ─── Card.Title / Text ───────────────────────────────────────────────────────────
 
 export const CardTitle = styled.h3<{ $size?: string }>`
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: ${p => p.$size ?? "1rem"};
-  font-weight: 700;
-  color: #0c1445;
-  margin-bottom: 0.4rem;
-  line-height: 1.3;
+  font-family: var(--font-display);
+  font-size: ${p => p.$size ?? "var(--value-1rem)"};
+  font-weight: var(--font-weight-bold);
+  color: var(--color-navy-950);
+  margin-bottom: var(--space-1-6);
+  line-height: var(--line-height-card);
 `;
 
 export const CardText = styled.p<{ $size?: string }>`
-  font-size: ${p => p.$size ?? "0.82rem"};
-  color: #4b5684;
-  line-height: 1.6;
-  margin: 0;
+  font-size: ${p => p.$size ?? "var(--value-0-82rem)"};
+  color: var(--color-text-muted);
+  line-height: var(--line-height-loose);
+  margin: var(--space-0);
 `;
 
 // ─── ServiceCard ─────────────────────────────────────────────────────────────────
@@ -108,34 +108,34 @@ const ServiceCardEl = styled.div<{
   $state: ServiceCardState;
   $accent: string;
 }>`
-  background: white;
-  border-radius: 16px;
-  border: 2px solid ${p => p.$state === "selected" ? p.$accent : "rgba(29,78,216,0.08)"};
-  padding: 1.5rem;
+  background: var(--color-surface);
+  border-radius: var(--radius-card);
+  border: var(--value-2px) solid ${p => p.$state === "selected" ? p.$accent : "var(--alpha-blue-08)"};
+  padding: var(--space-6);
   cursor: ${p => p.$state === "disabled" ? "not-allowed" : "pointer"};
-  transition: all 0.22s;
+  transition: all var(--value-0-22s);
   position: relative;
   overflow: hidden;
 
   ${p => p.$state === "selected" && css`
-    box-shadow: 0 0 0 4px ${p.$accent}20, 0 12px 40px rgba(29,78,216,0.12);
+    box-shadow: var(--number-zero) var(--number-zero) var(--number-zero) var(--value-4px) color-mix(in srgb, ${p.$accent} var(--percent-12), transparent), var(--number-zero) var(--value-12px) var(--value-40px) var(--alpha-blue-12);
   `}
-  ${p => p.$state === "disabled" && css`opacity: 0.45; pointer-events: none;`}
+  ${p => p.$state === "disabled" && css`opacity: var(--opacity-45); pointer-events: none;`}
 
   &:hover:not([data-disabled="true"]) {
-    border-color: rgba(29,78,216,0.25);
-    transform: translateY(-3px);
-    box-shadow: 0 12px 40px rgba(29,78,216,0.1);
+    border-color: var(--alpha-blue-25);
+    transform: translateY(var(--value-neg-3px));
+    box-shadow: var(--number-zero) var(--value-12px) var(--value-40px) var(--alpha-blue-10);
   }
 `;
 
 const SelectCheck = styled.div<{ $color: string }>`
   position: absolute;
-  top: 0.875rem;
-  right: 0.875rem;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
+  top: var(--value-0-875rem);
+  right: var(--value-0-875rem);
+  width: var(--size-20);
+  height: var(--size-20);
+  border-radius: var(--radius-round);
   background: ${p => p.$color};
   display: flex;
   align-items: center;
@@ -144,7 +144,7 @@ const SelectCheck = styled.div<{ $color: string }>`
 
 export function ServiceCard({
   state = "default",
-  accentColor = "#2563eb",
+  accentColor = "var(--color-blue-600)",
   icon,
   iconGradient,
   title,
@@ -164,10 +164,10 @@ export function ServiceCard({
     >
       {state === "selected" && (
         <SelectCheck $color={accentColor}>
-          <Check size={11} color="white" />
+          <Check size="var(--size-11)" color="var(--color-surface)" />
         </SelectCheck>
       )}
-      <CardIconEl $bg={iconGradient} $size={48} $radius={14} style={{ marginBottom: "1rem" }}>
+      <CardIconEl $bg={iconGradient} $size="var(--size-48)" $radius="var(--radius-card-sm)" style={{ marginBottom: "var(--value-1rem)" }}>
         {icon}
       </CardIconEl>
       <CardTitle>{title}</CardTitle>
@@ -181,7 +181,7 @@ export function ServiceCard({
 interface FeatureCardProps {
   icon: ReactNode;
   iconGradient?: string;
-  iconSize?: number;
+  iconSize?: string;
   title: string;
   text: string;
   className?: string;
@@ -189,26 +189,26 @@ interface FeatureCardProps {
 }
 
 const FeatureCardEl = styled.div`
-  background: white;
-  border-radius: 14px;
-  border: 1px solid rgba(29,78,216,0.08);
-  padding: 1.375rem 1.5rem;
+  background: var(--color-surface);
+  border-radius: var(--radius-card-sm);
+  border: var(--value-1px) solid var(--alpha-blue-08);
+  padding: var(--space-5-5) var(--space-6);
   display: flex;
-  gap: 1rem;
+  gap: var(--space-4);
   align-items: flex-start;
-  transition: all 0.22s;
+  transition: all var(--value-0-22s);
 
   &:hover {
-    border-color: rgba(29,78,216,0.2);
-    box-shadow: 0 8px 24px rgba(29,78,216,0.08);
-    transform: translateY(-2px);
+    border-color: var(--alpha-blue-20);
+    box-shadow: var(--number-zero) var(--value-8px) var(--value-24px) var(--alpha-blue-08);
+    transform: translateY(var(--value-neg-2px));
   }
 `;
 
-const FeatureIconWrap = styled.div<{ $bg: string; $size: number }>`
-  width: ${p => p.$size}px;
-  height: ${p => p.$size}px;
-  border-radius: 10px;
+const FeatureIconWrap = styled.div<{ $bg: string; $size: string }>`
+  width: ${p => p.$size};
+  height: ${p => p.$size};
+  border-radius: var(--radius-button);
   background: ${p => p.$bg};
   display: flex;
   align-items: center;
@@ -218,8 +218,8 @@ const FeatureIconWrap = styled.div<{ $bg: string; $size: number }>`
 
 export function FeatureCard({
   icon,
-  iconGradient = "linear-gradient(135deg,#2563eb,#0891b2)",
-  iconSize = 36,
+  iconGradient = "linear-gradient(var(--value-135deg),var(--color-blue-600),var(--color-cyan-600))",
+  iconSize = "var(--size-36)",
   title,
   text,
   ...rest
@@ -230,7 +230,7 @@ export function FeatureCard({
         {icon}
       </FeatureIconWrap>
       <div>
-        <CardTitle style={{ fontSize: "0.95rem", marginBottom: "0.35rem" }}>{title}</CardTitle>
+        <CardTitle style={{ fontSize: "var(--value-0-95rem)", marginBottom: "var(--value-0-35rem)" }}>{title}</CardTitle>
         <CardText>{text}</CardText>
       </div>
     </FeatureCardEl>
@@ -252,42 +252,42 @@ interface StepCardProps {
 }
 
 const StepCardEl = styled.div<{ $active: boolean }>`
-  background: ${p => p.$active ? "linear-gradient(135deg,#2563eb,#1d4ed8)" : "white"};
-  border-radius: 16px;
-  border: ${p => p.$active ? "none" : "1px solid rgba(29,78,216,0.08)"};
-  padding: 1.5rem;
-  transition: all 0.22s;
+  background: ${p => p.$active ? "linear-gradient(var(--value-135deg),var(--color-blue-600),var(--color-blue-700))" : "var(--color-surface)"};
+  border-radius: var(--radius-card);
+  border: ${p => p.$active ? "none" : "var(--value-1px) solid var(--alpha-blue-08)"};
+  padding: var(--space-6);
+  transition: all var(--value-0-22s);
   cursor: pointer;
 
   &:hover {
-    box-shadow: ${p => p.$active ? "0 12px 40px rgba(37,99,235,0.3)" : "0 8px 24px rgba(29,78,216,0.1)"};
-    transform: translateY(-2px);
+    box-shadow: ${p => p.$active ? "var(--number-zero) var(--value-12px) var(--value-40px) var(--alpha-primary-30)" : "var(--number-zero) var(--value-8px) var(--value-24px) var(--alpha-blue-10)"};
+    transform: translateY(var(--value-neg-2px));
   }
 `;
 
 const StepNum = styled.p<{ $active: boolean }>`
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 0.72rem;
-  font-weight: 800;
+  font-family: var(--font-display);
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-extrabold);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: ${p => p.$active ? "rgba(255,255,255,0.6)" : "#2563eb"};
-  margin-bottom: 0.5rem;
+  letter-spacing: var(--value-0-1em);
+  color: ${p => p.$active ? "var(--alpha-white-60)" : "var(--color-blue-600)"};
+  margin-bottom: var(--space-2);
 `;
 
 const StepTitle = styled.p<{ $active: boolean }>`
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: ${p => p.$active ? "white" : "#0c1445"};
-  margin-bottom: 0.3rem;
+  font-family: var(--font-display);
+  font-size: var(--font-size-button);
+  font-weight: var(--font-weight-bold);
+  color: ${p => p.$active ? "var(--color-surface)" : "var(--color-navy-950)"};
+  margin-bottom: var(--space-1-2);
 `;
 
 const StepText = styled.p<{ $active: boolean }>`
-  font-size: 0.8rem;
-  color: ${p => p.$active ? "rgba(255,255,255,0.7)" : "#4b5684"};
-  line-height: 1.55;
-  margin: 0;
+  font-size: var(--font-size-xs);
+  color: ${p => p.$active ? "var(--alpha-white-70)" : "var(--color-text-muted)"};
+  line-height: var(--line-height-relaxed);
+  margin: var(--space-0);
 `;
 
 export function StepCard({

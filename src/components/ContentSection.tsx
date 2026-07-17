@@ -9,15 +9,15 @@ interface ContentSectionProps {
   title: ReactNode;
   background?: string;
   highlighted?: boolean;
-  maxWidth?: number;
+  maxWidth?: string;
   padding?: string;
   subtitle?: ReactNode;
 }
 
 const highlight = keyframes`
-  0% { box-shadow: 0 0 0 transparent; }
-  30% { box-shadow: 0 0 0 4px color-mix(in srgb, var(--section-accent) 15%, transparent), 0 0 30px color-mix(in srgb, var(--section-accent) 45%, transparent); }
-  100% { box-shadow: 0 0 0 transparent; }
+  0% { box-shadow: var(--number-zero) var(--number-zero) var(--number-zero) transparent; }
+  30% { box-shadow: var(--number-zero) var(--number-zero) var(--number-zero) var(--value-4px) color-mix(in srgb, var(--section-accent) var(--percent-15), transparent), var(--number-zero) var(--number-zero) var(--value-30px) color-mix(in srgb, var(--section-accent) var(--percent-45), transparent); }
+  100% { box-shadow: var(--number-zero) var(--number-zero) var(--number-zero) transparent; }
 `;
 
 const Section = styled.section<{
@@ -29,59 +29,59 @@ const Section = styled.section<{
   --section-accent: ${(p) => p.$accentColor};
   position: relative;
   padding: ${(p) => p.$padding};
-  scroll-margin-top: 84px;
+  scroll-margin-top: var(--size-anchor-offset);
   background: ${(p) => p.$background};
-  ${(p) => p.$highlighted && css`animation: ${highlight} 3s ease;`}
+  ${(p) => p.$highlighted && css`animation: ${highlight} var(--value-3s) ease;`}
 `;
 
-const Container = styled.div<{ $maxWidth: number }>`
-  max-width: ${(p) => p.$maxWidth}px;
-  margin: 0 auto;
+const Container = styled.div<{ $maxWidth: string }>`
+  max-width: ${(p) => p.$maxWidth};
+  margin: var(--number-zero) auto;
 `;
 
 const Header = styled.header`
-  margin-bottom: 3rem;
+  margin-bottom: var(--space-12);
 `;
 
 const Label = styled.p<{ $accentColor: string }>`
-  margin: 0 0 0.75rem;
+  margin: var(--number-zero) var(--number-zero) var(--space-3);
   color: ${(p) => p.$accentColor};
-  font-family: "Inter", sans-serif;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-family: var(--font-body);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--value-0-1em);
   text-transform: uppercase;
 `;
 
 const Title = styled.h2`
-  max-width: 650px;
-  margin: 0;
-  color: #0c1445;
-  font-family: "Plus Jakarta Sans", sans-serif;
-  font-size: clamp(1.6rem, 3vw, 2.5rem);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
+  max-width: var(--size-650);
+  margin: var(--space-0);
+  color: var(--color-navy-950);
+  font-family: var(--font-display);
+  font-size: clamp(var(--value-1-6rem), var(--value-3vw), var(--value-2-5rem));
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: var(--value-neg-0-02em);
+  line-height: var(--line-height-compact);
 `;
 
 const Subtitle = styled.p`
-  max-width: 560px;
-  margin: 1rem 0 0;
-  color: #4b5684;
-  font-family: "Inter", sans-serif;
-  font-size: 1rem;
-  line-height: 1.75;
+  max-width: var(--size-content);
+  margin: var(--space-4) var(--number-zero) var(--number-zero);
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-airy);
 `;
 
 export function ContentSection({
   accentColor,
-  background = "#f7f9ff",
+  background = "var(--color-background)",
   children,
   highlighted = false,
   id,
   label,
-  maxWidth = 1100,
-  padding = "5rem 1.5rem",
+  maxWidth = "var(--max-width-narrow)",
+  padding = "var(--space-20) var(--space-6)",
   subtitle,
   title,
 }: ContentSectionProps) {

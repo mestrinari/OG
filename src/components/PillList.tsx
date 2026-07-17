@@ -10,22 +10,22 @@ export interface PillItem {
 const List = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-bottom: 2.5rem;
+  gap: var(--space-3);
+  margin-bottom: var(--space-10);
 `;
 
 const Pill = styled.span<{ $background: string; $color: string }>`
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.625rem 1.125rem;
-  border: 1px solid color-mix(in srgb, ${(p) => p.$color} 24%, transparent);
-  border-radius: 100px;
+  gap: var(--space-2);
+  padding: var(--space-2-5) var(--space-4-5);
+  border: var(--value-1px) solid color-mix(in srgb, ${(p) => p.$color} var(--percent-24), transparent);
+  border-radius: var(--radius-pill);
   background: ${(p) => p.$background};
   color: ${(p) => p.$color};
-  font-family: "Inter", sans-serif;
-  font-size: 0.875rem;
-  font-weight: 600;
+  font-family: var(--font-body);
+  font-size: var(--font-size-base-sm);
+  font-weight: var(--font-weight-semibold);
 `;
 
 export function PillList({ items }: { items: readonly PillItem[] }) {

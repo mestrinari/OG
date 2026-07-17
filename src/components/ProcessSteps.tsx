@@ -8,42 +8,42 @@ export interface ProcessStepItem {
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(var(--value-200px), var(--percent-full)), var(--value-1fr)));
+  gap: var(--space-8);
 `;
 const Step = styled.article`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: var(--space-4);
   text-align: center;
 `;
 const Number = styled.div`
   display: flex;
-  width: 52px;
-  height: 52px;
+  width: var(--size-52);
+  height: var(--size-52);
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #2563eb, #0891b2);
-  color: white;
-  font-family: "Plus Jakarta Sans", sans-serif;
-  font-size: 1.25rem;
-  font-weight: 800;
+  border-radius: var(--radius-round);
+  background: linear-gradient(var(--value-135deg), var(--color-blue-600), var(--color-cyan-600));
+  color: var(--color-surface);
+  font-family: var(--font-display);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-extrabold);
 `;
 const Title = styled.h3`
-  margin: 0;
-  color: #0c1445;
-  font-family: "Plus Jakarta Sans", sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
+  margin: var(--space-0);
+  color: var(--color-navy-950);
+  font-family: var(--font-display);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-bold);
 `;
 const Description = styled.p`
-  margin: 0;
-  color: #4b5684;
-  font-family: "Inter", sans-serif;
-  font-size: 0.875rem;
-  line-height: 1.65;
+  margin: var(--space-0);
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-size: var(--font-size-base-sm);
+  line-height: var(--line-height-looser);
 `;
 
 export function ProcessSteps({ items }: { items: readonly ProcessStepItem[] }) {

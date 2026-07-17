@@ -5,9 +5,9 @@ export const appTypes: SolutionTypeCardItem[] = [
   {
     id: "App-Simples",
 
-    icon: <WifiOff size={22} color="white" />,
-    color: "linear-gradient(135deg, rgb(55, 65, 81), #1f2937)",
-    accentColor: "#374151",
+    icon: <WifiOff size="var(--size-22)" color="var(--color-surface)" />,
+    color: "linear-gradient(var(--value-135deg), var(--color-gray-700), var(--color-gray-800))",
+    accentColor: "var(--color-gray-700)",
 
     title: "App Simples (offline)",
     sub: "Funciona sem internet",
@@ -22,10 +22,10 @@ export const appTypes: SolutionTypeCardItem[] = [
   },
   {
     id: "App-Conectado",
-    accentColor: "#0891b2",
+    accentColor: "var(--color-cyan-600)",
 
-    icon: <Wifi size={22} color="white" />,
-    color: "linear-gradient(135deg, rgb(8, 145, 178), #0e7490)",
+    icon: <Wifi size="var(--size-22)" color="var(--color-surface)" />,
+    color: "linear-gradient(var(--value-135deg), var(--color-cyan-600), var(--color-cyan-700))",
     title: "App Conectado ao Servidor",
     sub: "Dados sempre atualizados",
     desc: "O app se comunica com um servidor na internet. Seus dados ficam na nuvem e são acessíveis de qualquer celular — perfeito para equipes ou múltiplos usuários.",
@@ -39,10 +39,10 @@ export const appTypes: SolutionTypeCardItem[] = [
   },
   {
     id: "App-Login",
-    accentColor: "#7c3aed",
+    accentColor: "var(--color-purple-600)",
 
-    icon: <Users size={22} color="white" />,
-    color: "linear-gradient(135deg, rgb(124, 58, 237), #6d28d9)",
+    icon: <Users size="var(--size-22)" color="var(--color-surface)" />,
+    color: "linear-gradient(var(--value-135deg), var(--color-purple-600), var(--color-purple-700))",
     title: "App com Login e Perfis",
     sub: "Cada usuário tem o seu espaço",
     desc: "Sistema completo com cadastro, login, perfil de usuário e controle de acesso. Clientes, vendedores e gerentes veem informações diferentes no mesmo app.",
@@ -56,10 +56,10 @@ export const appTypes: SolutionTypeCardItem[] = [
   },
   {
     id: "App-Push",
-    accentColor: "#d97706",
+    accentColor: "var(--color-amber-600)",
 
-    icon: <Bell size={22} color="white" />,
-    color: "linear-gradient(135deg, rgb(217, 119, 6), #b45309)",
+    icon: <Bell size="var(--size-22)" color="var(--color-surface)" />,
+    color: "linear-gradient(var(--value-135deg), var(--color-amber-600), var(--color-amber-700))",
     title: "App com Notificações Push",
     sub: "Mensagens mesmo com app fechado",
     desc: "O app avisa o usuário com notificações no celular — mesmo que esteja fechado. Ideal para pedidos, alertas, promoções ou mensagens importantes.",
@@ -73,10 +73,10 @@ export const appTypes: SolutionTypeCardItem[] = [
   },
   {
     id: "App-Completo",
-    accentColor: "#059669",
+    accentColor: "var(--color-green-500)",
 
-    icon: <Smartphone size={22} color="white" />,
-    color: "linear-gradient(135deg, rgb(5, 150, 105), #047857)",
+    icon: <Smartphone size="var(--size-22)" color="var(--color-surface)" />,
+    color: "linear-gradient(var(--value-135deg), var(--color-green-500), var(--color-green-700))",
     title: "App Completo com Tempo Real",
     sub: "Tudo atualizado na hora",
     desc: "O app mais robusto: login, banco de dados, notificações push e atualizações em tempo real. O que um usuário faz, o outro vê instantaneamente — sem recarregar.",

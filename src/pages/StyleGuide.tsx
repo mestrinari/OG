@@ -22,93 +22,94 @@ import {
   Table, Thead, Tbody, Th, Td, Tr,
   SectionHeader, PageSection, Divider, InlineCode, CodeBlock,
 } from "../components/ui";
+import { siteContact } from "../content/site";
 
 // ─── Animations ──────────────────────────────────────────────────────────────────
 
 const pulse = keyframes`
-  0%,100% { box-shadow: 0 0 0 0 rgba(245,158,11,0.5); }
-  50%      { box-shadow: 0 0 0 12px rgba(245,158,11,0); }
+  0%,100% { box-shadow: var(--number-zero) var(--number-zero) var(--number-zero) var(--number-zero) var(--alpha-amber-50); }
+  50%      { box-shadow: var(--number-zero) var(--number-zero) var(--number-zero) var(--value-12px) transparent; }
 `;
 
 // ─── StyleGuide shell ─────────────────────────────────────────────────────────────
 
 const PageWrap = styled.div`
-  background: #f0f3fb;
-  min-height: 100vh;
-  padding-bottom: 8rem;
-  font-family: 'Inter', sans-serif;
+  background: var(--color-background-guide);
+  min-height: var(--value-100vh);
+  padding-bottom: var(--value-8rem);
+  font-family: var(--font-body);
 `;
 
 const Header = styled.div`
-  background: linear-gradient(160deg, #0c1445 0%, #1e3a8a 100%);
-  padding: 4rem 2rem 0;
+  background: linear-gradient(var(--value-160deg), var(--color-navy-950) var(--percent-0), var(--color-blue-900) var(--percent-full));
+  padding: var(--value-4rem) var(--value-2rem) var(--number-zero);
 `;
 
 const HeaderInner = styled.div`
-  // max-width: 1366px;
-  margin: 0 auto;
-  padding-bottom: 2rem;
+  // max-width: var(--value-1366px);
+  margin: var(--number-zero) auto;
+  padding-bottom: var(--value-2rem);
 `;
 
 const Eyebrow = styled.p`
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-size: var(--value-0-72rem);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--value-0-12em);
   text-transform: uppercase;
-  color: #60a5fa;
-  margin-bottom: 0.75rem;
+  color: var(--color-blue-400);
+  margin-bottom: var(--value-0-75rem);
 `;
 
 const PageTitle = styled.h1`
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 2.5rem;
-  font-weight: 800;
-  color: white;
-  letter-spacing: -0.025em;
-  margin-bottom: 0.5rem;
+  font-family: var(--font-display);
+  font-size: var(--value-2-5rem);
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-surface);
+  letter-spacing: var(--value-neg-0-025em);
+  margin-bottom: var(--value-0-5rem);
 `;
 
 const PageSub = styled.p`
-  font-size: 1rem;
-  color: rgba(255,255,255,0.5);
-  margin-bottom: 2rem;
+  font-size: var(--value-1rem);
+  color: var(--alpha-white-50);
+  margin-bottom: var(--value-2rem);
 `;
 
 const NavTabs = styled.div`
-  background: rgba(0,0,0,0.25);
-  border-top: 1px solid rgba(255,255,255,0.07);
+  background: var(--alpha-black-25);
+  border-top: var(--value-1px) solid var(--alpha-white-07);
   overflow-x: auto;
-  &::-webkit-scrollbar { height: 0; }
+  &::-webkit-scrollbar { height: var(--space-0); }
 `;
 
 const NavTabsInner = styled.div`
-  // max-width: 1366px;
-  margin: 0 auto;
+  // max-width: var(--value-1366px);
+  margin: var(--number-zero) auto;
   display: flex;
-  padding: 0 2rem;
-  gap: 0.25rem;
+  padding: var(--space-0) var(--value-2rem);
+  gap: var(--value-0-25rem);
 `;
 
 const NavTab = styled.a`
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: rgba(255,255,255,0.45);
-  padding: 0.875rem 1rem;
-  border-bottom: 2px solid transparent;
+  font-size: var(--value-0-8rem);
+  font-weight: var(--font-weight-semibold);
+  color: var(--alpha-white-45);
+  padding: var(--value-0-875rem) var(--value-1rem);
+  border-bottom: var(--value-2px) solid transparent;
   text-decoration: none;
   white-space: nowrap;
-  transition: color 0.2s, border-color 0.2s;
+  transition: color var(--value-0-2s), border-color var(--value-0-2s);
   cursor: pointer;
-  &:hover { color: rgba(255,255,255,0.85); border-color: rgba(255,255,255,0.3); }
+  &:hover { color: var(--alpha-white-85); border-color: var(--alpha-white-30); }
 `;
 
 const Body = styled.div`
-  // max-width: 1366px;
-  margin: 0 auto;
-  padding: 3rem 2rem 0;
+  // max-width: var(--value-1366px);
+  margin: var(--number-zero) auto;
+  padding: var(--value-3rem) var(--value-2rem) var(--number-zero);
   display: flex;
   flex-direction: column;
-  gap: 5rem;
+  gap: var(--value-5rem);
 `;
 
 // ─── Demo helpers ─────────────────────────────────────────────────────────────────
@@ -118,61 +119,61 @@ const DocSection = styled.section``;
 const SectionHead = styled.div`
   display: flex;
   align-items: baseline;
-  gap: 1rem;
-  margin-bottom: 0.75rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid rgba(29,78,216,0.12);
+  gap: var(--value-1rem);
+  margin-bottom: var(--value-0-75rem);
+  padding-bottom: var(--value-1rem);
+  border-bottom: var(--value-2px) solid var(--alpha-blue-12);
 `;
 
 const SectionTitle = styled.h2`
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 1.375rem;
-  font-weight: 800;
-  color: #0c1445;
-  letter-spacing: -0.02em;
+  font-family: var(--font-display);
+  font-size: var(--value-1-375rem);
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-navy-950);
+  letter-spacing: var(--value-neg-0-02em);
 `;
 
 const TagPill = styled.span`
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
+  font-size: var(--value-0-68rem);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--value-0-06em);
   text-transform: uppercase;
-  background: #dbeafe;
-  color: #1e40af;
-  padding: 0.2rem 0.6rem;
-  border-radius: 100px;
+  background: var(--color-blue-100);
+  color: var(--color-blue-800);
+  padding: var(--value-0-2rem) var(--value-0-6rem);
+  border-radius: var(--value-100px);
 `;
 
 const Sub = styled.h3`
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: #4b5684;
+  font-family: var(--font-display);
+  font-size: var(--value-0-82rem);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.07em;
-  margin: 2.5rem 0 1.25rem;
+  letter-spacing: var(--value-0-07em);
+  margin: var(--value-2-5rem) var(--number-zero) var(--value-1-25rem);
 `;
 
 const SectionDesc = styled.p`
-  font-size: 0.875rem;
-  color: #4b5684;
-  line-height: 1.7;
-  margin-bottom: 2rem;
-  margin-top: 0.5rem;
+  font-size: var(--value-0-875rem);
+  color: var(--color-text-muted);
+  line-height: var(--line-height-reading);
+  margin-bottom: var(--value-2rem);
+  margin-top: var(--value-0-5rem);
 `;
 
 const Canvas = styled.div<{ $dark?: boolean; $pad?: string; $bg?: string }>`
-  background: ${p => p.$dark ? '#0c1445' : (p.$bg ?? 'white')};
-  border-radius: 16px;
-  border: 1px solid ${p => p.$dark ? 'rgba(255,255,255,0.07)' : 'rgba(29,78,216,0.08)'};
-  padding: ${p => p.$pad ?? '2rem'};
-  margin-bottom: 0.75rem;
+  background: ${p => p.$dark ? 'var(--color-navy-950)' : (p.$bg ?? 'var(--color-surface)')};
+  border-radius: var(--value-16px);
+  border: var(--value-1px) solid ${p => p.$dark ? 'var(--alpha-white-07)' : 'var(--alpha-blue-08)'};
+  padding: ${p => p.$pad ?? 'var(--value-2rem)'};
+  margin-bottom: var(--value-0-75rem);
 `;
 
 const StateRow = styled.div<{ $align?: string }>`
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: var(--value-1-5rem);
   align-items: ${p => p.$align ?? "flex-end"};
 `;
 
@@ -180,21 +181,21 @@ const StateCol = styled.div<{ $center?: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: ${p => p.$center ? "center" : "flex-start"};
-  gap: 0.5rem;
+  gap: var(--value-0-5rem);
 `;
 
 const StateLabel = styled.span<{ $dark?: boolean }>`
-  font-size: 0.66rem;
-  font-weight: 700;
+  font-size: var(--value-0-66rem);
+  font-weight: var(--font-weight-bold);
   text-transform: uppercase;
-  letter-spacing: 0.07em;
-  color: ${p => p.$dark ? "rgba(255,255,255,0.35)" : "#9ca3af"};
+  letter-spacing: var(--value-0-07em);
+  color: ${p => p.$dark ? "var(--alpha-white-35)" : "var(--color-gray-400)"};
 `;
 
 const Row = styled.div<{ $gap?: string; $wrap?: boolean; $align?: string }>`
   display: flex;
   flex-wrap: ${p => p.$wrap !== false ? 'wrap' : 'nowrap'};
-  gap: ${p => p.$gap || '1rem'};
+  gap: ${p => p.$gap || 'var(--value-1rem)'};
   align-items: ${p => p.$align || 'flex-start'};
 `;
 
@@ -203,28 +204,28 @@ const Row = styled.div<{ $gap?: string; $wrap?: boolean; $align?: string }>`
 const NavDemo = styled.div<{ $gradient?: string }>`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  background: ${p => p.$gradient || "linear-gradient(160deg,#0c1445,#0f2050)"};
-  padding: 0.75rem 1.25rem;
-  border-radius: 12px;
+  gap: var(--value-0-5rem);
+  background: ${p => p.$gradient || "linear-gradient(var(--value-160deg),var(--color-navy-950),var(--color-navy-900))"};
+  padding: var(--value-0-75rem) var(--value-1-25rem);
+  border-radius: var(--value-12px);
   flex-wrap: wrap;
 `;
 
 const NavBrand = styled.p`
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 800;
-  font-size: 1rem;
-  color: white;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-extrabold);
+  font-size: var(--value-1rem);
+  color: var(--color-surface);
   margin-right: auto;
 `;
 
 const NavLogoBox = styled.div<{ $dev?: boolean }>`
-  width: 32px;
-  height: 32px;
-  border-radius: 9px;
+  width: var(--value-32px);
+  height: var(--value-32px);
+  border-radius: var(--value-9px);
   background: ${p => p.$dev
-    ? "linear-gradient(135deg,rgba(230,50,200,0.2),rgba(226,105,248,0.5))"
-    : "linear-gradient(135deg,#2563eb,#0891b2)"};
+    ? "linear-gradient(var(--value-135deg),var(--alpha-dev-primary),var(--alpha-dev-secondary))"
+    : "linear-gradient(var(--value-135deg),var(--color-blue-600),var(--color-cyan-600))"};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -234,170 +235,170 @@ const NavLogoBox = styled.div<{ $dev?: boolean }>`
 const NavLinkBtn = styled.button<{ $active?: boolean }>`
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  background: ${p => p.$active ? "rgba(255,255,255,0.12)" : "transparent"};
-  color: ${p => p.$active ? "white" : "rgba(255,255,255,0.6)"};
+  gap: var(--value-0-3rem);
+  background: ${p => p.$active ? "var(--alpha-white-12)" : "transparent"};
+  color: ${p => p.$active ? "var(--color-surface)" : "var(--alpha-white-60)"};
   border: none;
-  border-radius: 7px;
-  padding: 0.375rem 0.625rem;
-  font-size: 0.82rem;
-  font-weight: 600;
+  border-radius: var(--value-7px);
+  padding: var(--value-0-375rem) var(--value-0-625rem);
+  font-size: var(--value-0-82rem);
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: all 0.18s;
-  &:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.9); }
+  font-family: var(--font-body);
+  transition: all var(--value-0-18s);
+  &:hover { background: var(--alpha-white-08); color: var(--alpha-white-90); }
 `;
 
 const DropdownBox = styled.div`
-  background: #0c1445;
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 12px;
-  padding: 0.5rem;
-  min-width: 200px;
-  box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+  background: var(--color-navy-950);
+  border: var(--value-1px) solid var(--alpha-white-10);
+  border-radius: var(--value-12px);
+  padding: var(--value-0-5rem);
+  min-width: var(--value-200px);
+  box-shadow: var(--number-zero) var(--value-16px) var(--value-48px) var(--alpha-black-40);
 `;
 
 const DropdownItem = styled.button<{ $active?: boolean }>`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  width: 100%;
-  padding: 0.625rem 0.875rem;
-  border-radius: 8px;
-  background: ${p => p.$active ? "rgba(255,255,255,0.08)" : "transparent"};
-  color: ${p => p.$active ? "white" : "rgba(255,255,255,0.7)"};
+  gap: var(--value-0-5rem);
+  width: var(--percent-full);
+  padding: var(--value-0-625rem) var(--value-0-875rem);
+  border-radius: var(--value-8px);
+  background: ${p => p.$active ? "var(--alpha-white-08)" : "transparent"};
+  color: ${p => p.$active ? "var(--color-surface)" : "var(--alpha-white-70)"};
   border: none;
-  font-size: 0.82rem;
-  font-weight: 500;
+  font-size: var(--value-0-82rem);
+  font-weight: var(--font-weight-medium);
   cursor: pointer;
   text-align: left;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-body);
 `;
 
 const AccordionBlock = styled.div<{ $gradient: string }>`
   background: linear-gradient(${p => p.$gradient});
-  border-radius: 12px;
+  border-radius: var(--value-12px);
   overflow: hidden;
-  margin-bottom: 0.4rem;
+  margin-bottom: var(--value-0-4rem);
 `;
 
 const AccordionHeader = styled.button`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  padding: 0.875rem 1.125rem;
+  width: var(--percent-full);
+  padding: var(--value-0-875rem) var(--value-1-125rem);
   background: transparent;
   border: none;
-  color: white;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 700;
+  color: var(--color-surface);
+  font-family: var(--font-display);
+  font-size: var(--value-0-9rem);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
 `;
 
 const AccordionLinks = styled.div<{ $open: boolean }>`
-  max-height: ${p => p.$open ? "200px" : "0"};
+  max-height: ${p => p.$open ? "var(--value-200px)" : "var(--space-0)"};
   overflow: hidden;
-  transition: max-height 0.3s ease;
-  padding: ${p => p.$open ? "0 1.125rem 0.875rem" : "0 1.125rem"};
+  transition: max-height var(--value-0-3s) ease;
+  padding: ${p => p.$open ? "var(--number-zero) var(--value-1-125rem) var(--value-0-875rem)" : "var(--number-zero) var(--value-1-125rem)"};
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: var(--value-0-25rem);
 `;
 
 const AccordionLink = styled.a`
-  color: rgba(255,255,255,0.75);
-  font-size: 0.82rem;
+  color: var(--alpha-white-75);
+  font-size: var(--value-0-82rem);
   text-decoration: none;
-  padding: 0.3rem 0;
-  &:hover { color: white; }
+  padding: var(--value-0-3rem) var(--number-zero);
+  &:hover { color: var(--color-surface); }
 `;
 
 const FloatingBtnDemo = styled.button<{ $pulse?: boolean }>`
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.875rem 1.375rem;
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  color: white;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 700;
-  font-size: 0.9rem;
+  gap: var(--value-0-6rem);
+  padding: var(--value-0-875rem) var(--value-1-375rem);
+  background: linear-gradient(var(--value-135deg), var(--color-amber-500), var(--color-amber-600));
+  color: var(--color-surface);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--value-0-9rem);
   border: none;
-  border-radius: 100px;
+  border-radius: var(--value-100px);
   cursor: pointer;
-  box-shadow: 0 4px 16px rgba(245,158,11,0.35);
-  ${p => p.$pulse && css`animation: ${pulse} 3s ease-in-out infinite;`}
+  box-shadow: var(--number-zero) var(--value-4px) var(--value-16px) var(--alpha-amber-35);
+  ${p => p.$pulse && css`animation: ${pulse} var(--value-3s) ease-in-out infinite;`}
 `;
 
 // ─── Color tiles ─────────────────────────────────────────────────────────────────
 
 const ColorGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 0.875rem;
+  grid-template-columns: repeat(auto-fill, minmax(var(--value-150px), var(--value-1fr)));
+  gap: var(--value-0-875rem);
 `;
 
 const ColorTile = styled.div`
-  border-radius: 12px;
+  border-radius: var(--value-12px);
   overflow: hidden;
-  border: 1px solid rgba(29,78,216,0.08);
-  background: white;
+  border: var(--value-1px) solid var(--alpha-blue-08);
+  background: var(--color-surface);
 `;
 
-const Swatch = styled.div<{ $c: string; $h?: number }>`
+const Swatch = styled.div<{ $c: string; $h?: string }>`
   background: ${p => p.$c};
-  height: ${p => (p.$h !== undefined ? p.$h : 68)}px;
+  height: ${p => p.$h ?? "var(--size-navbar)"};
 `;
 
-const ColorInfo = styled.div`padding: 0.625rem 0.875rem;`;
-const ColorName = styled.p`font-family: 'Plus Jakarta Sans',sans-serif; font-size: 0.78rem; font-weight: 700; color: #0c1445; margin-bottom: 0.15rem;`;
-const ColorHex = styled.p`font-size: 0.68rem; color: #717182;`;
-const ColorToken = styled.p`font-size: 0.65rem; color: #2563eb; font-weight: 600; margin-top: 0.2rem; font-family: monospace;`;
+const ColorInfo = styled.div`padding: var(--value-0-625rem) var(--value-0-875rem);`;
+const ColorName = styled.p`font-family: var(--font-display); font-size: var(--value-0-78rem); font-weight: var(--font-weight-bold); color: var(--color-navy-950); margin-bottom: var(--value-0-15rem);`;
+const ColorHex = styled.p`font-size: var(--value-0-68rem); color: var(--color-gray-500);`;
+const ColorToken = styled.p`font-size: var(--value-0-65rem); color: var(--color-blue-600); font-weight: var(--font-weight-semibold); margin-top: var(--value-0-2rem); font-family: var(--font-mono);`;
 
 // ─── Gradient tiles ───────────────────────────────────────────────────────────────
 
-const GradGrid = styled.div`display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 0.875rem;`;
+const GradGrid = styled.div`display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--value-190px), var(--value-1fr))); gap: var(--value-0-875rem);`;
 
-const GradTile = styled.div`border-radius: 12px; overflow: hidden; border: 1px solid rgba(29,78,216,0.08);`;
+const GradTile = styled.div`border-radius: var(--value-12px); overflow: hidden; border: var(--value-1px) solid var(--alpha-blue-08);`;
 
-const GradSwatch = styled.div<{ $g: string }>`background: ${p => p.$g}; height: 88px;`;
+const GradSwatch = styled.div<{ $g: string }>`background: ${p => p.$g}; height: var(--value-88px);`;
 
-const GradInfo = styled.div`background: white; padding: 0.75rem 1rem;`;
-const GradName = styled.p`font-family: 'Plus Jakarta Sans',sans-serif; font-size: 0.78rem; font-weight: 700; color: #0c1445; margin-bottom: 0.25rem;`;
-const GradUse = styled.p`font-size: 0.7rem; color: #2563eb; font-weight: 600; margin-bottom: 0.25rem;`;
-const GradVal = styled.p`font-size: 0.62rem; color: #9ca3af; word-break: break-all; font-family: monospace;`;
+const GradInfo = styled.div`background: var(--color-surface); padding: var(--value-0-75rem) var(--value-1rem);`;
+const GradName = styled.p`font-family: var(--font-display); font-size: var(--value-0-78rem); font-weight: var(--font-weight-bold); color: var(--color-navy-950); margin-bottom: var(--value-0-25rem);`;
+const GradUse = styled.p`font-size: var(--value-0-7rem); color: var(--color-blue-600); font-weight: var(--font-weight-semibold); margin-bottom: var(--value-0-25rem);`;
+const GradVal = styled.p`font-size: var(--value-0-62rem); color: var(--color-gray-400); word-break: break-all; font-family: var(--font-mono);`;
 
 // ─── Type scale ───────────────────────────────────────────────────────────────────
 
 const ScaleTable = styled.div`
-  background: white;
-  border-radius: 14px;
-  border: 1px solid rgba(29,78,216,0.08);
+  background: var(--color-surface);
+  border-radius: var(--value-14px);
+  border: var(--value-1px) solid var(--alpha-blue-08);
   overflow: hidden;
 `;
 
 const ScaleRow = styled.div`
   display: flex;
   align-items: baseline;
-  gap: 1.25rem;
-  padding: 0.875rem 1.5rem;
-  border-bottom: 1px solid #f0f4ff;
+  gap: var(--value-1-25rem);
+  padding: var(--value-0-875rem) var(--value-1-5rem);
+  border-bottom: var(--value-1px) solid var(--color-surface-muted);
   flex-wrap: wrap;
   &:last-child { border-bottom: none; }
-  &:hover { background: #f8faff; }
+  &:hover { background: var(--color-background-alt); }
 `;
 
-const ScaleToken = styled.span`font-size: 0.68rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.07em; width: 76px; flex-shrink: 0;`;
-const ScaleSize = styled.span`font-size: 0.68rem; color: #2563eb; font-weight: 600; font-family: monospace; width: 80px; flex-shrink: 0;`;
+const ScaleToken = styled.span`font-size: var(--value-0-68rem); font-weight: var(--font-weight-bold); color: var(--color-gray-400); text-transform: uppercase; letter-spacing: var(--value-0-07em); width: var(--value-76px); flex-shrink: var(--number-zero);`;
+const ScaleSize = styled.span`font-size: var(--value-0-68rem); color: var(--color-blue-600); font-weight: var(--font-weight-semibold); font-family: var(--font-mono); width: var(--value-80px); flex-shrink: var(--number-zero);`;
 const ScaleSample = styled.p<{ $font: string; $sz: string; $w: number }>`
   font-family: ${p => p.$font};
   font-size: ${p => p.$sz};
   font-weight: ${p => p.$w};
-  color: #0c1445;
-  line-height: 1.25;
-  margin: 0;
+  color: var(--color-navy-950);
+  line-height: var(--line-height-snug);
+  margin: var(--space-0);
 `;
 
 // ─── Icon grid ────────────────────────────────────────────────────────────────────
@@ -406,107 +407,107 @@ const IconBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.4rem;
-  min-width: 62px;
+  gap: var(--value-0-4rem);
+  min-width: var(--value-62px);
 `;
 
 const IconBubble = styled.div`
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: #eff6ff;
+  width: var(--value-44px);
+  height: var(--value-44px);
+  border-radius: var(--value-12px);
+  background: var(--color-blue-50);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #1d4ed8;
+  color: var(--color-blue-700);
 `;
 
-const IconLabel = styled.span`font-size: 0.6rem; color: #9ca3af; font-weight: 700; text-align: center;`;
+const IconLabel = styled.span`font-size: var(--value-0-6rem); color: var(--color-gray-400); font-weight: var(--font-weight-bold); text-align: center;`;
 
 // ─── Data ────────────────────────────────────────────────────────────────────────
 
 const COLORS_PRIMARY = [
-  { name: "Navy 950",  hex: "#0c1445", token: "--foreground" },
-  { name: "Navy 900",  hex: "#0f2050", token: "--sidebar" },
-  { name: "Blue 800",  hex: "#1e3a8a", token: "--secondary-foreground" },
-  { name: "Blue 700",  hex: "#1d4ed8", token: "--primary" },
-  { name: "Blue 600",  hex: "#2563eb", token: "--ring" },
-  { name: "Blue 400",  hex: "#60a5fa", token: "--sidebar-primary" },
+  { name: "Navy 950",  hex: "var(--color-navy-950)", token: "--foreground" },
+  { name: "Navy 900",  hex: "var(--color-navy-900)", token: "--sidebar" },
+  { name: "Blue 800",  hex: "var(--color-blue-900)", token: "--secondary-foreground" },
+  { name: "Blue 700",  hex: "var(--color-blue-700)", token: "--primary" },
+  { name: "Blue 600",  hex: "var(--color-blue-600)", token: "--ring" },
+  { name: "Blue 400",  hex: "var(--color-blue-400)", token: "--sidebar-primary" },
 ];
 
 const COLORS_ACCENT = [
-  { name: "Cyan 600",   hex: "#0891b2", token: "--accent" },
-  { name: "Cyan 500",   hex: "#06b6d4", token: "cyan-500" },
-  { name: "Amber 500",  hex: "#f59e0b", token: "quiz-btn-base" },
-  { name: "Amber 600",  hex: "#d97706", token: "quiz-btn-dark" },
+  { name: "Cyan 600",   hex: "var(--color-cyan-600)", token: "--accent" },
+  { name: "Cyan 500",   hex: "var(--color-cyan-500)", token: "cyan-500" },
+  { name: "Amber 500",  hex: "var(--color-amber-500)", token: "quiz-btn-base" },
+  { name: "Amber 600",  hex: "var(--color-amber-600)", token: "quiz-btn-dark" },
 ];
 
 const COLORS_SEMANTIC = [
-  { name: "Success",     hex: "#059669", token: "green-600" },
-  { name: "Success BG",  hex: "#dcfce7", token: "green-100" },
-  { name: "Purple",      hex: "#7c3aed", token: "violet-600" },
-  { name: "Purple BG",   hex: "#ede9fe", token: "violet-100" },
-  { name: "Error",       hex: "#dc2626", token: "--destructive" },
-  { name: "Error BG",    hex: "#fee2e2", token: "red-100" },
-  { name: "Warning",     hex: "#d97706", token: "amber-600" },
-  { name: "Warning BG",  hex: "#ffedd5", token: "orange-100" },
+  { name: "Success",     hex: "var(--color-green-500)", token: "green-600" },
+  { name: "Success BG",  hex: "var(--color-green-100)", token: "green-100" },
+  { name: "Purple",      hex: "var(--color-purple-600)", token: "violet-600" },
+  { name: "Purple BG",   hex: "var(--color-purple-100)", token: "violet-100" },
+  { name: "Error",       hex: "var(--color-red-600)", token: "--destructive" },
+  { name: "Error BG",    hex: "var(--color-red-100)", token: "red-100" },
+  { name: "Warning",     hex: "var(--color-amber-600)", token: "amber-600" },
+  { name: "Warning BG",  hex: "var(--color-orange-100)", token: "orange-100" },
 ];
 
 const GRADIENTS = [
-  { name: "Hero Home",     g: "linear-gradient(160deg,#0c1445 0%,#0f2050 50%,#0a1930 100%)", use: "Hero da home, Navbar padrão" },
-  { name: "Navy Dark",     g: "linear-gradient(160deg,#0c1445 0%,#1e3a8a 100%)", use: "Hero Web, CTAs, AI banner" },
-  { name: "Blue Action",   g: "linear-gradient(135deg,#2563eb,#1d4ed8)", use: "Botão Primary, Navbar ativo" },
-  { name: "Blue-Cyan",     g: "linear-gradient(90deg,#2563eb,#0891b2)", use: "ProgressBar, gráficos" },
-  { name: "Cyan Action",   g: "linear-gradient(135deg,#0891b2,#0e7490)", use: "Botão Mobile, card Mobile" },
-  { name: "Amber Quiz",    g: "linear-gradient(135deg,#f59e0b,#d97706)", use: "Botão Orçamento (3 pontos de entrada)" },
-  { name: "Green WA",      g: "linear-gradient(135deg,#16a34a,#15803d)", use: "Botão WhatsApp" },
-  { name: "Green System",  g: "linear-gradient(135deg,#059669,#047857)", use: "Cards sistemas locais" },
-  { name: "Purple",        g: "linear-gradient(135deg,#7c3aed,#6d28d9)", use: "Cards software" },
-  { name: "Logo Grad",     g: "linear-gradient(135deg,#2563eb,#0891b2)", use: "LogoIcon + BrandIcon footer" },
+  { name: "Hero Home",     g: "linear-gradient(var(--value-160deg),var(--color-navy-950) var(--percent-0),var(--color-navy-900) var(--percent-half),var(--color-navy-850) var(--percent-full))", use: "Hero da home, Navbar padrão" },
+  { name: "Navy Dark",     g: "linear-gradient(var(--value-160deg),var(--color-navy-950) var(--percent-0),var(--color-blue-900) var(--percent-full))", use: "Hero Web, CTAs, AI banner" },
+  { name: "Blue Action",   g: "linear-gradient(var(--value-135deg),var(--color-blue-600),var(--color-blue-700))", use: "Botão Primary, Navbar ativo" },
+  { name: "Blue-Cyan",     g: "linear-gradient(var(--value-90deg),var(--color-blue-600),var(--color-cyan-600))", use: "ProgressBar, gráficos" },
+  { name: "Cyan Action",   g: "linear-gradient(var(--value-135deg),var(--color-cyan-600),var(--color-cyan-700))", use: "Botão Mobile, card Mobile" },
+  { name: "Amber Quiz",    g: "linear-gradient(var(--value-135deg),var(--color-amber-500),var(--color-amber-600))", use: "Botão Orçamento (3 pontos de entrada)" },
+  { name: "Green WA",      g: "linear-gradient(var(--value-135deg),var(--color-green-600),var(--color-green-800))", use: "Botão WhatsApp" },
+  { name: "Green System",  g: "linear-gradient(var(--value-135deg),var(--color-green-500),var(--color-green-700))", use: "Cards sistemas locais" },
+  { name: "Purple",        g: "linear-gradient(var(--value-135deg),var(--color-purple-600),var(--color-purple-700))", use: "Cards software" },
+  { name: "Logo Grad",     g: "linear-gradient(var(--value-135deg),var(--color-blue-600),var(--color-cyan-600))", use: "LogoIcon + BrandIcon footer" },
 ];
 
 const TYPE_SCALE = [
-  { token: "Display", sz: "clamp(2.2rem,6vw,4rem)", font: "'Plus Jakarta Sans'", w: 800, sample: "Seu negócio no digital" },
-  { token: "H1",      sz: "clamp(2rem,5vw,3.5rem)", font: "'Plus Jakarta Sans'", w: 800, sample: "Sites e Sistemas Web" },
-  { token: "H2",      sz: "clamp(1.6rem,3vw,2.25rem)", font: "'Plus Jakarta Sans'", w: 800, sample: "Qual é o certo para você?" },
-  { token: "H3 Card", sz: "1.05rem", font: "'Plus Jakarta Sans'", w: 700, sample: "Sistema com Login" },
-  { token: "Body L",  sz: "1.125rem", font: "'Inter'", w: 400, sample: "Explicamos tudo sem termos técnicos." },
-  { token: "Body",    sz: "1rem", font: "'Inter'", w: 400, sample: "Cada negócio é único — oferecemos desde sites simples." },
-  { token: "Body S",  sz: "0.9rem", font: "'Inter'", w: 400, sample: "Aparece no Google, funciona no celular." },
-  { token: "Caption", sz: "0.78rem", font: "'Inter'", w: 400, sample: "Login individual · Backup automático · Segurança" },
-  { token: "Label",   sz: "0.72rem", font: "'Inter'", w: 700, sample: "SOLUÇÕES DIGITAIS · O QUE FAZEMOS" },
+  { token: "Display", sz: "clamp(var(--value-2-2rem),var(--value-6vw),var(--value-4rem))", font: "'Plus Jakarta Sans'", w: 800, sample: "Seu negócio no digital" },
+  { token: "H1",      sz: "clamp(var(--value-2rem),var(--value-5vw),var(--value-3-5rem))", font: "'Plus Jakarta Sans'", w: 800, sample: "Sites e Sistemas Web" },
+  { token: "H2",      sz: "clamp(var(--value-1-6rem),var(--value-3vw),var(--value-2-25rem))", font: "'Plus Jakarta Sans'", w: 800, sample: "Qual é o certo para você?" },
+  { token: "H3 Card", sz: "var(--value-1-05rem)", font: "'Plus Jakarta Sans'", w: 700, sample: "Sistema com Login" },
+  { token: "Body L",  sz: "var(--value-1-125rem)", font: "'Inter'", w: 400, sample: "Explicamos tudo sem termos técnicos." },
+  { token: "Body",    sz: "var(--value-1rem)", font: "'Inter'", w: 400, sample: "Cada negócio é único — oferecemos desde sites simples." },
+  { token: "Body S",  sz: "var(--value-0-9rem)", font: "'Inter'", w: 400, sample: "Aparece no Google, funciona no celular." },
+  { token: "Caption", sz: "var(--value-0-78rem)", font: "'Inter'", w: 400, sample: "Login individual · Backup automático · Segurança" },
+  { token: "Label",   sz: "var(--value-0-72rem)", font: "'Inter'", w: 700, sample: "SOLUÇÕES DIGITAIS · O QUE FAZEMOS" },
 ];
 
 const ICONS = [
-  { icon: <Globe size={20} />,          label: "Globe" },
-  { icon: <Smartphone size={20} />,     label: "Smartphone" },
-  { icon: <Monitor size={20} />,        label: "Monitor" },
-  { icon: <Database size={20} />,       label: "Database" },
-  { icon: <Shield size={20} />,         label: "Shield" },
-  { icon: <Zap size={20} />,            label: "Zap" },
-  { icon: <Bell size={20} />,           label: "Bell" },
-  { icon: <MessageSquare size={20} />,  label: "MessageSquare" },
-  { icon: <Settings size={20} />,       label: "Settings" },
-  { icon: <User size={20} />,           label: "User" },
-  { icon: <LogOut size={20} />,         label: "LogOut" },
-  { icon: <Menu size={20} />,           label: "Menu" },
-  { icon: <ArrowRight size={20} />,     label: "ArrowRight" },
-  { icon: <Check size={20} />,          label: "Check" },
-  { icon: <X size={20} />,              label: "X" },
-  { icon: <Search size={20} />,         label: "Search" },
-  { icon: <Upload size={20} />,         label: "Upload" },
-  { icon: <Star size={20} />,           label: "Star" },
-  { icon: <Code2 size={20} />,          label: "Code2 (Logo)" },
-  { icon: <Mail size={20} />,           label: "Mail" },
-  { icon: <Phone size={20} />,          label: "Phone" },
+  { icon: <Globe size="var(--size-20)" />,          label: "Globe" },
+  { icon: <Smartphone size="var(--size-20)" />,     label: "Smartphone" },
+  { icon: <Monitor size="var(--size-20)" />,        label: "Monitor" },
+  { icon: <Database size="var(--size-20)" />,       label: "Database" },
+  { icon: <Shield size="var(--size-20)" />,         label: "Shield" },
+  { icon: <Zap size="var(--size-20)" />,            label: "Zap" },
+  { icon: <Bell size="var(--size-20)" />,           label: "Bell" },
+  { icon: <MessageSquare size="var(--size-20)" />,  label: "MessageSquare" },
+  { icon: <Settings size="var(--size-20)" />,       label: "Settings" },
+  { icon: <User size="var(--size-20)" />,           label: "User" },
+  { icon: <LogOut size="var(--size-20)" />,         label: "LogOut" },
+  { icon: <Menu size="var(--size-20)" />,           label: "Menu" },
+  { icon: <ArrowRight size="var(--size-20)" />,     label: "ArrowRight" },
+  { icon: <Check size="var(--size-20)" />,          label: "Check" },
+  { icon: <X size="var(--size-20)" />,              label: "X" },
+  { icon: <Search size="var(--size-20)" />,         label: "Search" },
+  { icon: <Upload size="var(--size-20)" />,         label: "Upload" },
+  { icon: <Star size="var(--size-20)" />,           label: "Star" },
+  { icon: <Code2 size="var(--size-20)" />,          label: "Code2 (Logo)" },
+  { icon: <Mail size="var(--size-20)" />,           label: "Mail" },
+  { icon: <Phone size="var(--size-20)" />,          label: "Phone" },
 ];
 
 const NAV_ITEMS = [
-  { id: "home",            label: "Início",             gradient: "160deg, #0c1445 0%, #0f2050 50%, #0a1930 100%", links: ["Soluções Digitais","O que fazemos","Recursos","Como funciona"] },
-  { id: "web",             label: "Sites & Web",        gradient: "160deg, #0c1445 0%, #1e3a8a 100%",              links: ["Hero","Tipos de site","Recursos extras"] },
-  { id: "mobile",          label: "Apps Mobile",        gradient: "160deg, #0a1930 0%, #0e7490 100%",              links: ["Hero","Plataformas","Perfis","Exemplos"] },
-  { id: "software",        label: "Softwares",          gradient: "160deg, #1e1040 0%, #5b21b6 100%",              links: ["Hero","Tipos","Recursos"] },
-  { id: "sistemas-locais", label: "Sistemas Locais",    gradient: "160deg, #042c1e 0%, #059669 100%",              links: ["Hero","Sistemas","Controle de Acesso"] },
+  { id: "home",            label: "Início",             gradient: "var(--value-160deg), var(--color-navy-950) var(--percent-0), var(--color-navy-900) var(--percent-half), var(--color-navy-850) var(--percent-full)", links: ["Soluções Digitais","O que fazemos","Recursos","Como funciona"] },
+  { id: "web",             label: "Sites & Web",        gradient: "var(--value-160deg), var(--color-navy-950) var(--percent-0), var(--color-blue-900) var(--percent-full)",              links: ["Hero","Tipos de site","Recursos extras"] },
+  { id: "mobile",          label: "Apps Mobile",        gradient: "var(--value-160deg), var(--color-navy-850) var(--percent-0), var(--color-cyan-700) var(--percent-full)",              links: ["Hero","Plataformas","Perfis","Exemplos"] },
+  { id: "software",        label: "Softwares",          gradient: "var(--value-160deg), var(--color-purple-900) var(--percent-0), var(--color-purple-800) var(--percent-full)",              links: ["Hero","Tipos","Recursos"] },
+  { id: "sistemas-locais", label: "Sistemas Locais",    gradient: "var(--value-160deg), var(--color-navy-local) var(--percent-0), var(--color-green-500) var(--percent-full)",              links: ["Hero","Sistemas","Controle de Acesso"] },
 ];
 
 // ─── Component ────────────────────────────────────────────────────────────────────
@@ -585,9 +586,9 @@ export default function StyleGuide() {
 
           <Canvas $dark>
             <StateRow>
-              <StateCol><StateLabel $dark>White em fundo escuro</StateLabel><Button variant="white"><ArrowRight size={14} /> Começar</Button></StateCol>
+              <StateCol><StateLabel $dark>White em fundo escuro</StateLabel><Button variant="white"><ArrowRight size="var(--size-14)" /> Começar</Button></StateCol>
               <StateCol><StateLabel $dark>Amber em fundo escuro</StateLabel><Button variant="amber">🧮 Orçamento</Button></StateCol>
-              <StateCol><StateLabel $dark>Ghost em fundo escuro</StateLabel><Button variant="ghost" style={{ color: "rgba(255,255,255,0.7)", borderColor: "rgba(255,255,255,0.2)" }}>Ver mais</Button></StateCol>
+              <StateCol><StateLabel $dark>Ghost em fundo escuro</StateLabel><Button variant="ghost" style={{ color: "var(--alpha-white-70)", borderColor: "var(--alpha-white-20)" }}>Ver mais</Button></StateCol>
             </StateRow>
           </Canvas>
 
@@ -597,33 +598,33 @@ export default function StyleGuide() {
               <StateCol><StateLabel>Default</StateLabel><Button>Continuar</Button></StateCol>
               <StateCol><StateLabel>Disabled</StateLabel><Button disabled>Continuar</Button></StateCol>
               <StateCol><StateLabel>Loading</StateLabel><Button loading>Continuar</Button></StateCol>
-              <StateCol><StateLabel>Com leftIcon</StateLabel><Button leftIcon={<ArrowRight size={14} />}>Próxima</Button></StateCol>
-              <StateCol><StateLabel>Com rightIcon</StateLabel><Button rightIcon={<ArrowRight size={14} />}>Próxima</Button></StateCol>
+              <StateCol><StateLabel>Com leftIcon</StateLabel><Button leftIcon={<ArrowRight size="var(--size-14)" />}>Próxima</Button></StateCol>
+              <StateCol><StateLabel>Com rightIcon</StateLabel><Button rightIcon={<ArrowRight size="var(--size-14)" />}>Próxima</Button></StateCol>
             </StateRow>
           </Canvas>
 
           <Sub>Tamanhos</Sub>
           <Canvas>
             <StateRow $align="center">
-              <StateCol><StateLabel>Large</StateLabel><Button size="lg" leftIcon={<ArrowRight size={16} />}>Começar agora</Button></StateCol>
-              <StateCol><StateLabel>Medium (padrão)</StateLabel><Button size="md" leftIcon={<ArrowRight size={14} />}>Continuar</Button></StateCol>
-              <StateCol><StateLabel>Small</StateLabel><Button size="sm" leftIcon={<ArrowRight size={12} />}>Ver mais</Button></StateCol>
+              <StateCol><StateLabel>Large</StateLabel><Button size="lg" leftIcon={<ArrowRight size="var(--size-16)" />}>Começar agora</Button></StateCol>
+              <StateCol><StateLabel>Medium (padrão)</StateLabel><Button size="md" leftIcon={<ArrowRight size="var(--size-14)" />}>Continuar</Button></StateCol>
+              <StateCol><StateLabel>Small</StateLabel><Button size="sm" leftIcon={<ArrowRight size="var(--size-12)" />}>Ver mais</Button></StateCol>
             </StateRow>
           </Canvas>
 
           <Sub>PillButton (FloatingQuizBtn) e fullWidth</Sub>
           <Canvas>
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.875rem", maxWidth: 400 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "var(--value-0-875rem)", maxWidth: "var(--size-glow-small)" }}>
               <PillButton onClick={() => {}}>🧮 Faça um Orçamento Grátis</PillButton>
-              <Button variant="primary" fullWidth leftIcon={<Mail size={15} />}>Enviar mensagem</Button>
-              <Button variant="secondary" fullWidth leftIcon={<Phone size={15} />}>Ligar agora</Button>
+              <Button variant="primary" fullWidth leftIcon={<Mail size="var(--size-15)" />}>Enviar mensagem</Button>
+              <Button variant="secondary" fullWidth leftIcon={<Phone size="var(--size-15)" />}>Ligar agora</Button>
             </div>
           </Canvas>
 
           <Sub>ButtonGroup</Sub>
           <Canvas>
             <ButtonGroup>
-              <Button leftIcon={<ArrowRight size={14} />}>Quero começar</Button>
+              <Button leftIcon={<ArrowRight size="var(--size-14)" />}>Quero começar</Button>
               <Button variant="ghost">Ver exemplos</Button>
             </ButtonGroup>
           </Canvas>
@@ -641,7 +642,7 @@ export default function StyleGuide() {
 
           <Sub>Variantes</Sub>
           <Canvas>
-            <Row $gap="0.625rem" $wrap $align="center">
+            <Row $gap="var(--value-0-625rem)" $wrap $align="center">
               {(["blue","cyan","purple","green","amber","red","gray","outline"] as const).map(v => (
                 <Badge key={v} variant={v}>{v}</Badge>
               ))}
@@ -650,7 +651,7 @@ export default function StyleGuide() {
 
           <Sub>Com ponto de status</Sub>
           <Canvas>
-            <Row $gap="0.75rem" $wrap $align="center">
+            <Row $gap="var(--value-0-75rem)" $wrap $align="center">
               <Badge variant="green" dot>Online</Badge>
               <Badge variant="amber" dot>Aguardando</Badge>
               <Badge variant="red" dot>Offline</Badge>
@@ -660,7 +661,7 @@ export default function StyleGuide() {
 
           <Sub>Aliases semânticos por página</Sub>
           <Canvas>
-            <Row $gap="0.75rem" $wrap $align="center">
+            <Row $gap="var(--value-0-75rem)" $wrap $align="center">
               <BadgeWeb>Sites Web</BadgeWeb>
               <BadgeMobile>Apps Mobile</BadgeMobile>
               <BadgeSoftware>Softwares</BadgeSoftware>
@@ -671,7 +672,7 @@ export default function StyleGuide() {
 
           <Sub>Tamanhos</Sub>
           <Canvas>
-            <Row $gap="1rem" $wrap $align="center">
+            <Row $gap="var(--value-1rem)" $wrap $align="center">
               <StateCol><StateLabel>Médio (padrão)</StateLabel><Badge>Sites & Sistemas Web</Badge></StateCol>
               <StateCol><StateLabel>Pequeno</StateLabel><Badge size="sm">Sites & Sistemas Web</Badge></StateCol>
             </Row>
@@ -690,20 +691,20 @@ export default function StyleGuide() {
 
           <Sub>Input — todos os estados</Sub>
           <Canvas>
-            <Row $gap="1.5rem" $wrap>
-              <Field label="Padrão" hint="Campo obrigatório" style={{ maxWidth: 260 }}>
+            <Row $gap="var(--value-1-5rem)" $wrap>
+              <Field label="Padrão" hint="Campo obrigatório" style={{ maxWidth: "var(--size-260)" }}>
                 <Input placeholder="Seu nome" />
               </Field>
-              <Field label="Em foco" style={{ maxWidth: 260 }}>
+              <Field label="Em foco" style={{ maxWidth: "var(--size-260)" }}>
                 <Input fieldState="focus" defaultValue="João Silva" readOnly />
               </Field>
-              <Field label="Sucesso" success="Nome válido ✓" style={{ maxWidth: 260 }}>
-                <Input fieldState="success" defaultValue="João Silva" readOnly rightIcon={<Check size={15} color="#16a34a" />} />
+              <Field label="Sucesso" success="Nome válido ✓" style={{ maxWidth: "var(--size-260)" }}>
+                <Input fieldState="success" defaultValue="João Silva" readOnly rightIcon={<Check size="var(--size-15)" color="var(--color-green-600)" />} />
               </Field>
-              <Field label="Erro" error="Nome deve ter ao menos 2 caracteres" style={{ maxWidth: 260 }}>
+              <Field label="Erro" error="Nome deve ter ao menos 2 caracteres" style={{ maxWidth: "var(--size-260)" }}>
                 <Input fieldState="error" defaultValue="J" readOnly />
               </Field>
-              <Field label="Desabilitado" hint="Não editável" style={{ maxWidth: 260 }}>
+              <Field label="Desabilitado" hint="Não editável" style={{ maxWidth: "var(--size-260)" }}>
                 <Input disabled defaultValue="Campo bloqueado" />
               </Field>
             </Row>
@@ -711,14 +712,14 @@ export default function StyleGuide() {
 
           <Sub>Input com ícones</Sub>
           <Canvas>
-            <Row $gap="1.5rem" $wrap>
-              <Field label="Com ícone esquerda" style={{ maxWidth: 280 }}>
-                <Input placeholder="contato@empresa.com" leftIcon={<Mail size={15} />} />
+            <Row $gap="var(--value-1-5rem)" $wrap>
+              <Field label="Com ícone esquerda" style={{ maxWidth: "var(--size-280)" }}>
+                <Input placeholder="contato@empresa.com" leftIcon={<Mail size="var(--size-15)" />} />
               </Field>
-              <Field label="Com ícone busca" style={{ maxWidth: 280 }}>
-                <Input placeholder="Buscar solução…" leftIcon={<Search size={15} />} />
+              <Field label="Com ícone busca" style={{ maxWidth: "var(--size-280)" }}>
+                <Input placeholder="Buscar solução…" leftIcon={<Search size="var(--size-15)" />} />
               </Field>
-              <Field label="Senha" style={{ maxWidth: 280 }}>
+              <Field label="Senha" style={{ maxWidth: "var(--size-280)" }}>
                 <Input
                   type={showPass ? "text" : "password"}
                   value={password}
@@ -736,8 +737,8 @@ export default function StyleGuide() {
 
           <Sub>Select</Sub>
           <Canvas>
-            <Row $gap="1.5rem" $wrap>
-              <Field label="Padrão" style={{ maxWidth: 260 }}>
+            <Row $gap="var(--value-1-5rem)" $wrap>
+              <Field label="Padrão" style={{ maxWidth: "var(--size-260)" }}>
                 <Select>
                   <option value="">Selecione uma opção</option>
                   <option>Sites & Sistemas Web</option>
@@ -745,16 +746,16 @@ export default function StyleGuide() {
                   <option>Softwares</option>
                 </Select>
               </Field>
-              <Field label="Em foco" style={{ maxWidth: 260 }}>
+              <Field label="Em foco" style={{ maxWidth: "var(--size-260)" }}>
                 <Select fieldState="focus" defaultValue="Sites & Sistemas Web">
                   <option>Sites & Sistemas Web</option>
                   <option>Apps Mobile</option>
                 </Select>
               </Field>
-              <Field label="Erro" error="Selecione um interesse" style={{ maxWidth: 260 }}>
+              <Field label="Erro" error="Selecione um interesse" style={{ maxWidth: "var(--size-260)" }}>
                 <Select fieldState="error"><option value="">Selecione</option></Select>
               </Field>
-              <Field label="Desabilitado" style={{ maxWidth: 260 }}>
+              <Field label="Desabilitado" style={{ maxWidth: "var(--size-260)" }}>
                 <Select disabled><option>Não disponível</option></Select>
               </Field>
             </Row>
@@ -762,22 +763,22 @@ export default function StyleGuide() {
 
           <Sub>Textarea</Sub>
           <Canvas>
-            <Row $gap="1.5rem" $wrap>
-              <Field label="Padrão" hint="Opcional" style={{ maxWidth: 360 }}>
+            <Row $gap="var(--value-1-5rem)" $wrap>
+              <Field label="Padrão" hint="Opcional" style={{ maxWidth: "var(--size-360)" }}>
                 <Textarea placeholder="Descreva sua necessidade…" />
               </Field>
-              <Field label="Erro" error="Mínimo de 10 caracteres" style={{ maxWidth: 360 }}>
+              <Field label="Erro" error="Mínimo de 10 caracteres" style={{ maxWidth: "var(--size-360)" }}>
                 <Textarea fieldState="error" defaultValue="ok" readOnly />
               </Field>
             </Row>
           </Canvas>
 
           <Sub>Formulário de contato completo</Sub>
-          <Canvas $pad="2rem" style={{ maxWidth: 460 }}>
-            <p style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontWeight: 800, fontSize: "1.125rem", color: "#0c1445", marginBottom: "1.5rem" }}>Entre em contato</p>
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.125rem" }}>
+          <Canvas $pad="var(--value-2rem)" style={{ maxWidth: "var(--size-460)" }}>
+            <p style={{ fontFamily: "var(--font-display)", fontWeight: "var(--font-weight-extrabold)", fontSize: "var(--value-1-125rem)", color: "var(--color-navy-950)", marginBottom: "var(--value-1-5rem)" }}>Entre em contato</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "var(--value-1-125rem)" }}>
               <Field label="Nome completo" required><Input placeholder="João Silva" /></Field>
-              <Field label="Telefone / WhatsApp" required><Input placeholder="(11) 99999-9999" leftIcon={<Phone size={15} />} /></Field>
+              <Field label="Telefone / WhatsApp" required><Input placeholder={siteContact.phoneDisplay} leftIcon={<Phone size="var(--size-15)" />} /></Field>
               <Field label="Interesse" required>
                 <Select>
                   <option value="">Selecione uma opção</option>
@@ -788,9 +789,9 @@ export default function StyleGuide() {
                 </Select>
               </Field>
               <Field label="Mensagem">
-                <Textarea placeholder="Descreva o que você precisa…" style={{ minHeight: 80 }} />
+                <Textarea placeholder="Descreva o que você precisa…" style={{ minHeight: "var(--size-80)" }} />
               </Field>
-              <Button size="lg" fullWidth leftIcon={<ArrowRight size={16} />}>Enviar mensagem</Button>
+              <Button size="lg" fullWidth leftIcon={<ArrowRight size="var(--size-16)" />}>Enviar mensagem</Button>
             </div>
           </Canvas>
         </DocSection>
@@ -807,14 +808,14 @@ export default function StyleGuide() {
 
           <Sub>Card genérico</Sub>
           <Canvas>
-            <Row $gap="1rem" $wrap>
-              <Card style={{ width: 220 }}>
-                <p style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontWeight: 700, color: "#0c1445", marginBottom: "0.5rem" }}>Card base</p>
-                <p style={{ fontSize: "0.85rem", color: "#4b5684" }}>Sem hover — para painéis e conteúdo estático.</p>
+            <Row $gap="var(--value-1rem)" $wrap>
+              <Card style={{ width: "var(--size-220)" }}>
+                <p style={{ fontFamily: "var(--font-display)", fontWeight: "var(--font-weight-bold)", color: "var(--color-navy-950)", marginBottom: "var(--value-0-5rem)" }}>Card base</p>
+                <p style={{ fontSize: "var(--value-0-85rem)", color: "var(--color-text-muted)" }}>Sem hover — para painéis e conteúdo estático.</p>
               </Card>
-              <Card hover style={{ width: 220 }}>
-                <p style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontWeight: 700, color: "#0c1445", marginBottom: "0.5rem" }}>Card com hover</p>
-                <p style={{ fontSize: "0.85rem", color: "#4b5684" }}>Passe o mouse para ver o efeito.</p>
+              <Card hover style={{ width: "var(--size-220)" }}>
+                <p style={{ fontFamily: "var(--font-display)", fontWeight: "var(--font-weight-bold)", color: "var(--color-navy-950)", marginBottom: "var(--value-0-5rem)" }}>Card com hover</p>
+                <p style={{ fontSize: "var(--value-0-85rem)", color: "var(--color-text-muted)" }}>Passe o mouse para ver o efeito.</p>
               </Card>
             </Row>
           </Canvas>
@@ -823,10 +824,10 @@ export default function StyleGuide() {
           <Canvas>
             <StateRow>
               {[
-                { id: "web",      gradient: "linear-gradient(135deg,#2563eb,#0891b2)", accent: "#2563eb", icon: <Globe size={22} color="white" />,     title: "Sites Web",     text: "Para quem quer ter presença online." },
-                { id: "mobile",   gradient: "linear-gradient(135deg,#0891b2,#0e7490)", accent: "#0891b2", icon: <Smartphone size={22} color="white" />, title: "Apps Mobile",   text: "App nativo iOS e Android." },
-                { id: "software", gradient: "linear-gradient(135deg,#7c3aed,#6d28d9)", accent: "#7c3aed", icon: <Monitor size={22} color="white" />,    title: "Softwares",     text: "Programas para Mac e Windows." },
-                { id: "local",    gradient: "linear-gradient(135deg,#059669,#047857)", accent: "#059669", icon: <Database size={22} color="white" />,   title: "Sist. Locais",  text: "Bancos de dados locais." },
+                { id: "web",      gradient: "linear-gradient(var(--value-135deg),var(--color-blue-600),var(--color-cyan-600))", accent: "var(--color-blue-600)", icon: <Globe size="var(--size-22)" color="var(--color-surface)" />,     title: "Sites Web",     text: "Para quem quer ter presença online." },
+                { id: "mobile",   gradient: "linear-gradient(var(--value-135deg),var(--color-cyan-600),var(--color-cyan-700))", accent: "var(--color-cyan-600)", icon: <Smartphone size="var(--size-22)" color="var(--color-surface)" />, title: "Apps Mobile",   text: "App nativo iOS e Android." },
+                { id: "software", gradient: "linear-gradient(var(--value-135deg),var(--color-purple-600),var(--color-purple-700))", accent: "var(--color-purple-600)", icon: <Monitor size="var(--size-22)" color="var(--color-surface)" />,    title: "Softwares",     text: "Programas para Mac e Windows." },
+                { id: "local",    gradient: "linear-gradient(var(--value-135deg),var(--color-green-500),var(--color-green-700))", accent: "var(--color-green-500)", icon: <Database size="var(--size-22)" color="var(--color-surface)" />,   title: "Sist. Locais",  text: "Bancos de dados locais." },
               ].map(c => (
                 <ServiceCard
                   key={c.id}
@@ -837,7 +838,7 @@ export default function StyleGuide() {
                   title={c.title}
                   text={c.text}
                   onClick={() => setServiceCard(c.id)}
-                  style={{ width: 210 }}
+                  style={{ width: "var(--size-210)" }}
                 />
               ))}
             </StateRow>
@@ -845,20 +846,20 @@ export default function StyleGuide() {
 
           <Sub>FeatureCard</Sub>
           <Canvas>
-            <Row $gap="1rem" $wrap>
+            <Row $gap="var(--value-1rem)" $wrap>
               {[
-                { icon: <Zap size={18} color="white" />, title: "Rápido e Seguro", text: "SSL incluso e hospedagem em nuvem com uptime de 99.9%." },
-                { icon: <Shield size={18} color="white" />, title: "Protegido", text: "Backup diário automático com recuperação em 1 clique." },
-                { icon: <Bell size={18} color="white" />, title: "Notificações", text: "Avise clientes por e-mail ou push no celular." },
+                { icon: <Zap size="var(--size-18)" color="var(--color-surface)" />, title: "Rápido e Seguro", text: "SSL incluso e hospedagem em nuvem com uptime de 99.9%." },
+                { icon: <Shield size="var(--size-18)" color="var(--color-surface)" />, title: "Protegido", text: "Backup diário automático com recuperação em 1 clique." },
+                { icon: <Bell size="var(--size-18)" color="var(--color-surface)" />, title: "Notificações", text: "Avise clientes por e-mail ou push no celular." },
               ].map(c => (
-                <FeatureCard key={c.title} icon={c.icon} title={c.title} text={c.text} style={{ flex: 1, minWidth: 220 }} />
+                <FeatureCard key={c.title} icon={c.icon} title={c.title} text={c.text} style={{ flex: "var(--number-one)", minWidth: "var(--size-220)" }} />
               ))}
             </Row>
           </Canvas>
 
           <Sub>StepCard — clique para ativar</Sub>
           <Canvas>
-            <Row $gap="0.875rem" $wrap>
+            <Row $gap="var(--value-0-875rem)" $wrap>
               {[
                 { n: 0, step: "Passo 01", title: "Conversa inicial", text: "Conta pra gente o que você precisa, sem termos técnicos." },
                 { n: 1, step: "Passo 02", title: "Proposta clara",   text: "Preço fixo, prazo definido, sem surpresas no final." },
@@ -872,7 +873,7 @@ export default function StyleGuide() {
                   text={s.text}
                   state={activeStep === s.n ? "active" : "default"}
                   onClick={() => setActiveStep(s.n)}
-                  style={{ flex: 1, minWidth: 180 }}
+                  style={{ flex: "var(--number-one)", minWidth: "var(--size-180)" }}
                 />
               ))}
             </Row>
@@ -891,7 +892,7 @@ export default function StyleGuide() {
 
           <Sub>Toggle</Sub>
           <Canvas>
-            <Row $gap="2rem" $wrap $align="center">
+            <Row $gap="var(--value-2rem)" $wrap $align="center">
               <Toggle checked={toggleA} onChange={setToggleA} label="Notificações" />
               <Toggle checked={toggleB} onChange={setToggleB} label="Atualizações ativas" />
               <Toggle checked={true} onChange={() => {}} label="Bloqueado" disabled />
@@ -900,7 +901,7 @@ export default function StyleGuide() {
 
           <Sub>Checkbox</Sub>
           <Canvas>
-            <Row $gap="2rem" $wrap $align="center">
+            <Row $gap="var(--value-2rem)" $wrap $align="center">
               <Checkbox checked={checkA} onChange={setCheckA} label="Aceito os termos" />
               <Checkbox checked={checkB} onChange={setCheckB} label="Receber novidades" />
               <Checkbox checked={false} onChange={() => {}} indeterminate label="Selecionar todos" />
@@ -924,26 +925,26 @@ export default function StyleGuide() {
 
           <Sub>ProgressBar — interativa (clique nos botões)</Sub>
           <Canvas>
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "var(--value-1-5rem)" }}>
               <div>
-                <ProgressBar value={progress} max={100} height={6} showLabel labelPosition="above" />
-                <Row $gap="0.5rem" style={{ marginTop: "0.875rem" }}>
-                  <Button size="sm" variant="ghost" leftIcon={<Minus size={12} />} onClick={() => setProgress(Math.max(0, progress - 11))}>Voltar</Button>
-                  <Button size="sm" leftIcon={<Plus size={12} />} onClick={() => setProgress(Math.min(100, progress + 11))}>Próxima</Button>
+                <ProgressBar value={progress} max={100} height="var(--size-6)" showLabel labelPosition="above" />
+                <Row $gap="var(--value-0-5rem)" style={{ marginTop: "var(--value-0-875rem)" }}>
+                  <Button size="sm" variant="ghost" leftIcon={<Minus size="var(--size-12)" />} onClick={() => setProgress(Math.max(0, progress - 11))}>Voltar</Button>
+                  <Button size="sm" leftIcon={<Plus size="var(--size-12)" />} onClick={() => setProgress(Math.min(100, progress + 11))}>Próxima</Button>
                 </Row>
               </div>
-              <div><p style={{ fontSize: "0.72rem", fontWeight: 700, color: "#9ca3af", textTransform: "uppercase", marginBottom: "0.5rem" }}>Fina (2px)</p>
-                <ProgressBar value={progress} height={2} />
+              <div><p style={{ fontSize: "var(--value-0-72rem)", fontWeight: "var(--font-weight-bold)", color: "var(--color-gray-400)", textTransform: "uppercase", marginBottom: "var(--value-0-5rem)" }}>Fina (var(--value-2px))</p>
+                <ProgressBar value={progress} height="var(--size-2)" />
               </div>
-              <div><p style={{ fontSize: "0.72rem", fontWeight: 700, color: "#9ca3af", textTransform: "uppercase", marginBottom: "0.5rem" }}>Grossa (10px)</p>
-                <ProgressBar value={progress} height={10} />
+              <div><p style={{ fontSize: "var(--value-0-72rem)", fontWeight: "var(--font-weight-bold)", color: "var(--color-gray-400)", textTransform: "uppercase", marginBottom: "var(--value-0-5rem)" }}>Grossa (var(--value-10px))</p>
+                <ProgressBar value={progress} height="var(--radius-button)" />
               </div>
             </div>
           </Canvas>
 
           <Sub>StepProgress (indicador de etapas do Quiz)</Sub>
           <Canvas>
-            <Row $gap="1.5rem" $wrap $align="center">
+            <Row $gap="var(--value-1-5rem)" $wrap $align="center">
               {[0,1,2,3,4,5,6,7,8,9].map(n => (
                 <StateCol $center key={n}>
                   <StateLabel>{n}/9</StateLabel>
@@ -955,7 +956,7 @@ export default function StyleGuide() {
 
           <Sub>QuizOptionGroup — clique para selecionar</Sub>
           <Canvas>
-            <div style={{ maxWidth: 400 }}>
+            <div style={{ maxWidth: "var(--size-glow-small)" }}>
               <QuizOptionGroup
                 value={quizVal}
                 onChange={setQuizVal}
@@ -971,15 +972,15 @@ export default function StyleGuide() {
 
           <Sub>QuizOptionGroup — variantes por página</Sub>
           <Canvas>
-            <Row $gap="1.5rem" $wrap>
+            <Row $gap="var(--value-1-5rem)" $wrap>
               {[
-                { label: "Web (Blue)",     accent: "#2563eb", gradient: "linear-gradient(135deg,#2563eb,#1d4ed8)" },
-                { label: "Mobile (Cyan)",  accent: "#0891b2", gradient: "linear-gradient(135deg,#0891b2,#0e7490)" },
-                { label: "Software (Purple)", accent: "#7c3aed", gradient: "linear-gradient(135deg,#7c3aed,#6d28d9)" },
-                { label: "Local (Green)",  accent: "#059669", gradient: "linear-gradient(135deg,#059669,#047857)" },
+                { label: "Web (Blue)",     accent: "var(--color-blue-600)", gradient: "linear-gradient(var(--value-135deg),var(--color-blue-600),var(--color-blue-700))" },
+                { label: "Mobile (Cyan)",  accent: "var(--color-cyan-600)", gradient: "linear-gradient(var(--value-135deg),var(--color-cyan-600),var(--color-cyan-700))" },
+                { label: "Software (Purple)", accent: "var(--color-purple-600)", gradient: "linear-gradient(var(--value-135deg),var(--color-purple-600),var(--color-purple-700))" },
+                { label: "Local (Green)",  accent: "var(--color-green-500)", gradient: "linear-gradient(var(--value-135deg),var(--color-green-500),var(--color-green-700))" },
               ].map(o => (
-                <div key={o.label} style={{ flex: 1, minWidth: 200 }}>
-                  <p style={{ fontSize: "0.72rem", fontWeight: 700, color: "#9ca3af", textTransform: "uppercase", marginBottom: "0.75rem" }}>{o.label}</p>
+                <div key={o.label} style={{ flex: "var(--number-one)", minWidth: "var(--size-200)" }}>
+                  <p style={{ fontSize: "var(--value-0-72rem)", fontWeight: "var(--font-weight-bold)", color: "var(--color-gray-400)", textTransform: "uppercase", marginBottom: "var(--value-0-75rem)" }}>{o.label}</p>
                   <QuizOptionGroup
                     value="opcao1"
                     onChange={() => {}}
@@ -1002,81 +1003,81 @@ export default function StyleGuide() {
 
           <Sub>Navbar — modo simples</Sub>
           <NavDemo>
-            <NavLogoBox><Code2 size={16} color="white" /></NavLogoBox>
+            <NavLogoBox><Code2 size="var(--size-16)" color="var(--color-surface)" /></NavLogoBox>
             <NavBrand>OG Labs</NavBrand>
             {["Início","Sites & Web","Mobile","Softwares","Locais"].map((l, i) => (
               <NavLinkBtn key={l} $active={i === 0}>{l}</NavLinkBtn>
             ))}
-            <Button size="sm" variant="amber" style={{ borderRadius: 8 }}>🧮 Orçamento</Button>
+            <Button size="sm" variant="amber" style={{ borderRadius: "var(--radius-md)" }}>🧮 Orçamento</Button>
           </NavDemo>
 
           <Sub>Navbar — modo dropdown (logo verde)</Sub>
-          <NavDemo $gradient="linear-gradient(160deg,#0c1445,#1e3a8a)">
-            <NavLogoBox $dev><Code2 size={16} color="#41ff24" /></NavLogoBox>
+          <NavDemo $gradient="linear-gradient(var(--value-160deg),var(--color-navy-950),var(--color-blue-900))">
+            <NavLogoBox $dev><Code2 size="var(--size-16)" color="var(--color-dev)" /></NavLogoBox>
             <NavBrand>OG Labs</NavBrand>
             {["Início ▾","Sites ▾","Mobile ▾","Software ▾","Locais ▾"].map((l, i) => (
-              <NavLinkBtn key={l} $active={i === 2} style={i === 2 ? { color: "#41ff24" } : undefined}>{l}</NavLinkBtn>
+              <NavLinkBtn key={l} $active={i === 2} style={i === 2 ? { color: "var(--color-dev)" } : undefined}>{l}</NavLinkBtn>
             ))}
           </NavDemo>
 
           <Sub>Dropdown em foco</Sub>
-          <Canvas $dark $pad="1.5rem">
-            <Row $gap="1.5rem">
+          <Canvas $dark $pad="var(--value-1-5rem)">
+            <Row $gap="var(--value-1-5rem)">
               <div>
-                <p style={{ fontSize: "0.7rem", fontWeight: 700, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", marginBottom: "0.5rem" }}>Mobile</p>
+                <p style={{ fontSize: "var(--value-0-7rem)", fontWeight: "var(--font-weight-bold)", color: "var(--alpha-white-30)", textTransform: "uppercase", marginBottom: "var(--value-0-5rem)" }}>Mobile</p>
                 <DropdownBox>
-                  <DropdownItem $active><Smartphone size={13} /> App Nativo (iOS/Android)</DropdownItem>
+                  <DropdownItem $active><Smartphone size="var(--size-13)" /> App Nativo (iOS/Android)</DropdownItem>
                   <DropdownItem>Perfis de Usuário</DropdownItem>
                   <DropdownItem>Exemplos de Uso</DropdownItem>
                 </DropdownBox>
               </div>
               <div>
-                <p style={{ fontSize: "0.7rem", fontWeight: 700, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", marginBottom: "0.5rem" }}>Sites & Web</p>
+                <p style={{ fontSize: "var(--value-0-7rem)", fontWeight: "var(--font-weight-bold)", color: "var(--alpha-white-30)", textTransform: "uppercase", marginBottom: "var(--value-0-5rem)" }}>Sites & Web</p>
                 <DropdownBox>
-                  <DropdownItem $active><Globe size={13} /> Site Institucional</DropdownItem>
-                  <DropdownItem><Shield size={13} /> Sistema com Login</DropdownItem>
-                  <DropdownItem><Database size={13} /> Recursos Extras</DropdownItem>
+                  <DropdownItem $active><Globe size="var(--size-13)" /> Site Institucional</DropdownItem>
+                  <DropdownItem><Shield size="var(--size-13)" /> Sistema com Login</DropdownItem>
+                  <DropdownItem><Database size="var(--size-13)" /> Recursos Extras</DropdownItem>
                 </DropdownBox>
               </div>
             </Row>
           </Canvas>
 
           <Sub>Menu mobile — accordion (clique para expandir)</Sub>
-          <Canvas $dark $pad="1.25rem">
-            <div style={{ maxWidth: 360 }}>
+          <Canvas $dark $pad="var(--value-1-25rem)">
+            <div style={{ maxWidth: "var(--size-360)" }}>
               {NAV_ITEMS.map(m => (
                 <AccordionBlock key={m.id} $gradient={m.gradient}>
                   <AccordionHeader onClick={() => toggleAccordion(m.id)}>
                     {m.label}
-                    {accordions[m.id] ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                    {accordions[m.id] ? <ChevronUp size="var(--size-16)" /> : <ChevronDown size="var(--size-16)" />}
                   </AccordionHeader>
                   <AccordionLinks $open={!!accordions[m.id]}>
                     {m.links.map(l => <AccordionLink key={l} href="#">{l}</AccordionLink>)}
                   </AccordionLinks>
                 </AccordionBlock>
               ))}
-              <PillButton style={{ width: "100%", justifyContent: "center", marginTop: "1rem" }}>
+              <PillButton style={{ width: "var(--percent-full)", justifyContent: "center", marginTop: "var(--value-1rem)" }}>
                 🧮 Faça um Orçamento
               </PillButton>
             </div>
           </Canvas>
 
           <Sub>FloatingQuizBtn — animação de pulso</Sub>
-          <Canvas $bg="#e8edf7">
-            <Row $gap="2rem" $wrap $align="center">
-              <StateCol><StateLabel>Com pulso (loop 3s)</StateLabel><FloatingBtnDemo $pulse>🧮 Faça um Orçamento</FloatingBtnDemo></StateCol>
+          <Canvas $bg="var(--color-surface-subtle)">
+            <Row $gap="var(--value-2rem)" $wrap $align="center">
+              <StateCol><StateLabel>Com pulso (loop var(--value-3s))</StateLabel><FloatingBtnDemo $pulse>🧮 Faça um Orçamento</FloatingBtnDemo></StateCol>
               <StateCol><StateLabel>Sem pulso</StateLabel><FloatingBtnDemo>🧮 Faça um Orçamento</FloatingBtnDemo></StateCol>
             </Row>
           </Canvas>
 
           <Sub>Avatar — tamanhos e status</Sub>
           <Canvas>
-            <Row $gap="1.5rem" $wrap $align="center">
-              <Avatar initials="JK" size="xl" gradient="linear-gradient(135deg,#2563eb,#0891b2)" online={true} />
-              <Avatar initials="MS" size="lg" gradient="linear-gradient(135deg,#7c3aed,#5b21b6)" online="away" />
-              <Avatar initials="RT" size="md" gradient="linear-gradient(135deg,#059669,#047857)" online={false} />
-              <Avatar initials="CL" size="sm" gradient="linear-gradient(135deg,#f59e0b,#d97706)" />
-              <Avatar initials="OG" size="xs" gradient="linear-gradient(135deg,#dc2626,#b91c1c)" />
+            <Row $gap="var(--value-1-5rem)" $wrap $align="center">
+              <Avatar initials="JK" size="xl" gradient="linear-gradient(var(--value-135deg),var(--color-blue-600),var(--color-cyan-600))" online={true} />
+              <Avatar initials="MS" size="lg" gradient="linear-gradient(var(--value-135deg),var(--color-purple-600),var(--color-purple-800))" online="away" />
+              <Avatar initials="RT" size="md" gradient="linear-gradient(var(--value-135deg),var(--color-green-500),var(--color-green-700))" online={false} />
+              <Avatar initials="CL" size="sm" gradient="linear-gradient(var(--value-135deg),var(--color-amber-500),var(--color-amber-600))" />
+              <Avatar initials="OG" size="xs" gradient="linear-gradient(var(--value-135deg),var(--color-red-600),var(--color-red-700))" />
             </Row>
           </Canvas>
 
@@ -1085,12 +1086,12 @@ export default function StyleGuide() {
             <AvatarGroup
               size="md"
               avatars={[
-                { initials: "JK", gradient: "linear-gradient(135deg,#2563eb,#0891b2)" },
-                { initials: "MS", gradient: "linear-gradient(135deg,#7c3aed,#5b21b6)" },
-                { initials: "RT", gradient: "linear-gradient(135deg,#059669,#047857)" },
-                { initials: "CL", gradient: "linear-gradient(135deg,#f59e0b,#d97706)" },
-                { initials: "AA", gradient: "linear-gradient(135deg,#0891b2,#0e7490)" },
-                { initials: "BB", gradient: "linear-gradient(135deg,#dc2626,#b91c1c)" },
+                { initials: "JK", gradient: "linear-gradient(var(--value-135deg),var(--color-blue-600),var(--color-cyan-600))" },
+                { initials: "MS", gradient: "linear-gradient(var(--value-135deg),var(--color-purple-600),var(--color-purple-800))" },
+                { initials: "RT", gradient: "linear-gradient(var(--value-135deg),var(--color-green-500),var(--color-green-700))" },
+                { initials: "CL", gradient: "linear-gradient(var(--value-135deg),var(--color-amber-500),var(--color-amber-600))" },
+                { initials: "AA", gradient: "linear-gradient(var(--value-135deg),var(--color-cyan-600),var(--color-cyan-700))" },
+                { initials: "BB", gradient: "linear-gradient(var(--value-135deg),var(--color-red-600),var(--color-red-700))" },
               ]}
               max={4}
             />
@@ -1109,17 +1110,17 @@ export default function StyleGuide() {
 
           <Sub>Alert inline — 4 tipos</Sub>
           <Canvas>
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.625rem" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "var(--value-0-625rem)" }}>
               <Alert type="info" title="Informação">Seu orçamento foi gerado. Entre em contato para confirmar o projeto.</Alert>
               <Alert type="success" title="Mensagem enviada!">Recebemos seu contato e entraremos em até 24 horas no WhatsApp.</Alert>
               <Alert type="warning" title="Atenção">Preencha todos os campos obrigatórios antes de continuar.</Alert>
-              <Alert type="error" title="Erro ao enviar" onClose={() => {}}>Não foi possível enviar. Tente novamente ou ligue para (11) 99999-9999.</Alert>
+              <Alert type="error" title="Erro ao enviar" onClose={() => {}}>Não foi possível enviar. Tente novamente ou ligue para {siteContact.phoneDisplay}.</Alert>
             </div>
           </Canvas>
 
           <Sub>Toast — notificações flutuantes</Sub>
-          <Canvas $bg="#e8edf7" $pad="2rem">
-            <Row $gap="1rem" $wrap>
+          <Canvas $bg="var(--color-surface-subtle)" $pad="var(--value-2rem)">
+            <Row $gap="var(--value-1rem)" $wrap>
               <Toast type="success" onClose={() => {}}>Orçamento enviado com sucesso!</Toast>
               <Toast type="error" onClose={() => {}}>Erro ao processar. Tente novamente.</Toast>
               <Toast type="info" onClose={() => {}}>Atualizando em segundo plano…</Toast>
@@ -1129,7 +1130,7 @@ export default function StyleGuide() {
           <Sub>EmptyState</Sub>
           <Canvas>
             <EmptyState
-              icon={<MessageSquare size={30} />}
+              icon={<MessageSquare size="var(--size-30)" />}
               title="Nenhuma mensagem ainda"
               text="Quando você enviar um orçamento, ele vai aparecer aqui."
               action={<Button variant="amber">🧮 Faça seu primeiro orçamento</Button>}
@@ -1153,31 +1154,31 @@ export default function StyleGuide() {
             </Thead>
             <Tbody>
               <Tr selected>
-                <Td><Row $align="center" $gap="0.625rem"><Avatar initials="JK" size="sm" /><strong>João K.</strong></Row></Td>
+                <Td><Row $align="center" $gap="var(--value-0-625rem)"><Avatar initials="JK" size="sm" /><strong>João K.</strong></Row></Td>
                 <Td><BadgeWeb>Sites Web</BadgeWeb></Td>
                 <Td><Badge variant="amber" dot>Em Proposta</Badge></Td>
                 <Td mono>R$ 3.500</Td>
                 <Td><Button size="sm" variant="ghost">Ver</Button></Td>
               </Tr>
               <Tr highlighted>
-                <Td><Row $align="center" $gap="0.625rem"><Avatar initials="MS" size="sm" gradient="linear-gradient(135deg,#059669,#047857)" /><strong>Maria S.</strong></Row></Td>
+                <Td><Row $align="center" $gap="var(--value-0-625rem)"><Avatar initials="MS" size="sm" gradient="linear-gradient(var(--value-135deg),var(--color-green-500),var(--color-green-700))" /><strong>Maria S.</strong></Row></Td>
                 <Td><BadgeMobile>Mobile</BadgeMobile></Td>
                 <Td><Badge variant="blue" dot>Em Progresso</Badge></Td>
                 <Td mono>R$ 8.000</Td>
                 <Td><Button size="sm" variant="ghost">Ver</Button></Td>
               </Tr>
               <Tr>
-                <Td><Row $align="center" $gap="0.625rem"><Avatar initials="RT" size="sm" gradient="linear-gradient(135deg,#7c3aed,#5b21b6)" /><strong>Ricardo T.</strong></Row></Td>
+                <Td><Row $align="center" $gap="var(--value-0-625rem)"><Avatar initials="RT" size="sm" gradient="linear-gradient(var(--value-135deg),var(--color-purple-600),var(--color-purple-800))" /><strong>Ricardo T.</strong></Row></Td>
                 <Td><BadgeSoftware>Software</BadgeSoftware></Td>
                 <Td><Badge variant="green" dot>Concluído</Badge></Td>
                 <Td mono>R$ 12.000</Td>
                 <Td><Button size="sm">Ver</Button></Td>
               </Tr>
               <Tr muted>
-                <Td><Row $align="center" $gap="0.625px"><Avatar initials="CL" size="sm" gradient="linear-gradient(135deg,#f59e0b,#d97706)" /><strong>Carla L.</strong></Row></Td>
+                <Td><Row $align="center" $gap="var(--value-0-625px)"><Avatar initials="CL" size="sm" gradient="linear-gradient(var(--value-135deg),var(--color-amber-500),var(--color-amber-600))" /><strong>Carla L.</strong></Row></Td>
                 <Td><BadgeLocal>Sistemas Locais</BadgeLocal></Td>
                 <Td><Badge variant="red" dot>Cancelado</Badge></Td>
-                <Td mono style={{ textDecoration: "line-through", opacity: 0.5 }}>R$ 5.000</Td>
+                <Td mono style={{ textDecoration: "line-through", opacity: "var(--opacity-50)" }}>R$ 5.000</Td>
                 <Td><Button size="sm" variant="ghost">Ver</Button></Td>
               </Tr>
             </Tbody>
@@ -1203,14 +1204,14 @@ export default function StyleGuide() {
           </ScaleTable>
 
           <Sub>SectionHeader — componente de cabeçalho de seção</Sub>
-          <Canvas $pad="3rem">
+          <Canvas $pad="var(--value-3rem)">
             <SectionHeader
               eyebrow="Soluções Digitais Completas"
               title="O certo para o seu negócio"
               subtitle="Do site mais simples ao sistema mais completo — sempre com linguagem clara, preço justo e suporte de verdade."
             />
           </Canvas>
-          <Canvas $dark $pad="3rem">
+          <Canvas $dark $pad="var(--value-3rem)">
             <SectionHeader
               eyebrow="OG Labs · Soluções"
               title="Seu negócio no mundo digital"
@@ -1237,14 +1238,14 @@ export default function StyleGuide() {
           <Sub>Accent — Cyan e Amber</Sub>
           <ColorGrid>
             {COLORS_ACCENT.map(c => (
-              <ColorTile key={c.hex}><Swatch $c={c.hex} $h={56} /><ColorInfo><ColorName>{c.name}</ColorName><ColorHex>{c.hex}</ColorHex><ColorToken>{c.token}</ColorToken></ColorInfo></ColorTile>
+              <ColorTile key={c.hex}><Swatch $c={c.hex} $h="var(--size-56)" /><ColorInfo><ColorName>{c.name}</ColorName><ColorHex>{c.hex}</ColorHex><ColorToken>{c.token}</ColorToken></ColorInfo></ColorTile>
             ))}
           </ColorGrid>
 
           <Sub>Semânticas</Sub>
           <ColorGrid>
             {COLORS_SEMANTIC.map(c => (
-              <ColorTile key={c.name}><Swatch $c={c.hex} $h={52} /><ColorInfo><ColorName>{c.name}</ColorName><ColorHex>{c.hex}</ColorHex><ColorToken>{c.token}</ColorToken></ColorInfo></ColorTile>
+              <ColorTile key={c.name}><Swatch $c={c.hex} $h="var(--size-52)" /><ColorInfo><ColorName>{c.name}</ColorName><ColorHex>{c.hex}</ColorHex><ColorToken>{c.token}</ColorToken></ColorInfo></ColorTile>
             ))}
           </ColorGrid>
         </DocSection>
@@ -1274,16 +1275,16 @@ export default function StyleGuide() {
 
           <Sub>Divider — variantes</Sub>
           <Canvas>
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-              <div><p style={{ fontSize: "0.72rem", fontWeight: 700, color: "#9ca3af", textTransform: "uppercase", marginBottom: "0.625rem" }}>Linha simples</p><Divider /></div>
-              <div><p style={{ fontSize: "0.72rem", fontWeight: 700, color: "#9ca3af", textTransform: "uppercase", marginBottom: "0.625rem" }}>Com gradiente</p><Divider gradient /></div>
-              <div><p style={{ fontSize: "0.72rem", fontWeight: 700, color: "#9ca3af", textTransform: "uppercase", marginBottom: "0.625rem" }}>Com label</p><Divider label="Ou" /></div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "var(--value-1-5rem)" }}>
+              <div><p style={{ fontSize: "var(--value-0-72rem)", fontWeight: "var(--font-weight-bold)", color: "var(--color-gray-400)", textTransform: "uppercase", marginBottom: "var(--value-0-625rem)" }}>Linha simples</p><Divider /></div>
+              <div><p style={{ fontSize: "var(--value-0-72rem)", fontWeight: "var(--font-weight-bold)", color: "var(--color-gray-400)", textTransform: "uppercase", marginBottom: "var(--value-0-625rem)" }}>Com gradiente</p><Divider gradient /></div>
+              <div><p style={{ fontSize: "var(--value-0-72rem)", fontWeight: "var(--font-weight-bold)", color: "var(--color-gray-400)", textTransform: "uppercase", marginBottom: "var(--value-0-625rem)" }}>Com label</p><Divider label="Ou" /></div>
             </div>
           </Canvas>
 
           <Sub>InlineCode e CodeBlock</Sub>
           <Canvas>
-            <p style={{ fontSize: "0.875rem", color: "#4b5684", marginBottom: "1rem" }}>
+            <p style={{ fontSize: "var(--value-0-875rem)", color: "var(--color-text-muted)", marginBottom: "var(--value-1rem)" }}>
               Importe com <InlineCode>{"import { Button } from '../components/ui'"}</InlineCode> e use o componente em qualquer página.
             </p>
             <CodeBlock>{`import { Button, Badge, Field, Input } from '../components/ui';
@@ -1302,7 +1303,7 @@ export function Contato() {
 
           <Sub>Ícones usados (lucide-react)</Sub>
           <Canvas>
-            <Row $gap="0.875rem" $wrap>
+            <Row $gap="var(--value-0-875rem)" $wrap>
               {ICONS.map(i => (
                 <IconBox key={i.label}>
                   <IconBubble>{i.icon}</IconBubble>
@@ -1314,8 +1315,8 @@ export function Contato() {
 
           <Sub>PageSection — wrapper de seção</Sub>
           <Canvas>
-            <p style={{ fontSize: "0.85rem", color: "#4b5684", marginBottom: "1rem" }}>
-              <InlineCode>{"<PageSection id=\"hero\" bg=\"#f7f9ff\">"}</InlineCode> aplica <InlineCode>padding: 5rem 1.5rem</InlineCode> com <InlineCode>max-width: 1366px</InlineCode> automático.
+            <p style={{ fontSize: "var(--value-0-85rem)", color: "var(--color-text-muted)", marginBottom: "var(--value-1rem)" }}>
+              <InlineCode>{"<PageSection id=\"hero\" bg=\"var(--color-background)\">"}</InlineCode> aplica <InlineCode>padding: var(--value-5rem) var(--value-1-5rem)</InlineCode> com <InlineCode>max-width: var(--value-1366px)</InlineCode> automático.
             </p>
             <CodeBlock>{`import { PageSection, SectionHeader } from '../components/ui';
 

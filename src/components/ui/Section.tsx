@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import styled from "styled-components";
+import { breakpoints } from "../../styles/breakpoints";
 
 // ─── SectionHeader ───────────────────────────────────────────────────────────────
 // Padrão: eyebrow + title + subtitle usado em todas as páginas do site
@@ -19,41 +20,41 @@ const Wrap = styled.div<{ $align: "left"|"center" }>`
 `;
 
 const Eyebrow = styled.p<{ $dark: boolean }>`
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--value-0-1em);
   text-transform: uppercase;
-  color: ${p => p.$dark ? "#60a5fa" : "#2563eb"};
+  color: ${p => p.$dark ? "var(--color-blue-400)" : "var(--color-blue-600)"};
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
 `;
 
 const EyebrowLine = styled.span<{ $dark: boolean }>`
   display: inline-block;
-  width: 20px;
-  height: 2px;
-  background: ${p => p.$dark ? "#60a5fa" : "#2563eb"};
-  border-radius: 2px;
+  width: var(--size-20);
+  height: var(--size-2);
+  background: ${p => p.$dark ? "var(--color-blue-400)" : "var(--color-blue-600)"};
+  border-radius: calc(var(--radius-sm) / 3);
   flex-shrink: 0;
 `;
 
 const Title = styled.h2<{ $dark: boolean }>`
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: clamp(1.6rem, 3vw, 2.25rem);
-  font-weight: 800;
-  color: ${p => p.$dark ? "white" : "#0c1445"};
-  letter-spacing: -0.025em;
-  margin-bottom: 0.75rem;
-  line-height: 1.15;
+  font-family: var(--font-display);
+  font-size: clamp(var(--value-1-6rem), var(--value-3vw), var(--value-2-25rem));
+  font-weight: var(--font-weight-extrabold);
+  color: ${p => p.$dark ? "var(--color-surface)" : "var(--color-navy-950)"};
+  letter-spacing: var(--value-neg-0-025em);
+  margin-bottom: var(--space-3);
+  line-height: var(--line-height-tight);
 `;
 
 const Subtitle = styled.p<{ $dark: boolean; $align: "left"|"center" }>`
-  font-size: 1.0625rem;
-  color: ${p => p.$dark ? "rgba(255,255,255,0.6)" : "#4b5684"};
-  line-height: 1.7;
-  max-width: ${p => p.$align === "center" ? "600px" : "none"};
+  font-size: var(--font-size-section-subtitle);
+  color: ${p => p.$dark ? "var(--alpha-white-60)" : "var(--color-text-muted)"};
+  line-height: var(--line-height-reading);
+  max-width: ${p => p.$align === "center" ? "var(--value-600px)" : "none"};
 `;
 
 export function SectionHeader({
@@ -92,16 +93,16 @@ export interface PageSectionProps {
 
 const SectionEl = styled.section<{ $bg?: string; $tight: boolean }>`
   background: ${p => p.$bg ?? "transparent"};
-  padding: ${p => p.$tight ? "3rem 12rem" : "5rem 1.5rem"};
+  padding: ${p => p.$tight ? "var(--value-3rem) var(--value-12rem)" : "var(--value-5rem) var(--value-1-5rem)"};
 
-  @media (max-width: 1280px) {
-    padding: ${p => p.$tight ? "2rem 1rem" : "3.5rem 1rem"};
+  @media (max-width: ${breakpoints.desktop}) {
+    padding: ${p => p.$tight ? "var(--value-2rem) var(--value-1rem)" : "var(--value-3-5rem) var(--value-1rem)"};
   }
 `;
 
 const SectionInner = styled.div`
-  // max-width: 1366px;
-  margin: 0 auto;
+  // max-width: var(--size-container);
+  margin: var(--number-zero) auto;
 `;
 
 export function PageSection({ children, id, bg, tight = false, ...rest }: PageSectionProps) {
@@ -124,37 +125,37 @@ export interface DividerProps {
 const DividerWrap = styled.div`
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--space-4);
 `;
 
 const Line = styled.div<{ $gradient: boolean }>`
-  flex: 1;
-  height: 1px;
+  flex: var(--number-one);
+  height: var(--size-1);
   background: ${p =>
     p.$gradient
-      ? "linear-gradient(90deg, transparent, rgba(29,78,216,0.25), transparent)"
-      : "rgba(29,78,216,0.1)"};
+      ? "linear-gradient(var(--value-90deg), transparent, var(--alpha-blue-25), transparent)"
+      : "var(--alpha-blue-10)"};
 `;
 
 const DividerLabel = styled.span`
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: #9ca3af;
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-400);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: var(--value-0-08em);
   white-space: nowrap;
 `;
 
 const PlainDivider = styled.div<{ $my: string }>`
-  height: 1px;
-  background: rgba(29,78,216,0.1);
+  height: var(--size-1);
+  background: var(--alpha-blue-10);
   margin: ${p => p.$my};
 `;
 
 export function Divider({ my = "0", gradient = false, label, className }: DividerProps) {
   if (label) {
     return (
-      <DividerWrap className={className} style={{ margin: my ? `${my} 0` : undefined }}>
+      <DividerWrap className={className} style={{ margin: my ? `${my} var(--number-zero)` : undefined }}>
         <Line $gradient={gradient} />
         <DividerLabel>{label}</DividerLabel>
         <Line $gradient={gradient} />
@@ -167,23 +168,23 @@ export function Divider({ my = "0", gradient = false, label, className }: Divide
 // ─── Code + CodeBlock ─────────────────────────────────────────────────────────────
 
 export const InlineCode = styled.code`
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
-  font-size: 0.78em;
-  background: #f0f4ff;
-  color: #1d4ed8;
-  padding: 0.1rem 0.4rem;
-  border-radius: 5px;
-  border: 1px solid rgba(29,78,216,0.1);
+  font-family: var(--font-mono);
+  font-size: var(--value-0-78em);
+  background: var(--color-surface-muted);
+  color: var(--color-blue-700);
+  padding: var(--space-0-4) var(--space-1-6);
+  border-radius: var(--radius-xs);
+  border: var(--value-1px) solid var(--alpha-blue-10);
 `;
 
 export const CodeBlock = styled.pre`
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
-  font-size: 0.78rem;
-  background: #0c1445;
-  color: #93c5fd;
-  padding: 1.25rem 1.5rem;
-  border-radius: 12px;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-caption);
+  background: var(--color-navy-950);
+  color: var(--color-blue-200);
+  padding: var(--space-5) var(--space-6);
+  border-radius: var(--radius-card-sm);
   overflow-x: auto;
-  line-height: 1.65;
-  margin: 0;
+  line-height: var(--line-height-looser);
+  margin: var(--space-0);
 `;

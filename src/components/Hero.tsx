@@ -20,50 +20,50 @@ interface HeroProps {
   animated?: boolean;
   fullHeight?: boolean;
   id?: string;
-  subtitleMaxWidth?: number;
-  titleMaxWidth?: number;
+  subtitleMaxWidth?: string;
+  titleMaxWidth?: string;
 }
 
 export const heroThemes = {
   home: {
     background:
-      "linear-gradient(160deg, #0c1445 0%, #0f2050 50%, #0a1930 100%)",
-    badgeBackground: "rgba(37, 99, 235, 0.2)",
-    badgeBorder: "rgba(37, 99, 235, 0.4)",
-    badgeColor: "#93c5fd",
-    titleAccent: "linear-gradient(90deg, #60a5fa, #0891b2)",
-    topGlow: "rgba(37, 99, 235, 0.15)",
-    bottomGlow: "rgba(8, 145, 178, 0.12)",
+      "linear-gradient(var(--value-160deg), var(--color-navy-950) var(--percent-0), var(--color-navy-900) var(--percent-half), var(--color-navy-850) var(--percent-full))",
+    badgeBackground: "var(--alpha-primary-20)",
+    badgeBorder: "var(--alpha-primary-40)",
+    badgeColor: "var(--color-blue-200)",
+    titleAccent: "linear-gradient(var(--value-90deg), var(--color-blue-400), var(--color-cyan-600))",
+    topGlow: "var(--alpha-blue-15)",
+    bottomGlow: "var(--alpha-cyan-12)",
   },
   web: {
-    background: "linear-gradient(160deg, #0c1445 0%, #1e3a8a 100%)",
-    badgeBackground: "rgba(37, 99, 235, 0.2)",
-    badgeBorder: "rgba(37, 99, 235, 0.4)",
-    badgeColor: "#93c5fd",
+    background: "linear-gradient(var(--value-160deg), var(--color-navy-950) var(--percent-0), var(--color-blue-900) var(--percent-full))",
+    badgeBackground: "var(--alpha-primary-20)",
+    badgeBorder: "var(--alpha-primary-40)",
+    badgeColor: "var(--color-blue-200)",
   },
   mobile: {
-    background: "linear-gradient(160deg, #0a1930 0%, #0e7490 100%)",
-    badgeBackground: "rgba(8, 145, 178, 0.25)",
-    badgeBorder: "rgba(8, 145, 178, 0.45)",
-    badgeColor: "#7dd3fc",
+    background: "linear-gradient(var(--value-160deg), var(--color-navy-850) var(--percent-0), var(--color-cyan-700) var(--percent-full))",
+    badgeBackground: "var(--alpha-cyan-25)",
+    badgeBorder: "var(--alpha-cyan-45)",
+    badgeColor: "var(--color-cyan-300)",
   },
   software: {
-    background: "linear-gradient(160deg, #1e1040 0%, #5b21b6 100%)",
-    badgeBackground: "rgba(124, 58, 237, 0.25)",
-    badgeBorder: "rgba(124, 58, 237, 0.45)",
-    badgeColor: "#c4b5fd",
+    background: "linear-gradient(var(--value-160deg), var(--color-purple-900) var(--percent-0), var(--color-purple-800) var(--percent-full))",
+    badgeBackground: "var(--alpha-purple-25)",
+    badgeBorder: "var(--alpha-purple-45)",
+    badgeColor: "var(--color-purple-200)",
   },
   localSystems: {
-    background: "linear-gradient(160deg, #042c1e 0%, #059669 100%)",
-    badgeBackground: "rgba(5, 150, 105, 0.25)",
-    badgeBorder: "rgba(5, 150, 105, 0.5)",
-    badgeColor: "#6ee7b7",
+    background: "linear-gradient(var(--value-160deg), var(--color-navy-local) var(--percent-0), var(--color-green-500) var(--percent-full))",
+    badgeBackground: "var(--alpha-emerald-25)",
+    badgeBorder: "var(--alpha-green-50)",
+    badgeColor: "var(--color-green-200)",
   },
 } satisfies Record<string, HeroTheme>;
 
 const fadeUp = keyframes`
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: var(--number-zero); transform: translateY(var(--value-24px)); }
+  to { opacity: var(--number-one); transform: translateY(var(--number-zero)); }
 `;
 
 const Root = styled.section<{
@@ -74,8 +74,8 @@ const Root = styled.section<{
 }>`
   position: relative;
   display: flex;
-  min-height: ${(p) => (p.$fullHeight ? "100vh" : "auto")};
-  padding: 10rem 12rem 10rem;
+  min-height: ${(p) => (p.$fullHeight ? "var(--value-100vh)" : "auto")};
+  padding: var(--space-40) var(--space-48);
   overflow: hidden;
   flex-direction: column;
   align-items: center;
@@ -87,37 +87,37 @@ const Root = styled.section<{
   &::after {
     content: "";
     position: absolute;
-    border-radius: 50%;
+    border-radius: var(--radius-round);
     pointer-events: none;
   }
 
   &::before {
-    width: 600px;
-    height: 600px;
-    top: -150px;
-    right: -100px;
+    width: var(--size-glow-large);
+    height: var(--size-glow-large);
+    top: var(--value-neg-150px);
+    right: var(--value-neg-100px);
     background: radial-gradient(
       circle,
-      ${(p) => p.$topGlow ?? "transparent"} 0%,
-      transparent 70%
+      ${(p) => p.$topGlow ?? "transparent"} var(--percent-0),
+      transparent var(--percent-70)
     );
   }
 
   &::after {
-    width: 400px;
-    height: 400px;
-    bottom: 50px;
-    left: -50px;
+    width: var(--size-glow-small);
+    height: var(--size-glow-small);
+    bottom: var(--value-50px);
+    left: var(--value-neg-50px);
     background: radial-gradient(
       circle,
-      ${(p) => p.$bottomGlow ?? "transparent"} 0%,
-      transparent 70%
+      ${(p) => p.$bottomGlow ?? "transparent"} var(--percent-0),
+      transparent var(--percent-70)
     );
   }
 `;
 
 const animation = (delay: number) => css`
-  animation: ${fadeUp} 0.6s ${delay}s ease both;
+  animation: ${fadeUp} var(--value-0-6s) ${delay}s ease both;
 `;
 
 const Badge = styled.div<{
@@ -128,20 +128,20 @@ const Badge = styled.div<{
   $fullHeight: boolean;
 }>`
   position: relative;
-  z-index: 1;
+  z-index: var(--z-content);
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: ${(p) => (p.$fullHeight ? "2rem" : "1.5rem")};
-  padding: 0.375rem 1rem;
-  border: 1px solid ${(p) => p.$border};
-  border-radius: 100px;
+  gap: var(--space-2);
+  margin-bottom: ${(p) => (p.$fullHeight ? "var(--value-2rem)" : "var(--value-1-5rem)")};
+  padding: var(--space-1-5) var(--space-4);
+  border: var(--value-1px) solid ${(p) => p.$border};
+  border-radius: var(--radius-pill);
   background: ${(p) => p.$background};
   color: ${(p) => p.$color};
-  font-family: "Inter", sans-serif;
-  font-size: ${(p) => (p.$fullHeight ? "0.8rem" : "0.75rem")};
-  font-weight: ${(p) => (p.$fullHeight ? 600 : 700)};
-  letter-spacing: ${(p) => (p.$fullHeight ? "0.04em" : "0.06em")};
+  font-family: var(--font-body);
+  font-size: ${(p) => (p.$fullHeight ? "var(--value-0-8rem)" : "var(--value-0-75rem)")};
+  font-weight: ${(p) => (p.$fullHeight ? "var(--font-weight-semibold)" : "var(--font-weight-bold)")};
+  letter-spacing: ${(p) => (p.$fullHeight ? "var(--value-0-04em)" : "var(--value-0-06em)")};
   text-transform: uppercase;
   ${(p) => p.$animated && animation(0)}
 `;
@@ -150,19 +150,19 @@ const Title = styled.h1<{
   $accent?: string;
   $animated: boolean;
   $fullHeight: boolean;
-  $maxWidth: number;
+  $maxWidth: string;
 }>`
   position: relative;
-  z-index: 1;
-  max-width: ${(p) => p.$maxWidth}px;
-  margin: 0 auto 1.45rem;
-  color: white;
-  font-family: "Plus Jakarta Sans", sans-serif;
+  z-index: var(--z-content);
+  max-width: ${(p) => p.$maxWidth};
+  margin: var(--number-zero) auto var(--value-1-45rem);
+  color: var(--color-surface);
+  font-family: var(--font-display);
   font-size: ${(p) =>
-    p.$fullHeight ? "clamp(2.2rem, 6vw, 4rem)" : "clamp(2rem, 5vw, 3.5rem)"};
-  font-weight: 800;
-  letter-spacing: -0.025em;
-  line-height: 1.15;
+    p.$fullHeight ? "clamp(var(--value-2-2rem), var(--value-6vw), var(--value-4rem))" : "clamp(var(--value-2rem), var(--value-5vw), var(--value-3-5rem))"};
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: var(--value-neg-0-025em);
+  line-height: var(--line-height-tight);
   ${(p) => p.$animated && animation(0.1)}
 
   span {
@@ -176,27 +176,27 @@ const Title = styled.h1<{
 const Subtitle = styled.p<{
   $animated: boolean;
   $fullHeight: boolean;
-  $maxWidth: number;
+  $maxWidth: string;
 }>`
   position: relative;
-  z-index: 1;
-  max-width: ${(p) => p.$maxWidth}px;
-  margin: ${(p) => (p.$fullHeight ? "0.25rem auto 0" : "0 auto")};
-  color: rgba(255, 255, 255, 0.65);
-  font-family: "Inter", sans-serif;
-  font-size: ${(p) => (p.$fullHeight ? "1.125rem" : "1.1rem")};
-  line-height: 1.75;
+  z-index: var(--z-content);
+  max-width: ${(p) => p.$maxWidth};
+  margin: ${(p) => (p.$fullHeight ? "var(--value-0-25rem) auto var(--number-zero)" : "var(--number-zero) auto")};
+  color: var(--alpha-white-65);
+  font-family: var(--font-body);
+  font-size: ${(p) => (p.$fullHeight ? "var(--value-1-125rem)" : "var(--value-1-1rem)")};
+  line-height: var(--line-height-airy);
   ${(p) => p.$animated && animation(0.2)}
 `;
 
 const Actions = styled.div<{ $animated: boolean }>`
   position: relative;
-  z-index: 1;
+  z-index: var(--z-content);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1rem;
-  margin-top: 1.6rem;
+  gap: var(--space-4);
+  margin-top: var(--space-6-4);
   ${(p) => p.$animated && animation(0.3)}
 `;
 
@@ -207,10 +207,10 @@ export function Hero({
   fullHeight = false,
   id = "hero",
   subtitle,
-  subtitleMaxWidth = fullHeight ? 580 : 560,
+  subtitleMaxWidth = fullHeight ? "var(--size-580)" : "var(--max-width-content)",
   theme,
   title,
-  titleMaxWidth = fullHeight ? 760 : 700,
+  titleMaxWidth = fullHeight ? "var(--size-title-wide)" : "var(--size-content-wide)",
 }: HeroProps) {
   return (
     <Root

@@ -13,38 +13,38 @@ export interface ToggleProps {
 }
 
 const ToggleTrack = styled.div<{ $on: boolean; $disabled: boolean }>`
-  width: 44px;
-  height: 26px;
-  border-radius: 100px;
-  background: ${p => p.$on ? "linear-gradient(135deg,#2563eb,#1d4ed8)" : "#d1d5db"};
+  width: var(--size-44);
+  height: var(--size-26);
+  border-radius: var(--radius-pill);
+  background: ${p => p.$on ? "linear-gradient(var(--value-135deg),var(--color-blue-600),var(--color-blue-700))" : "var(--color-gray-300)"};
   position: relative;
   cursor: ${p => p.$disabled ? "not-allowed" : "pointer"};
-  opacity: ${p => p.$disabled ? 0.45 : 1};
-  transition: background 0.2s;
+  opacity: ${p => p.$disabled ? "var(--opacity-45)" : "var(--number-one)"};
+  transition: background var(--value-0-2s);
   flex-shrink: 0;
 `;
 
 const ToggleThumb = styled.div<{ $on: boolean }>`
   position: absolute;
-  top: 3px;
-  left: ${p => p.$on ? "21px" : "3px"};
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: white;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
-  transition: left 0.2s;
+  top: var(--value-3px);
+  left: ${p => p.$on ? "var(--value-21px)" : "var(--value-3px)"};
+  width: var(--size-20);
+  height: var(--size-20);
+  border-radius: var(--radius-round);
+  background: var(--color-surface);
+  box-shadow: var(--number-zero) var(--value-1px) var(--value-4px) var(--alpha-black-20);
+  transition: left var(--value-0-2s);
 `;
 
 const ToggleLabel = styled.span`
-  font-size: 0.875rem;
-  color: #0c1445;
+  font-size: var(--font-size-base-sm);
+  color: var(--color-navy-950);
 `;
 
 const ToggleWrap = styled.div`
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--space-3);
   user-select: none;
 `;
 
@@ -81,33 +81,33 @@ const CheckboxBox = styled.div<{
   $indeterminate: boolean;
   $disabled: boolean;
 }>`
-  width: 18px;
-  height: 18px;
-  border-radius: 5px;
-  border: 2px solid ${p => (p.$checked || p.$indeterminate) ? "#2563eb" : "#d1d5db"};
+  width: var(--size-18);
+  height: var(--size-18);
+  border-radius: var(--radius-xs);
+  border: var(--value-2px) solid ${p => (p.$checked || p.$indeterminate) ? "var(--color-blue-600)" : "var(--color-gray-300)"};
   background: ${p => (p.$checked || p.$indeterminate)
-    ? "linear-gradient(135deg,#2563eb,#1d4ed8)"
-    : "white"};
+    ? "linear-gradient(var(--value-135deg),var(--color-blue-600),var(--color-blue-700))"
+    : "var(--color-surface)"};
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: ${p => p.$disabled ? "not-allowed" : "pointer"};
-  opacity: ${p => p.$disabled ? 0.45 : 1};
-  transition: all 0.18s;
+  opacity: ${p => p.$disabled ? "var(--opacity-45)" : "var(--number-one)"};
+  transition: all var(--value-0-18s);
   flex-shrink: 0;
 `;
 
 const CheckboxWrap = styled.div`
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--space-3);
   cursor: pointer;
   user-select: none;
 `;
 
 const CheckboxLabelEl = styled.span`
-  font-size: 0.875rem;
-  color: #0c1445;
+  font-size: var(--font-size-base-sm);
+  color: var(--color-navy-950);
 `;
 
 export function Checkbox({
@@ -124,8 +124,8 @@ export function Checkbox({
       aria-checked={indeterminate ? "mixed" : checked}
     >
       <CheckboxBox $checked={checked} $indeterminate={indeterminate} $disabled={disabled}>
-        {indeterminate && !checked && <Minus size={11} color="white" strokeWidth={3} />}
-        {checked && <Check size={11} color="white" strokeWidth={3} />}
+        {indeterminate && !checked && <Minus size="var(--size-11)" color="var(--color-surface)" strokeWidth="var(--outline-focus)" />}
+        {checked && <Check size="var(--size-11)" color="var(--color-surface)" strokeWidth="var(--outline-focus)" />}
       </CheckboxBox>
       {label && <CheckboxLabelEl>{label}</CheckboxLabelEl>}
     </CheckboxWrap>
@@ -149,40 +149,40 @@ export interface RadioGroupProps<T extends string = string> {
 }
 
 const RadioBubble = styled.div<{ $checked: boolean; $disabled: boolean }>`
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  border: 2px solid ${p => p.$checked ? "#2563eb" : "#d1d5db"};
-  background: white;
+  width: var(--size-18);
+  height: var(--size-18);
+  border-radius: var(--radius-round);
+  border: var(--value-2px) solid ${p => p.$checked ? "var(--color-blue-600)" : "var(--color-gray-300)"};
+  background: var(--color-surface);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: ${p => p.$disabled ? "not-allowed" : "pointer"};
-  opacity: ${p => p.$disabled ? 0.45 : 1};
-  transition: all 0.18s;
+  opacity: ${p => p.$disabled ? "var(--opacity-45)" : "var(--number-one)"};
+  transition: all var(--value-0-18s);
   flex-shrink: 0;
 `;
 
 const RadioDot = styled.div`
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #2563eb;
+  width: var(--size-8);
+  height: var(--size-8);
+  border-radius: var(--radius-round);
+  background: var(--color-blue-600);
 `;
 
 const RadioWrap = styled.div`
   display: inline-flex;
   align-items: center;
-  gap: 0.625rem;
+  gap: var(--space-2-5);
   cursor: pointer;
   user-select: none;
 `;
 
 const RadioLabelEl = styled.span<{ $checked: boolean }>`
-  font-size: 0.875rem;
-  color: ${p => p.$checked ? "#0c1445" : "#4b5684"};
-  font-weight: ${p => p.$checked ? 600 : 400};
-  transition: all 0.15s;
+  font-size: var(--font-size-base-sm);
+  color: ${p => p.$checked ? "var(--color-navy-950)" : "var(--color-text-muted)"};
+  font-weight: ${p => p.$checked ? "var(--font-weight-semibold)" : "var(--font-weight-regular)"};
+  transition: all var(--value-0-15s);
 `;
 
 const GroupWrap = styled.div<{ $direction: "row" | "column"; $gap: string }>`
@@ -197,7 +197,7 @@ export function RadioGroup<T extends string>({
   onChange,
   options,
   direction = "row",
-  gap = "1.25rem",
+  gap = "var(--value-1-25rem)",
 }: RadioGroupProps<T>) {
   return (
     <GroupWrap $direction={direction} $gap={gap}>

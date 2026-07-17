@@ -28,29 +28,29 @@ interface FieldProps {
 const FieldWrap = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  width: 100%;
+  gap: var(--space-1-6);
+  width: var(--percent-full);
 `;
 
 const FieldLabelEl = styled.label`
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #0c1445;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-navy-950);
+  font-family: var(--font-display);
 `;
 
 const Required = styled.span`
-  color: #dc2626;
-  margin-left: 0.2rem;
+  color: var(--color-red-600);
+  margin-left: var(--space-0-8);
 `;
 
 const FieldHintEl = styled.p<{ $error?: boolean; $success?: boolean }>`
-  font-size: 0.75rem;
-  color: ${p => p.$error ? '#dc2626' : p.$success ? '#16a34a' : '#9ca3af'};
+  font-size: var(--font-size-label);
+  color: ${p => p.$error ? 'var(--color-red-600)' : p.$success ? 'var(--color-green-600)' : 'var(--color-gray-400)'};
   display: flex;
   align-items: center;
-  gap: 0.3rem;
-  margin: 0;
+  gap: var(--space-1-2);
+  margin: var(--space-0);
 `;
 
 export function Field({ label, hint, error, success, required, children, ...rest }: FieldProps) {
@@ -66,8 +66,8 @@ export function Field({ label, hint, error, success, required, children, ...rest
       {children}
       {msg && (
         <FieldHintEl $error={!!error} $success={!!success && !error}>
-          {error  && <AlertCircle   size={12} />}
-          {success && !error && <CheckCircle2 size={12} />}
+          {error  && <AlertCircle   size="var(--size-12)" />}
+          {success && !error && <CheckCircle2 size="var(--size-12)" />}
           {msg}
         </FieldHintEl>
       )}
@@ -92,8 +92,8 @@ const InputWrap = styled.div`
 
 const IconLeft = styled.div`
   position: absolute;
-  left: 0.875rem;
-  color: #9ca3af;
+  left: var(--value-0-875rem);
+  color: var(--color-gray-400);
   display: flex;
   align-items: center;
   pointer-events: none;
@@ -101,13 +101,13 @@ const IconLeft = styled.div`
 
 const IconRight = styled.div<{ $clickable?: boolean }>`
   position: absolute;
-  right: 0.875rem;
-  color: #9ca3af;
+  right: var(--value-0-875rem);
+  color: var(--color-gray-400);
   display: flex;
   align-items: center;
   cursor: ${p => p.$clickable ? "pointer" : "default"};
-  transition: color 0.2s;
-  &:hover { color: ${p => p.$clickable ? "#4b5684" : "#9ca3af"}; }
+  transition: color var(--value-0-2s);
+  &:hover { color: ${p => p.$clickable ? "var(--color-text-muted)" : "var(--color-gray-400)"}; }
 `;
 
 const StyledInput = styled.input<{
@@ -115,42 +115,42 @@ const StyledInput = styled.input<{
   $hasLeft: boolean;
   $hasRight: boolean;
 }>`
-  width: 100%;
-  padding-top: 0.625rem;
-  padding-bottom: 0.625rem;
-  padding-left: ${p => p.$hasLeft ? "2.5rem" : "0.875rem"};
-  padding-right: ${p => p.$hasRight ? "2.5rem" : "0.875rem"};
-  border-radius: 10px;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.875rem;
-  color: #0c1445;
+  width: var(--percent-full);
+  padding-top: var(--value-0-625rem);
+  padding-bottom: var(--value-0-625rem);
+  padding-left: ${p => p.$hasLeft ? "var(--value-2-5rem)" : "var(--value-0-875rem)"};
+  padding-right: ${p => p.$hasRight ? "var(--value-2-5rem)" : "var(--value-0-875rem)"};
+  border-radius: var(--radius-button);
+  font-family: var(--font-body);
+  font-size: var(--font-size-base-sm);
+  color: var(--color-navy-950);
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  background: white;
+  transition: border-color var(--value-0-2s), box-shadow var(--value-0-2s);
+  background: var(--color-surface);
 
-  &::placeholder { color: #9ca3af; }
+  &::placeholder { color: var(--color-gray-400); }
 
   ${p => (p.$state === "default" || p.$state === "focus") && css`
-    border: 1.5px solid ${p.$state === "focus" ? "#2563eb" : "#e2eaff"};
-    box-shadow: ${p.$state === "focus" ? "0 0 0 3px rgba(37,99,235,0.1)" : "none"};
+    border: var(--value-1-5px) solid ${p.$state === "focus" ? "var(--color-blue-600)" : "var(--color-border-input)"};
+    box-shadow: ${p.$state === "focus" ? "var(--number-zero) var(--number-zero) var(--number-zero) var(--value-3px) var(--alpha-primary-10)" : "none"};
     &:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+      border-color: var(--color-blue-600);
+      box-shadow: var(--number-zero) var(--number-zero) var(--number-zero) var(--value-3px) var(--alpha-primary-10);
     }
   `}
   ${p => p.$state === "error" && css`
-    border: 1.5px solid #dc2626;
-    box-shadow: 0 0 0 3px rgba(220,38,38,0.08);
-    &:focus { border-color: #dc2626; box-shadow: 0 0 0 3px rgba(220,38,38,0.1); }
+    border: var(--value-1-5px) solid var(--color-red-600);
+    box-shadow: var(--number-zero) var(--number-zero) var(--number-zero) var(--value-3px) var(--alpha-red-08);
+    &:focus { border-color: var(--color-red-600); box-shadow: var(--number-zero) var(--number-zero) var(--number-zero) var(--value-3px) var(--alpha-red-10); }
   `}
   ${p => p.$state === "success" && css`
-    border: 1.5px solid #16a34a;
-    box-shadow: 0 0 0 3px rgba(22,163,74,0.08);
+    border: var(--value-1-5px) solid var(--color-green-600);
+    box-shadow: var(--number-zero) var(--number-zero) var(--number-zero) var(--value-3px) var(--alpha-green-08);
   `}
   ${p => p.$state === "disabled" && css`
-    border: 1.5px solid #e5e7eb;
-    background: #f9fafb;
-    color: #9ca3af;
+    border: var(--value-1-5px) solid var(--color-gray-200);
+    background: var(--color-gray-50);
+    color: var(--color-gray-400);
     cursor: not-allowed;
   `}
 `;
@@ -185,36 +185,36 @@ export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 }
 
 const StyledSelect = styled.select<{ $state: FieldState }>`
-  width: 100%;
-  padding: 0.625rem 2.25rem 0.625rem 0.875rem;
-  border-radius: 10px;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.875rem;
-  color: #0c1445;
+  width: var(--percent-full);
+  padding: var(--space-2-5) var(--space-9) var(--space-2-5) var(--space-3-5);
+  border-radius: var(--radius-button);
+  font-family: var(--font-body);
+  font-size: var(--font-size-base-sm);
+  color: var(--color-navy-950);
   outline: none;
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 0.875rem center;
-  background-color: white;
+  background-position: right var(--value-0-875rem) center;
+  background-color: var(--color-surface);
   cursor: pointer;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color var(--value-0-2s), box-shadow var(--value-0-2s);
 
   ${p => (p.$state === "default" || p.$state === "focus") && css`
-    border: 1.5px solid ${p.$state === "focus" ? "#2563eb" : "#e2eaff"};
-    box-shadow: ${p.$state === "focus" ? "0 0 0 3px rgba(37,99,235,0.1)" : "none"};
-    &:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+    border: var(--value-1-5px) solid ${p.$state === "focus" ? "var(--color-blue-600)" : "var(--color-border-input)"};
+    box-shadow: ${p.$state === "focus" ? "var(--number-zero) var(--number-zero) var(--number-zero) var(--value-3px) var(--alpha-primary-10)" : "none"};
+    &:focus { border-color: var(--color-blue-600); box-shadow: var(--number-zero) var(--number-zero) var(--number-zero) var(--value-3px) var(--alpha-primary-10); }
   `}
   ${p => p.$state === "error" && css`
-    border: 1.5px solid #dc2626;
-    box-shadow: 0 0 0 3px rgba(220,38,38,0.08);
+    border: var(--value-1-5px) solid var(--color-red-600);
+    box-shadow: var(--number-zero) var(--number-zero) var(--number-zero) var(--value-3px) var(--alpha-red-08);
   `}
   ${p => p.$state === "disabled" && css`
-    border: 1.5px solid #e5e7eb;
-    background-color: #f9fafb;
-    color: #9ca3af;
+    border: var(--value-1-5px) solid var(--color-gray-200);
+    background-color: var(--color-gray-50);
+    color: var(--color-gray-400);
     cursor: not-allowed;
-    opacity: 0.65;
+    opacity: var(--opacity-65);
   `}
 `;
 
@@ -238,32 +238,32 @@ export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElemen
 }
 
 const StyledTextarea = styled.textarea<{ $state: FieldState }>`
-  width: 100%;
-  padding: 0.75rem 0.875rem;
-  border-radius: 10px;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.875rem;
-  color: #0c1445;
+  width: var(--percent-full);
+  padding: var(--space-3) var(--space-3-5);
+  border-radius: var(--radius-button);
+  font-family: var(--font-body);
+  font-size: var(--font-size-base-sm);
+  color: var(--color-navy-950);
   outline: none;
   resize: vertical;
-  min-height: 96px;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  background: white;
-  line-height: 1.6;
+  min-height: var(--size-96);
+  transition: border-color var(--value-0-2s), box-shadow var(--value-0-2s);
+  background: var(--color-surface);
+  line-height: var(--line-height-loose);
 
-  &::placeholder { color: #9ca3af; }
+  &::placeholder { color: var(--color-gray-400); }
 
   ${p => (p.$state === "default" || p.$state === "focus") && css`
-    border: 1.5px solid ${p.$state === "focus" ? "#2563eb" : "#e2eaff"};
-    box-shadow: ${p.$state === "focus" ? "0 0 0 3px rgba(37,99,235,0.1)" : "none"};
-    &:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+    border: var(--value-1-5px) solid ${p.$state === "focus" ? "var(--color-blue-600)" : "var(--color-border-input)"};
+    box-shadow: ${p.$state === "focus" ? "var(--number-zero) var(--number-zero) var(--number-zero) var(--value-3px) var(--alpha-primary-10)" : "none"};
+    &:focus { border-color: var(--color-blue-600); box-shadow: var(--number-zero) var(--number-zero) var(--number-zero) var(--value-3px) var(--alpha-primary-10); }
   `}
-  ${p => p.$state === "error" && css`border: 1.5px solid #dc2626; box-shadow: 0 0 0 3px rgba(220,38,38,0.08);`}
-  ${p => p.$state === "success" && css`border: 1.5px solid #16a34a;`}
+  ${p => p.$state === "error" && css`border: var(--value-1-5px) solid var(--color-red-600); box-shadow: var(--number-zero) var(--number-zero) var(--number-zero) var(--value-3px) var(--alpha-red-08);`}
+  ${p => p.$state === "success" && css`border: var(--value-1-5px) solid var(--color-green-600);`}
   ${p => p.$state === "disabled" && css`
-    border: 1.5px solid #e5e7eb;
-    background: #f9fafb;
-    color: #9ca3af;
+    border: var(--value-1-5px) solid var(--color-gray-200);
+    background: var(--color-gray-50);
+    color: var(--color-gray-400);
     cursor: not-allowed;
   `}
 `;

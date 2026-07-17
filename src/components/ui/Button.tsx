@@ -16,10 +16,10 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   rightIcon?: React.ReactNode;
 }
 
-const spin = keyframes`from{transform:rotate(0deg)}to{transform:rotate(360deg)}`;
+const spin = keyframes`from{transform:rotate(var(--value-0deg))}to{transform:rotate(var(--value-360deg))}`;
 
 const Spinner = styled(Loader2)`
-  animation: ${spin} 0.75s linear infinite;
+  animation: ${spin} var(--value-0-75s) linear infinite;
   flex-shrink: 0;
 `;
 
@@ -31,80 +31,80 @@ const StyledButton = styled.button<{
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
+  gap: var(--space-1-6);
   border: none;
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  border-radius: 10px;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--radius-button);
   cursor: pointer;
-  transition: opacity 0.18s, transform 0.18s, box-shadow 0.18s;
-  width: ${p => p.$fullWidth ? "100%" : "auto"};
+  transition: opacity var(--value-0-18s), transform var(--value-0-18s), box-shadow var(--value-0-18s);
+  width: ${p => p.$fullWidth ? "var(--percent-full)" : "auto"};
   outline: none;
   position: relative;
   white-space: nowrap;
   text-decoration: none;
 
   /* sizes */
-  ${p => p.$size === "sm" && css`padding: 0.375rem 0.875rem; font-size: 0.78rem;`}
-  ${p => p.$size === "md" && css`padding: 0.625rem 1.25rem; font-size: 0.875rem;`}
-  ${p => p.$size === "lg" && css`padding: 0.875rem 1.75rem; font-size: 1rem;`}
+  ${p => p.$size === "sm" && css`padding: var(--space-1-5) var(--space-3-5); font-size: var(--font-size-caption);`}
+  ${p => p.$size === "md" && css`padding: var(--space-2-5) var(--space-5); font-size: var(--font-size-base-sm);`}
+  ${p => p.$size === "lg" && css`padding: var(--space-3-5) var(--space-7); font-size: var(--font-size-body);`}
 
   /* variants */
   ${p => p.$variant === "primary" && css`
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
-    color: white;
-    box-shadow: 0 2px 8px rgba(37,99,235,0.25);
+    background: linear-gradient(var(--value-135deg), var(--color-blue-600), var(--color-blue-700));
+    color: var(--color-surface);
+    box-shadow: var(--number-zero) var(--value-2px) var(--value-8px) var(--alpha-primary-25);
   `}
   ${p => p.$variant === "secondary" && css`
-    background: #eff6ff;
-    color: #1e40af;
-    border: 1.5px solid #bfdbfe;
+    background: var(--color-blue-50);
+    color: var(--color-blue-800);
+    border: var(--value-1-5px) solid var(--color-blue-200);
   `}
   ${p => p.$variant === "ghost" && css`
     background: transparent;
-    color: #4b5684;
-    border: 1.5px solid rgba(29,78,216,0.15);
+    color: var(--color-text-muted);
+    border: var(--value-1-5px) solid var(--alpha-blue-15);
   `}
   ${p => p.$variant === "danger" && css`
-    background: linear-gradient(135deg, #dc2626, #b91c1c);
-    color: white;
-    box-shadow: 0 2px 8px rgba(220,38,38,0.25);
+    background: linear-gradient(var(--value-135deg), var(--color-red-600), var(--color-red-700));
+    color: var(--color-surface);
+    box-shadow: var(--number-zero) var(--value-2px) var(--value-8px) var(--alpha-red-25);
   `}
   ${p => p.$variant === "amber" && css`
-    background: linear-gradient(135deg, #f59e0b, #d97706);
-    color: white;
-    box-shadow: 0 2px 8px rgba(245,158,11,0.3);
+    background: linear-gradient(var(--value-135deg), var(--color-amber-500), var(--color-amber-600));
+    color: var(--color-surface);
+    box-shadow: var(--number-zero) var(--value-2px) var(--value-8px) var(--alpha-amber-30);
   `}
   ${p => p.$variant === "cyan" && css`
-    background: linear-gradient(135deg, #0891b2, #0e7490);
-    color: white;
-    box-shadow: 0 2px 8px rgba(8,145,178,0.25);
+    background: linear-gradient(var(--value-135deg), var(--color-cyan-600), var(--color-cyan-700));
+    color: var(--color-surface);
+    box-shadow: var(--number-zero) var(--value-2px) var(--value-8px) var(--alpha-cyan-25);
   `}
   ${p => p.$variant === "green" && css`
-    background: linear-gradient(135deg, #16a34a, #15803d);
-    color: white;
-    box-shadow: 0 2px 8px rgba(22,163,74,0.25);
+    background: linear-gradient(var(--value-135deg), var(--color-green-600), var(--color-green-800));
+    color: var(--color-surface);
+    box-shadow: var(--number-zero) var(--value-2px) var(--value-8px) var(--alpha-green-25);
   `}
   ${p => p.$variant === "white" && css`
-    background: white;
-    color: #0c1445;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    background: var(--color-surface);
+    color: var(--color-navy-950);
+    box-shadow: var(--number-zero) var(--value-2px) var(--value-8px) var(--alpha-black-10);
   `}
 
   &:hover:not(:disabled) {
-    opacity: 0.88;
-    transform: translateY(-1px);
+    opacity: var(--opacity-88);
+    transform: translateY(var(--value-neg-1px));
   }
   &:active:not(:disabled) {
-    transform: scale(0.98);
-    opacity: 0.95;
+    transform: scale(var(--scale-pressed));
+    opacity: var(--opacity-95);
   }
   &:focus-visible {
-    outline: 2px solid #2563eb;
-    outline-offset: 2px;
+    outline: var(--value-2px) solid var(--color-blue-600);
+    outline-offset: var(--value-2px);
   }
   &:disabled {
-    opacity: 0.4;
+    opacity: var(--opacity-40);
     cursor: not-allowed;
     transform: none;
   }
@@ -144,17 +144,17 @@ Button.displayName = "Button";
 
 /* ── Pill variant (FloatingQuizBtn pattern) ── */
 export const PillButton = styled(StyledButton).attrs({ $variant: "amber", $size: "md", $fullWidth: false })`
-  border-radius: 100px;
-  padding: 0.875rem 1.375rem;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 700;
-  font-size: 0.9rem;
+  border-radius: var(--radius-pill);
+  padding: var(--space-3-5) var(--space-5-5);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-body-sm);
 `;
 
 /* ── Button group ── */
 export const ButtonGroup = styled.div<{ $gap?: string }>`
   display: inline-flex;
   flex-wrap: wrap;
-  gap: ${p => p.$gap || "0.75rem"};
+  gap: ${p => p.$gap || "var(--value-0-75rem)"};
   align-items: center;
 `;

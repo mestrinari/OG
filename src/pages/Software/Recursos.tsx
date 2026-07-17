@@ -3,32 +3,32 @@ import type { InfoCardItem } from "../../components/InfoCardGrid";
 
 export const connOptions: InfoCardItem[] = [
   {
-    icon: <WifiOff size={20} color="#7c3aed" />,
+    icon: <WifiOff size="var(--size-20)" color="var(--color-purple-600)" />,
     title: "Totalmente offline",
     description: "Funciona sem internet, dados ficam na máquina ou no servidor local.",
   },
   {
-    icon: <Wifi size={20} color="#7c3aed" />,
+    icon: <Wifi size="var(--size-20)" color="var(--color-purple-600)" />,
     title: "Com conexão",
     description: "Acessa dados na nuvem — qualquer computador com internet entra no sistema.",
   },
   {
-    icon: <Users size={20} color="#7c3aed" />,
+    icon: <Users size="var(--size-20)" color="var(--color-purple-600)" />,
     title: "Multiusuário",
     description: "Cada pessoa tem login próprio e permissões diferentes no sistema.",
   },
   {
-    icon: <Printer size={20} color="#7c3aed" />,
+    icon: <Printer size="var(--size-20)" color="var(--color-purple-600)" />,
     title: "Impressão e relatórios",
     description: "Emite relatórios, nota fiscal e integra com impressoras locais.",
   },
   {
-    icon: <Package size={20} color="#7c3aed" />,
+    icon: <Package size="var(--size-20)" color="var(--color-purple-600)" />,
     title: "Estoque e controle",
     description: "Controle de produtos, entradas, saídas e alertas de estoque mínimo.",
   },
   {
-    icon: <Laptop size={20} color="#7c3aed" />,
+    icon: <Laptop size="var(--size-20)" color="var(--color-purple-600)" />,
     title: "Windows, Mac ou Linux",
     description: "Desenvolvemos para qualquer sistema operacional.",
   },

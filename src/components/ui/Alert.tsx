@@ -9,10 +9,10 @@ export type AlertType = "info" | "success" | "warning" | "error";
 // ─── Alert (inline) ──────────────────────────────────────────────────────────────
 
 const ALERT_STYLES = {
-  info:    { bg: "#eff6ff", border: "#2563eb", color: "#1e3a8a", icon: Info },
-  success: { bg: "#f0fdf4", border: "#16a34a", color: "#14532d", icon: CheckCircle2 },
-  warning: { bg: "#fffbeb", border: "#f59e0b", color: "#78350f", icon: AlertTriangle },
-  error:   { bg: "#fef2f2", border: "#dc2626", color: "#7f1d1d", icon: AlertCircle },
+  info:    { bg: "var(--color-blue-50)", border: "var(--color-blue-600)", color: "var(--color-blue-900)", icon: Info },
+  success: { bg: "var(--color-green-50)", border: "var(--color-green-600)", color: "var(--color-green-800-alt)", icon: CheckCircle2 },
+  warning: { bg: "var(--color-amber-50)", border: "var(--color-amber-500)", color: "var(--color-amber-900)", icon: AlertTriangle },
+  error:   { bg: "var(--color-red-50)", border: "var(--color-red-600)", color: "var(--color-red-900)", icon: AlertCircle },
 };
 
 export interface AlertProps {
@@ -26,56 +26,56 @@ export interface AlertProps {
 const AlertWrap = styled.div<{ $type: AlertType }>`
   display: flex;
   align-items: flex-start;
-  gap: 0.75rem;
-  padding: 1rem 1.25rem;
-  border-radius: 12px;
-  border-left: 4px solid;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-card-sm);
+  border-left: var(--value-4px) solid;
   background: ${p => ALERT_STYLES[p.$type].bg};
   border-color: ${p => ALERT_STYLES[p.$type].border};
   color: ${p => ALERT_STYLES[p.$type].color};
 `;
 
 const AlertTitle = styled.p`
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 0.875rem;
-  font-weight: 700;
-  margin-bottom: 0.2rem;
+  font-family: var(--font-display);
+  font-size: var(--font-size-base-sm);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-0-8);
 `;
 
 const AlertBody = styled.p`
-  font-size: 0.82rem;
-  line-height: 1.55;
-  margin: 0;
-  opacity: 0.85;
+  font-size: var(--font-size-xs-plus);
+  line-height: var(--line-height-relaxed);
+  margin: var(--space-0);
+  opacity: var(--opacity-85);
 `;
 
-const AlertContent = styled.div`flex: 1;`;
+const AlertContent = styled.div`flex: var(--number-one);`;
 
 const CloseBtn = styled.button`
   background: none;
   border: none;
   cursor: pointer;
   color: inherit;
-  opacity: 0.5;
-  padding: 0;
+  opacity: var(--opacity-50);
+  padding: var(--space-0);
   display: flex;
   align-items: center;
-  transition: opacity 0.2s;
-  &:hover { opacity: 1; }
+  transition: opacity var(--value-0-2s);
+  &:hover { opacity: var(--number-one); }
 `;
 
 export function Alert({ type = "info", title, children, onClose, className }: AlertProps) {
   const { icon: Icon } = ALERT_STYLES[type];
   return (
     <AlertWrap $type={type} className={className}>
-      <Icon size={18} style={{ flexShrink: 0, marginTop: 1 }} />
+      <Icon size="var(--size-18)" style={{ flexShrink: "var(--number-zero)", marginTop: "var(--size-1)" }} />
       <AlertContent>
         {title && <AlertTitle>{title}</AlertTitle>}
         <AlertBody>{children}</AlertBody>
       </AlertContent>
       {onClose && (
         <CloseBtn onClick={onClose} aria-label="Fechar">
-          <X size={15} />
+          <X size="var(--size-15)" />
         </CloseBtn>
       )}
     </AlertWrap>
@@ -85,14 +85,14 @@ export function Alert({ type = "info", title, children, onClose, className }: Al
 // ─── Toast ───────────────────────────────────────────────────────────────────────
 
 const slideIn = keyframes`
-  from { opacity: 0; transform: translateY(12px) scale(0.97); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+  from { opacity: var(--number-zero); transform: translateY(var(--value-12px)) scale(var(--scale-enter)); }
+  to   { opacity: var(--number-one); transform: translateY(var(--number-zero)) scale(var(--number-one)); }
 `;
 
 const TOAST_STYLES = {
-  info:    { bg: "#0c1445", icon: Info,         iconColor: "#60a5fa" },
-  success: { bg: "#0c1445", icon: CheckCircle2, iconColor: "#4ade80" },
-  error:   { bg: "#dc2626", icon: AlertCircle,  iconColor: "#fca5a5" },
+  info:    { bg: "var(--color-navy-950)", icon: Info,         iconColor: "var(--color-blue-400)" },
+  success: { bg: "var(--color-navy-950)", icon: CheckCircle2, iconColor: "var(--color-green-300)" },
+  error:   { bg: "var(--color-red-600)", icon: AlertCircle,  iconColor: "var(--color-red-300)" },
 };
 
 export interface ToastProps {
@@ -105,47 +105,47 @@ export interface ToastProps {
 const ToastWrap = styled.div<{ $type: "info"|"success"|"error" }>`
   display: flex;
   align-items: center;
-  gap: 0.875rem;
-  padding: 0.875rem 1.125rem;
-  border-radius: 12px;
+  gap: var(--space-3-5);
+  padding: var(--space-3-5) var(--space-4-5);
+  border-radius: var(--radius-card-sm);
   background: ${p => TOAST_STYLES[p.$type].bg};
-  box-shadow: 0 8px 32px rgba(12,20,69,0.28);
-  min-width: 280px;
-  max-width: 400px;
-  animation: ${slideIn} 0.3s ease;
+  box-shadow: var(--number-zero) var(--value-8px) var(--value-32px) var(--alpha-navy-28);
+  min-width: var(--size-280);
+  max-width: var(--size-glow-small);
+  animation: ${slideIn} var(--value-0-3s) ease;
 `;
 
 const ToastText = styled.p`
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: white;
-  margin: 0;
-  flex: 1;
-  font-family: 'Inter', sans-serif;
+  font-size: var(--font-size-base-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-surface);
+  margin: var(--space-0);
+  flex: var(--number-one);
+  font-family: var(--font-body);
 `;
 
 const ToastClose = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  color: rgba(255,255,255,0.5);
-  padding: 0;
+  color: var(--alpha-white-50);
+  padding: var(--space-0);
   display: flex;
   align-items: center;
-  transition: color 0.2s;
+  transition: color var(--value-0-2s);
   flex-shrink: 0;
-  &:hover { color: white; }
+  &:hover { color: var(--color-surface); }
 `;
 
 export function Toast({ type = "info", children, onClose, className }: ToastProps) {
   const { icon: Icon, iconColor } = TOAST_STYLES[type];
   return (
     <ToastWrap $type={type} className={className}>
-      <Icon size={18} color={iconColor} style={{ flexShrink: 0 }} />
+      <Icon size="var(--size-18)" color={iconColor} style={{ flexShrink: "var(--number-zero)" }} />
       <ToastText>{children}</ToastText>
       {onClose && (
         <ToastClose onClick={onClose} aria-label="Fechar">
-          <X size={15} />
+          <X size="var(--size-15)" />
         </ToastClose>
       )}
     </ToastWrap>
@@ -167,34 +167,34 @@ const EmptyWrap = styled.div`
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 3.5rem 1rem;
+  padding: var(--space-14) var(--space-4);
 `;
 
 const EmptyIconBg = styled.div`
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: #eff6ff;
+  width: var(--size-72);
+  height: var(--size-72);
+  border-radius: var(--radius-round);
+  background: var(--color-blue-50);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.25rem;
-  color: #2563eb;
+  margin-bottom: var(--space-5);
+  color: var(--color-blue-600);
 `;
 
 const EmptyTitle = styled.p`
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 800;
-  font-size: 1.125rem;
-  color: #0c1445;
-  margin-bottom: 0.5rem;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-extrabold);
+  font-size: var(--font-size-body-lg);
+  color: var(--color-navy-950);
+  margin-bottom: var(--space-2);
 `;
 
 const EmptyText = styled.p`
-  font-size: 0.875rem;
-  color: #4b5684;
-  margin-bottom: 1.5rem;
-  max-width: 320px;
+  font-size: var(--font-size-base-sm);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-6);
+  max-width: var(--size-320);
 `;
 
 export function EmptyState({ icon, title, text, action, className }: EmptyStateProps) {

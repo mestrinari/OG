@@ -1,35 +1,37 @@
 import { useEffect } from "react";
 import styled, { keyframes, css } from "styled-components";
+import { breakpoints } from "../styles/breakpoints";
 import { ArrowRightToLine,  X, ArrowLeft, ArrowRight, CheckCircle2, MessageCircle, Activity, RotateCcw } from "lucide-react";
 import { useAppStore, type QuizAnswers } from "../store";
+import { createWhatsAppHref, siteText } from "../content/site";
 
 // ─── Animations ────────────────────────────────────────────────────────────────
 
 const fadeIn = keyframes`
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from { opacity: var(--number-zero); }
+  to   { opacity: var(--number-one); }
 `;
 
 const slideUp = keyframes`
-  from { opacity: 0; transform: translateY(32px) scale(0.97); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+  from { opacity: var(--number-zero); transform: translateY(var(--value-32px)) scale(var(--scale-enter)); }
+  to   { opacity: var(--number-one); transform: translateY(var(--number-zero)) scale(var(--number-one)); }
 `;
 
 const stepIn = keyframes`
-  from { opacity: 0; transform: translateX(24px); }
-  to   { opacity: 1; transform: translateX(0); }
+  from { opacity: var(--number-zero); transform: translateX(var(--value-24px)); }
+  to   { opacity: var(--number-one); transform: translateX(var(--number-zero)); }
 `;
 
 const pulse = keyframes`
-  0% { transform: scale(1); }
-  100% { transform: scale(1.05); }
+  0% { transform: scale(var(--number-one)); }
+  100% { transform: scale(var(--scale-pulse)); }
 `;
 
 const Card = styled.div<{ $active: boolean }>`
   ${({ $active }) =>
     $active &&
     css`
-      animation: ${pulse} 1s infinite;
+      animation: ${pulse} var(--value-1s) infinite;
     `}
 `;
 // ─── Overlay & Modal Shell ─────────────────────────────────────────────────────
@@ -37,326 +39,326 @@ const Card = styled.div<{ $active: boolean }>`
 const Overlay = styled.div`
   position: fixed;
   inset: 0;
-  background: rgba(10, 18, 50, 0.72);
-  backdrop-filter: blur(6px);
-  z-index: 200;
+  background: var(--alpha-overlay);
+  backdrop-filter: blur(var(--value-6px));
+  z-index: var(--z-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
-  animation: ${fadeIn} 0.2s ease;
+  padding: var(--space-4);
+  animation: ${fadeIn} var(--value-0-2s) ease;
 `;
 
 const Modal = styled.div`
-  background: white;
-  border-radius: 24px;
-  width: 100%;
-  max-width: 580px;
-  max-height: 90vh;
+  background: var(--color-surface);
+  border-radius: var(--radius-modal);
+  width: var(--percent-full);
+  max-width: var(--size-580);
+  max-height: var(--value-90vh);
   overflow-y: auto;
-  box-shadow: 0 32px 80px rgba(10, 18, 50, 0.35);
-  animation: ${slideUp} 0.3s ease;
+  box-shadow: var(--shadow-modal);
+  animation: ${slideUp} var(--value-0-3s) ease;
   position: relative;
 
-  &::-webkit-scrollbar { width: 0; }
+  &::-webkit-scrollbar { width: var(--space-0); }
 `;
 
 // ─── Header ────────────────────────────────────────────────────────────────────
 
 const ModalHeader = styled.div`
-  padding: 1.75rem 2rem 1.25rem;
-  border-bottom: 1px solid #f0f4ff;
+  padding: var(--space-7) var(--space-8) var(--space-5);
+  border-bottom: var(--value-1px) solid var(--color-surface-muted);
   position: sticky;
-  top: 0;
-  background: white;
-  z-index: 2;
-  border-radius: 24px 24px 0 0;
+  top: var(--space-0);
+  background: var(--color-surface);
+  z-index: var(--z-controls);
+  border-radius: var(--radius-modal) var(--radius-modal) 0 0;
 `;
 
 const HeaderTop = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.125rem;
+  margin-bottom: var(--space-4-5);
 `;
 
 const HeaderInfo = styled.div`
   display: flex;
   align-items: center;
-  gap: 1rem;
-  flex: 1;
+  gap: var(--space-4);
+  flex: var(--number-one);
 `;
 
 const HeaderLabel = styled.p`
-  font-family: 'Inter', sans-serif;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-family: var(--font-body);
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--value-0-08em);
   text-transform: uppercase;
-  color: #2563eb;
+  color: var(--color-blue-600);
 `;
 
 const CounterContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--space-3);
 `;
 
 const CounterBadge = styled.div<{ $highlight?: boolean }>`
   display: flex;
   align-items: center;
-  gap: 0.35rem;
-  background: ${(p) => (p.$highlight ? "#fef3c7" : "#f0fdf4")};
-  color: ${(p) => (p.$highlight ? "#b45309" : "#16a34a")};
-  border: 1px solid ${(p) => (p.$highlight ? "#fcd34d" : "#bbf7d0")};
-  padding: 0.35rem 0.75rem;
-  border-radius: 100px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 0.75rem;
+  gap: var(--space-1-4);
+  background: ${(p) => (p.$highlight ? "var(--color-amber-100)" : "var(--color-green-50)")};
+  color: ${(p) => (p.$highlight ? "var(--color-amber-700)" : "var(--color-green-600)")};
+  border: var(--value-1px) solid ${(p) => (p.$highlight ? "var(--color-amber-300)" : "var(--color-green-200-alt)")};
+  padding: var(--space-1-4) var(--space-3);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-size: var(--font-size-label);
 ${(p) =>
   p.$highlight &&
   css`
-    animation: ${pulse} 1.5s ease-in-out infinite;
+    animation: ${pulse} var(--value-1-5s) ease-in-out infinite;
   `}  
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 `;
 
 
 const ClearBtn = styled.button`
   display: flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.35rem 0.75rem;
-  border-radius: 8px;
-  border: 1px solid #fee2e2;
-  background: #fef2f2;
-  color: #dc2626;
+  gap: var(--space-1-4);
+  padding: var(--space-1-4) var(--space-3);
+  border-radius: var(--radius-md);
+  border: var(--value-1px) solid var(--color-red-100);
+  background: var(--color-red-50);
+  color: var(--color-red-600);
   cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.7rem;
-  font-weight: 600;
-  transition: all 0.2s;
+  font-family: var(--font-body);
+  font-size: var(--font-size-2xs);
+  font-weight: var(--font-weight-semibold);
+  transition: all var(--value-0-2s);
 
   &:hover {
-    background: #fecaca;
-    border-color: #fca5a5;
-    color: #991b1b;
+    background: var(--color-red-200);
+    border-color: var(--color-red-300);
+    color: var(--color-red-800);
   }
 
   &:active {
-    transform: scale(0.95);
+    transform: scale(var(--scale-selected));
   }
 `;
 const SkipBtn = styled.button`
   display: flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.35rem 0.75rem;
-  border-radius: 100px;
-  border: 1px solid #e2eaff;
-  background: white;
-  color: #4b5684;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.75rem;
-  font-weight: 600;
+  gap: var(--space-1-4);
+  padding: var(--space-1-4) var(--space-3);
+  border-radius: var(--radius-pill);
+  border: var(--value-1px) solid var(--color-border-input);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all var(--value-0-2s);
 
   &:hover {
-    background: #f0f4ff;
-    color: #0c1445;
+    background: var(--color-surface-muted);
+    color: var(--color-navy-950);
   }
 `;
 const CloseBtn = styled.button`
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+  width: var(--size-32);
+  height: var(--size-32);
+  border-radius: var(--radius-round);
   border: none;
-  background: #f0f4ff;
-  color: #4b5684;
+  background: var(--color-surface-muted);
+  color: var(--color-text-muted);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s;
+  transition: background var(--value-0-2s);
 
-  &:hover { background: #e2eaff; }
+  &:hover { background: var(--color-border-input); }
 `;
 
 const ProgressBar = styled.div`
-  height: 4px;
-  background: #e2eaff;
-  border-radius: 2px;
+  height: var(--size-4);
+  background: var(--color-border-input);
+  border-radius: calc(var(--radius-sm) / 3);
   overflow: hidden;
 `;
 
 const ProgressFill = styled.div<{ $pct: number }>`
-  height: 100%;
+  height: var(--percent-full);
   width: ${(p) => p.$pct}%;
-  background: linear-gradient(90deg, #2563eb, #0891b2);
-  border-radius: 2px;
-  transition: width 0.4s ease;
+  background: linear-gradient(var(--value-90deg), var(--color-blue-600), var(--color-cyan-600));
+  border-radius: calc(var(--radius-sm) / 3);
+  transition: width var(--value-0-4s) ease;
 `;
 
 const StepCount = styled.p`
-  font-family: 'Inter', sans-serif;
-  font-size: 0.78rem;
-  color: #717182;
-  margin-top: 0.5rem;
+  font-family: var(--font-body);
+  font-size: var(--font-size-caption);
+  color: var(--color-gray-500);
+  margin-top: var(--space-2);
 `;
 
 // ─── Question Body ─────────────────────────────────────────────────────────────
 
 const QuestionBody = styled.div`
-  padding: 2rem 2rem 1.5rem;
-  animation: ${stepIn} 0.3s ease;
+  padding: var(--space-8) var(--space-8) var(--space-6);
+  animation: ${stepIn} var(--value-0-3s) ease;
 `;
 
 const QuestionEmoji = styled.div`
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  line-height: 1;
+  font-size: var(--font-size-heading);
+  margin-bottom: var(--space-4);
+  line-height: var(--line-height-flat);
 `;
 
 const QuestionText = styled.h2`
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: #0c1445;
-  line-height: 1.3;
-  margin-bottom: 0.5rem;
+  font-family: var(--font-display);
+  font-size: var(--font-size-title-sm);
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-navy-950);
+  line-height: var(--line-height-card);
+  margin-bottom: var(--space-2);
 `;
 
 const QuestionHint = styled.p`
-  font-family: 'Inter', sans-serif;
-  font-size: 0.85rem;
-  color: #717182;
-  line-height: 1.6;
-  margin-bottom: 1.75rem;
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-500);
+  line-height: var(--line-height-loose);
+  margin-bottom: var(--space-7);
 `;
 
 // ─── Options ───────────────────────────────────────────────────────────────────
 
 const OptionsGrid = styled.div<{ $cols?: number }>`
   display: grid;
-  grid-template-columns: ${(p) => p.$cols === 2 ? "1fr 1fr" : "1fr"};
-  gap: 0.75rem;
+  grid-template-columns: ${(p) => p.$cols === 2 ? "var(--value-1fr) var(--value-1fr)" : "var(--value-1fr)"};
+  gap: var(--space-3);
 
-  @media (max-width: 480px) {
-    grid-template-columns: 1fr;
+  @media (max-width: ${breakpoints.mobile}) {
+    grid-template-columns: var(--value-1fr);
   }
 `;
 
 const OptionCard = styled.button<{ $selected: boolean }>`
   display: flex;
   align-items: flex-start;
-  gap: 0.875rem;
-  padding: 0.9rem 1.1rem;
-  border-radius: 12px;
-  border: 2px solid ${(p) => (p.$selected ? "#2563eb" : "#e8eef8")};
-  background: ${(p) => (p.$selected ? "#eff6ff" : "white")};
+  gap: var(--space-3-5);
+  padding: var(--space-3-6) var(--space-4-4);
+  border-radius: var(--radius-card-sm);
+  border: var(--value-2px) solid ${(p) => (p.$selected ? "var(--color-blue-600)" : "var(--color-border-soft)")};
+  background: ${(p) => (p.$selected ? "var(--color-blue-50)" : "var(--color-surface)")};
   cursor: pointer;
   text-align: left;
-  transition: all 0.18s;
+  transition: all var(--value-0-18s);
   position: relative;
 
   &:hover {
-    border-color: ${(p) => (p.$selected ? "#2563eb" : "#c7d9f5")};
-    background: ${(p) => (p.$selected ? "#eff6ff" : "#f8faff")};
-    transform: translateY(-1px);
+    border-color: ${(p) => (p.$selected ? "var(--color-blue-600)" : "var(--color-border-active)")};
+    background: ${(p) => (p.$selected ? "var(--color-blue-50)" : "var(--color-background-alt)")};
+    transform: translateY(var(--value-neg-1px));
   }
 
   ${(p) =>
     p.$selected &&
     css`
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+      box-shadow: var(--number-zero) var(--number-zero) var(--number-zero) var(--value-3px) var(--alpha-primary-12);
     `}
 `;
 
 const OptionEmoji = styled.span`
-  font-size: 1.4rem;
-  line-height: 1;
+  font-size: var(--font-size-icon-lg);
+  line-height: var(--line-height-flat);
   flex-shrink: 0;
-  margin-top: 1px;
+  margin-top: var(--size-1);
 `;
 
 const OptionContent = styled.div`
-  flex: 1;
+  flex: var(--number-one);
 `;
 
 const OptionTitle = styled.p<{ $selected: boolean }>`
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: ${(p) => (p.$selected ? "#1d4ed8" : "#0c1445")};
-  margin-bottom: 0.2rem;
-  line-height: 1.3;
+  font-family: var(--font-display);
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-bold);
+  color: ${(p) => (p.$selected ? "var(--color-blue-700)" : "var(--color-navy-950)")};
+  margin-bottom: var(--space-0-8);
+  line-height: var(--line-height-card);
 `;
 
 const OptionDesc = styled.p`
-  font-family: 'Inter', sans-serif;
-  font-size: 0.78rem;
-  color: #717182;
-  line-height: 1.5;
+  font-family: var(--font-body);
+  font-size: var(--font-size-caption);
+  color: var(--color-gray-500);
+  line-height: var(--line-height-normal);
 `;
 
 const OptionBadge = styled.span`
-  font-family: 'Inter', sans-serif;
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
+  font-family: var(--font-body);
+  font-size: var(--font-size-compact);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--value-0-05em);
   text-transform: uppercase;
-  padding: 0.15rem 0.5rem;
-  border-radius: 100px;
-  background: #dcfce7;
-  color: #166534;
+  padding: var(--space-0-6) var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--color-green-100);
+  color: var(--color-green-900);
   margin-left: auto;
   flex-shrink: 0;
   align-self: flex-start;
-  margin-top: 1px;
+  margin-top: var(--size-1);
 `;
 
 const CheckMark = styled.div<{ $visible: boolean }>`
   position: absolute;
-  top: 0.6rem;
-  right: 0.75rem;
-  opacity: ${(p) => (p.$visible ? 1 : 0)};
-  transition: opacity 0.2s;
-  color: #2563eb;
+  top: var(--value-0-6rem);
+  right: var(--value-0-75rem);
+  opacity: ${(p) => (p.$visible ? "var(--number-one)" : "var(--number-zero)")};
+  transition: opacity var(--value-0-2s);
+  color: var(--color-blue-600);
 `;
 
 // ─── Navigation ────────────────────────────────────────────────────────────────
 
 const NavRow = styled.div`
-  padding: 1rem 2rem 2rem;
+  padding: var(--space-4) var(--space-8) var(--space-8);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: var(--space-4);
 `;
 
 const BackBtn = styled.button`
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.625rem 1.125rem;
-  border-radius: 10px;
-  border: 1.5px solid #e2eaff;
-  background: white;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #4b5684;
+  gap: var(--space-1-6);
+  padding: var(--space-2-5) var(--space-4-5);
+  border-radius: var(--radius-button);
+  border: var(--value-1-5px) solid var(--color-border-input);
+  background: var(--color-surface);
+  font-family: var(--font-body);
+  font-size: var(--font-size-base-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-muted);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all var(--value-0-2s);
 
   &:hover {
-    border-color: #c7d9f5;
-    color: #0c1445;
+    border-color: var(--color-border-active);
+    color: var(--color-navy-950);
   }
 
   &:disabled {
-    opacity: 0.3;
+    opacity: var(--opacity-30);
     cursor: not-allowed;
   }
 `;
@@ -364,27 +366,27 @@ const BackBtn = styled.button`
 const NextBtn = styled.button`
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.625rem 1.375rem;
-  border-radius: 10px;
+  gap: var(--space-1-6);
+  padding: var(--space-2-5) var(--space-5-5);
+  border-radius: var(--radius-button);
   border: none;
-  background: linear-gradient(135deg, #2563eb, #0891b2);
-  font-family: 'Inter', sans-serif;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: white;
+  background: linear-gradient(var(--value-135deg), var(--color-blue-600), var(--color-cyan-600));
+  font-family: var(--font-body);
+  font-size: var(--font-size-base-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-surface);
   cursor: pointer;
-  transition: opacity 0.2s, transform 0.2s;
-  flex: 1;
+  transition: opacity var(--value-0-2s), transform var(--value-0-2s);
+  flex: var(--number-one);
   justify-content: center;
 
   &:hover:not(:disabled) {
-    opacity: 0.9;
-    transform: translateY(-1px);
+    opacity: var(--opacity-90);
+    transform: translateY(var(--value-neg-1px));
   }
 
   &:disabled {
-    opacity: 0.4;
+    opacity: var(--opacity-40);
     cursor: not-allowed;
   }
 `;
@@ -392,108 +394,108 @@ const NextBtn = styled.button`
 // ─── Result Screen ─────────────────────────────────────────────────────────────
 
 const ResultBody = styled.div`
-  padding: 2rem;
-  animation: ${stepIn} 0.3s ease;
+  padding: var(--space-8);
+  animation: ${stepIn} var(--value-0-3s) ease;
 `;
 
 const ResultEmoji = styled.div`
-  font-size: 3rem;
+  font-size: var(--font-size-display);
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: var(--space-4);
 `;
 
 const ResultTitle = styled.h2`
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: #0c1445;
+  font-family: var(--font-display);
+  font-size: var(--font-size-title);
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-navy-950);
   text-align: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--space-2);
 `;
 
 const ResultSubtitle = styled.p`
-  font-family: 'Inter', sans-serif;
-  font-size: 0.9rem;
-  color: #4b5684;
+  font-family: var(--font-body);
+  font-size: var(--font-size-body-sm);
+  color: var(--color-text-muted);
   text-align: center;
-  line-height: 1.65;
-  margin-bottom: 1.75rem;
+  line-height: var(--line-height-looser);
+  margin-bottom: var(--space-7);
 `;
 
 const ResultCard = styled.div`
-  background: #f0f4ff;
-  border-radius: 16px;
-  padding: 1.5rem;
-  margin-bottom: 1.25rem;
-  border: 1px solid rgba(37, 99, 235, 0.12);
+  background: var(--color-surface-muted);
+  border-radius: var(--radius-card);
+  padding: var(--space-6);
+  margin-bottom: var(--space-5);
+  border: var(--value-1px) solid var(--alpha-primary-12);
 `;
 
 const ResultCardTitle = styled.p`
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
+  font-family: var(--font-display);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--value-0-06em);
   text-transform: uppercase;
-  color: #2563eb;
-  margin-bottom: 0.75rem;
+  color: var(--color-blue-600);
+  margin-bottom: var(--space-3);
 `;
 
 const ResultList = styled.ul`
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--space-2);
 `;
 
 const ResultItem = styled.li`
   display: flex;
   align-items: flex-start;
-  gap: 0.5rem;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.875rem;
-  color: #0c1445;
-  line-height: 1.5;
+  gap: var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--font-size-base-sm);
+  color: var(--color-navy-950);
+  line-height: var(--line-height-normal);
 `;
 
 const PriceHint = styled.div`
-  background: linear-gradient(135deg, #0c1445, #1e3a8a);
-  border-radius: 12px;
-  padding: 1.125rem 1.375rem;
+  background: linear-gradient(var(--value-135deg), var(--color-navy-950), var(--color-blue-900));
+  border-radius: var(--radius-card-sm);
+  padding: var(--space-4-5) var(--space-5-5);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-6);
 
-  @media (max-width: 480px) {
+  @media (max-width: ${breakpoints.mobile}) {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: var(--space-2);
     text-align: center;
   }
 `;
 
 const PriceLabel = styled.p`
-  font-family: 'Inter', sans-serif;
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.6);
-  margin-bottom: 0.2rem;
+  font-family: var(--font-body);
+  font-size: var(--font-size-xs);
+  color: var(--alpha-white-60);
+  margin-bottom: var(--space-0-8);
 `;
 
 const PriceValue = styled.p`
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 800;
-  color: white;
+  font-family: var(--font-display);
+  font-size: var(--font-size-subtitle);
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-surface);
 `;
 
 const PriceBadge = styled.span`
-  font-family: 'Inter', sans-serif;
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: #7dd3fc;
-  background: rgba(125, 211, 252, 0.15);
-  border: 1px solid rgba(125, 211, 252, 0.3);
-  padding: 0.25rem 0.75rem;
-  border-radius: 100px;
+  font-family: var(--font-body);
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-cyan-300);
+  background: var(--alpha-sky-15);
+  border: var(--value-1px) solid var(--alpha-sky-30);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
   white-space: nowrap;
 `;
 
@@ -501,21 +503,21 @@ const WhatsAppBtn = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 1rem 1.5rem;
-  background: linear-gradient(135deg, #16a34a, #15803d);
-  color: white;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 700;
-  font-size: 1rem;
-  border-radius: 12px;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-6);
+  background: linear-gradient(var(--value-135deg), var(--color-green-600), var(--color-green-800));
+  color: var(--color-surface);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-body);
+  border-radius: var(--radius-card-sm);
   text-decoration: none;
-  transition: opacity 0.2s, transform 0.2s;
-  width: 100%;
+  transition: opacity var(--value-0-2s), transform var(--value-0-2s);
+  width: var(--percent-full);
 
   &:hover {
-    opacity: 0.92;
-    transform: translateY(-2px);
+    opacity: var(--opacity-92);
+    transform: translateY(var(--value-neg-2px));
   }
 `;
 
@@ -523,20 +525,20 @@ const RestartBtn = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
-  padding: 0.625rem;
+  gap: var(--space-1-6);
+  padding: var(--space-2-5);
   background: transparent;
   border: none;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.8rem;
-  color: #717182;
+  font-family: var(--font-body);
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-500);
   cursor: pointer;
-  width: 100%;
-  margin-top: 0.75rem;
-  transition: color 0.2s;
+  width: var(--percent-full);
+  margin-top: var(--space-3);
+  transition: color var(--value-0-2s);
 
   &:hover {
-    color: #0c1445;
+    color: var(--color-navy-950);
   }
 `;
 
@@ -1031,7 +1033,7 @@ function buildWhatsAppMessage(answers: QuizAnswers, profile: string): string {
     .filter(Boolean)
     .join("\n");
 
-  return encodeURIComponent(lines);
+  return lines;
 }
 
 // ─── Component ─────────────────────────────────────────────────────────────────
@@ -1165,31 +1167,31 @@ export default function QuizModal() {
               <CounterContainer>
               {hasFutureAnswers && (
                 <CounterBadge>
-                  <Activity size={12} />
+                  <Activity size="var(--size-12)" />
                   Até aqui: {currentStepScore}
                 </CounterBadge>
               )}
                 <CounterBadge $highlight={totalScore > currentStepScore}>
-                  <Activity size={12} />
+                  <Activity size="var(--size-12)" />
                   Total: {totalScore}
                 </CounterBadge>
               </CounterContainer>
             </HeaderInfo>
-            <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+            <div style={{ display: "flex", gap: "var(--space-2)", alignItems: "center" }}>
               {quizStep  < totalSteps && (
                     <SkipBtn onClick={handleEnd}>
                       Pular tudo
-                      <ArrowRightToLine size={12} />
+                      <ArrowRightToLine size="var(--size-12)" />
                     </SkipBtn>
                   )}
               {totalScore > 0 && (
                 <ClearBtn onClick={handleClearAll}>
-                  <RotateCcw size={12} />
+                  <RotateCcw size="var(--size-12)" />
                   Limpar
                 </ClearBtn>
               )}
               <CloseBtn onClick={closeQuiz} aria-label="Fechar">
-                <X size={15} />
+                <X size="var(--size-15)" />
               </CloseBtn>
             </div>
           </HeaderTop>
@@ -1231,7 +1233,7 @@ export default function QuizModal() {
                         <OptionBadge>{opt.badge}</OptionBadge>
                       )}
                       <CheckMark $visible={selected}>
-                        <CheckCircle2 size={16} />
+                        <CheckCircle2 size="var(--size-16)" />
                       </CheckMark>
                     </OptionCard>
                   );
@@ -1241,11 +1243,11 @@ export default function QuizModal() {
 
             <NavRow>
               <BackBtn onClick={handleBack} disabled={quizStep === 0}>
-                <ArrowLeft size={14} /> Voltar
+                <ArrowLeft size="var(--size-14)" /> Voltar
               </BackBtn>
               <NextBtn onClick={handleNext} disabled={!isAnswered}>
                 {quizStep === totalSteps - 1 ? "Ver resultado" : "Próxima"}
-                <ArrowRight size={14} />
+                <ArrowRight size="var(--size-14)" />
               </NextBtn>
             </NavRow>
           </>
@@ -1263,9 +1265,9 @@ export default function QuizModal() {
                 {result.features.map((f) => (
                   <ResultItem key={f}>
                     <CheckCircle2
-                      size={15}
-                      color="#2563eb"
-                      style={{ flexShrink: 0, marginTop: 2 }}
+                      size="var(--size-15)"
+                      color="var(--color-blue-600)"
+                      style={{ flexShrink: "var(--number-zero)", marginTop: "var(--size-2)" }}
                     />
                     {f}
                   </ResultItem>
@@ -1282,11 +1284,11 @@ export default function QuizModal() {
             </PriceHint>
 
             <WhatsAppBtn
-              href={`https://wa.me/5511999999999?text=${buildWhatsAppMessage(quizAnswers, result.profile)}`}
+              href={createWhatsAppHref(buildWhatsAppMessage(quizAnswers, result.profile))}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <MessageCircle size={18} /> Falar com a gente no WhatsApp
+              <MessageCircle size="var(--size-18)" /> {siteText.whatsappChatAction}
             </WhatsAppBtn>
 
             <RestartBtn onClick={handleRestart}>

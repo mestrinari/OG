@@ -5,7 +5,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { useEffect } from "react";
-import styled, { createGlobalStyle } from "styled-components";
+import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import QuizModal from "../components/QuizModal";
@@ -17,48 +17,15 @@ import Software from "../pages/Software/Software";
 import LocalSystems from "../pages/LocalSystems/LocalSystems";
 import StyleGuide from "../pages/StyleGuide";
 
-const GlobalStyle = createGlobalStyle`
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
-
-  body {
-    font-family: 'Inter', sans-serif;
-    background: #f7f9ff;
-    color: #0c1445;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-  }
-
-  ::-webkit-scrollbar {
-    width: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: rgba(29, 78, 216, 0.25);
-    border-radius: 3px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgba(29, 78, 216, 0.45);
-  }
-`;
-
 const PageWrap = styled.div`
-  min-height: 100vh;
+  min-height: var(--value-100vh);
   display: flex;
   flex-direction: column;
 `;
 
 const Main = styled.main`
-  flex: 1;
-  padding-top: 68px;
+  flex: var(--number-one);
+  padding-top: var(--size-navbar);
 `;
 
 function ScrollToTop() {
@@ -75,7 +42,6 @@ function ScrollToTop() {
 export default function App() {
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
-      <GlobalStyle />
       <ScrollToTop />
       <PageWrap>
         <Navbar />

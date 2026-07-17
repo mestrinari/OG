@@ -5,24 +5,24 @@ const actionStyles = css<{ $background?: string; $subtle?: boolean }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 0.875rem 1.75rem;
-  border: ${(p) => (p.$subtle ? "1px solid rgba(255,255,255,0.15)" : "none")};
-  border-radius: 10px;
+  gap: var(--space-2);
+  padding: var(--space-3-5) var(--space-7);
+  border: ${(p) => (p.$subtle ? "var(--value-1px) solid var(--alpha-white-15)" : "none")};
+  border-radius: var(--radius-button);
   background: ${(p) =>
-    p.$subtle ? "rgba(255,255,255,0.08)" : (p.$background ?? "linear-gradient(135deg, #2563eb, #0891b2)")};
-  color: white;
-  font-family: "Inter", sans-serif;
-  font-size: 0.95rem;
-  font-weight: 600;
+    p.$subtle ? "var(--alpha-white-08)" : (p.$background ?? "linear-gradient(var(--value-135deg), var(--color-blue-600), var(--color-cyan-600))")};
+  color: var(--color-surface);
+  font-family: var(--font-body);
+  font-size: var(--font-size-button);
+  font-weight: var(--font-weight-semibold);
   text-decoration: none;
   cursor: pointer;
-  transition: opacity 0.2s, transform 0.2s, background 0.2s;
+  transition: opacity var(--value-0-2s), transform var(--value-0-2s), background var(--value-0-2s);
 
   &:hover {
-    opacity: 0.9;
-    transform: translateY(-2px);
-    background: ${(p) => p.$subtle ? "rgba(255,255,255,0.14)" : undefined};
+    opacity: var(--opacity-90);
+    transform: translateY(var(--value-neg-2px));
+    background: ${(p) => p.$subtle ? "var(--alpha-white-14)" : undefined};
   }
 `;
 
