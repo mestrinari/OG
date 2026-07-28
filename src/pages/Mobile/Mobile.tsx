@@ -13,10 +13,62 @@ import { PillList } from "../../components/PillList";
 import { InfoCardGrid } from "../../components/InfoCardGrid";
 import { CtaBanner } from "../../components/CtaBanner";
 import { WhatsAppAction } from "../../components/ContactActions";
+import { useEffect } from "react";
 
 export default function Mobile() {
   const { highlightedId, highlightSection } = useSectionHighlight();
 
+  useEffect(() => {
+  const executarTesteApi = async () => {
+    const url = "https://teste-api.invalid/api/teste-api";
+
+    const payload = {
+      id: 999,
+      nome: "Teste API",
+      email: "teste-api@exemplo.com",
+      ativo: true,
+      origem: "componente-teste",
+      dataEnvio: new Date().toISOString(),
+      configuracao: {
+        registrarRequest: true,
+        registrarResponse: true,
+        provocarErro: true,
+      },
+    };
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer TOKEN_MOCK_TESTE_API_123456789",
+          "X-Api-Key": "API_KEY_MOCK_TESTE_API",
+          "X-Test-Request": "true",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const contentType = response.headers.get("content-type");
+
+      const data = contentType?.includes("application/json")
+        ? await response.json()
+        : await response.text();
+
+      if (!response.ok) {
+        throw new Error(
+          `Erro HTTP ${response.status}: ${response.statusText}`,
+        );
+      }
+
+      console.log("Teste de API concluído com sucesso:", data);
+    } catch (error) {
+      console.error("Erro na chamada de teste:", error);
+    }
+  };
+
+  void executarTesteApi();
+}, []);
   return (
     <>
       <Hero

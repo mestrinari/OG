@@ -1,0 +1,237 @@
+:host {
+  all: initial;
+  color-scheme: light;
+}
+
+.qa-package-standalone {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483645;
+  overflow: auto;
+  background: #f0f2f5;
+}
+
+.qa-package-standalone > .qa-devtools-app {
+  min-height: 100%;
+}
+
+.qa-package-launcher {
+  position: fixed;
+  /* right: 224px; */
+  /* bottom: 24px; */
+  z-index: 2147483646;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 0;
+  border-radius: 999px;
+  padding: 9px 15px 9px 0px;
+  background: #111827;
+  color: #fff;
+  box-shadow: 0 12px 34px #0f172a55;
+  cursor: pointer;
+}
+
+.qa-package-launcher.has-error {
+  background: #b91c1c;
+  box-shadow:
+    0 12px 34px #7f1d1d66,
+    0 0 0 3px #fecaca;
+  animation: qa-package-error-pulse 1.8s ease-in-out infinite;
+}
+
+.qa-package-launcher.has-error > span {
+  background: #7f1d1d;
+}
+
+.qa-package-launcher.has-existing-ticket {
+  background: #ca8a04;
+  color: #fff;
+  box-shadow:
+    0 12px 34px #854d0e55,
+    0 0 0 3px #fef08a;
+}
+
+.qa-package-launcher.has-existing-ticket > span {
+  background: #854d0e;
+}
+
+@keyframes qa-package-error-pulse {
+  50% {
+    box-shadow:
+      0 12px 34px #7f1d1d66,
+      0 0 0 7px #ef444433;
+  }
+}
+
+.qa-package-launcher > span,
+.qa-package-titlebar > div > span {
+  display: grid;
+  place-items: center;
+  min-width: 30px;
+  /* height: 30px; */
+  padding: 0 4px;
+  border-radius: 35%;
+  background: #2563eb;
+  color: #fff;
+  font-weight: 800;
+}
+
+.qa-package-launcher > strong {
+  font:
+    700 12px "DM Sans",
+    sans-serif;
+}
+
+.qa-package-window {
+  position: fixed;
+  z-index: 2147483645;
+  display: flex;
+  flex-direction: column;
+  width: min(1080px, calc(100vw - 48px));
+  height: min(760px, calc(100vh - 56px));
+  min-width: 480px;
+  min-height: 360px;
+  max-width: calc(100vw - 8px);
+  max-height: calc(100vh - 8px);
+  overflow: hidden;
+  resize: both;
+  border: 1px solid #334155;
+  border-radius: 14px;
+  background: #f5f7fa;
+  box-shadow: 0 24px 80px #0f172a66;
+  isolation: isolate;
+}
+
+.qa-package-titlebar {
+  height: 48px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 9px 7px 12px;
+  background: #0f172a;
+  color: #fff;
+  cursor: move;
+  touch-action: none;
+  user-select: none;
+}
+
+.qa-package-titlebar > div {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.qa-package-titlebar > div > span {
+  width: 29px;
+  height: 29px;
+}
+
+.qa-package-titlebar strong {
+  font:
+    700 13px "DM Sans",
+    sans-serif;
+}
+
+.qa-package-titlebar small {
+  font:
+    500 10px "DM Sans",
+    sans-serif;
+  color: #94a3b8;
+}
+
+.qa-package-close {
+  border: 1px solid #475569;
+  border-radius: 7px;
+  background: #1e293b;
+  color: #fff;
+  padding: 7px 10px;
+  font:
+    700 11px "DM Sans",
+    sans-serif;
+  cursor: pointer;
+}
+
+.qa-package-content {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  transform: translateZ(0);
+  contain: layout paint;
+}
+
+.qa-package-content .qa-devtools-app {
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0;
+  min-height: 0;
+}
+
+.qa-package-content .fixed {
+  position: fixed;
+}
+
+.qa-package-content > .app-shell {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.qa-package-content > .app-shell > .sidebar {
+  position: sticky;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.qa-package-content > .app-shell > .sidebar > nav {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.qa-package-content > .app-shell > main {
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.qa-package-window .floating-actions,
+.qa-package-window .alert {
+  position: absolute;
+}
+
+.qa-package-window .quick-ticket-backdrop,
+.qa-package-window .network-backdrop,
+.qa-package-window .console-debugger-backdrop {
+  position: absolute;
+}
+
+.qa-package-window .console-debugger-dialog {
+  max-height: calc(100% - 16px);
+}
+
+@media (max-width: 700px) {
+  .qa-package-launcher {
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .qa-package-window {
+    left: 4px !important;
+    top: 4px !important;
+    width: calc(100vw - 8px);
+    height: calc(100vh - 8px);
+    min-width: 0;
+    min-height: 300px;
+    border-radius: 9px;
+  }
+
+  .qa-package-titlebar small {
+    display: none;
+  }
+}

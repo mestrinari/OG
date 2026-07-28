@@ -1,9 +1,15 @@
 import { useEffect } from "react";
 import styled, { keyframes, css } from "styled-components";
 import { breakpoints } from "../styles/breakpoints";
-import { ArrowRightToLine,  X, ArrowLeft, ArrowRight, CheckCircle2, MessageCircle, Activity, RotateCcw } from "lucide-react";
+import { ArrowRightToLine,  X, ArrowLeft, ArrowRight, CheckCircle2, MessageCircle, Activity, RotateCcw, Image } from "lucide-react";
 import { useAppStore, type QuizAnswers } from "../store";
 import { createWhatsAppHref, siteText } from "../content/site";
+import man from "../assets/man.png"
+import pc from "../assets/pc.png"
+import cell from "../assets/cell.png"
+import web from "../assets/web.png"
+import paste from "../assets/paste.png"
+
 
 // ─── Animations ────────────────────────────────────────────────────────────────
 
@@ -210,7 +216,7 @@ const StepCount = styled.p`
 // ─── Question Body ─────────────────────────────────────────────────────────────
 
 const QuestionBody = styled.div`
-  padding: var(--space-8) var(--space-8) var(--space-6);
+  padding: var(--space-2) var(--space-8) var(--space-6);
   animation: ${stepIn} var(--value-0-3s) ease;
 `;
 
@@ -253,7 +259,7 @@ const OptionCard = styled.button<{ $selected: boolean }>`
   display: flex;
   align-items: flex-start;
   gap: var(--space-3-5);
-  padding: var(--space-3-6) var(--space-4-4);
+  // padding: var(--space-3-6) var(--space-4-4);
   border-radius: var(--radius-card-sm);
   border: var(--value-2px) solid ${(p) => (p.$selected ? "var(--color-blue-600)" : "var(--color-border-soft)")};
   background: ${(p) => (p.$selected ? "var(--color-blue-50)" : "var(--color-surface)")};
@@ -280,10 +286,14 @@ const OptionEmoji = styled.span`
   line-height: var(--line-height-flat);
   flex-shrink: 0;
   margin-top: var(--size-1);
+  padding: 18px;
+
 `;
 
 const OptionContent = styled.div`
   flex: var(--number-one);
+  padding: 8px 0;
+
 `;
 
 const OptionTitle = styled.p<{ $selected: boolean }>`
@@ -315,7 +325,7 @@ const OptionBadge = styled.span`
   margin-left: auto;
   flex-shrink: 0;
   align-self: flex-start;
-  margin-top: var(--size-1);
+  margin-top: var(--size-8);
 `;
 
 const CheckMark = styled.div<{ $visible: boolean }>`
@@ -546,13 +556,15 @@ const RestartBtn = styled.button`
 
 interface Question {
   key: keyof QuizAnswers;
-  emoji: string;
+  emoji?: string | any;
   question: string;
   hint: string;
+  icon?: any; // <--- Ícone principal da pergunta
   cols?: number;
   multi?: boolean;
   options: {
-    emoji: string;
+    emoji?: string | any;
+    icon?: any; // <--- Ícone específico de cada opção
     prePrice: number;
     title: string;
     desc: string;
@@ -562,16 +574,16 @@ interface Question {
 }
 
 const questions: Question[] = [
-  {
+ {
     key: "goal",
-    emoji: "🤔",
-    question: "Pra começo de conversa — o que você precisa?",
+    question: "Vamos do começo — o que você precisa?",
     hint: "Escolha seu principal objetivo. Você só pode selecionar uma opção.",
     cols: 1,
+    // icon: manQuestion, /// Ícone da pergunta (importado no topo)
     multi: false,
     options: [
       {
-        emoji: "🌐",
+        icon: web, // Ícone da opção 1
         title: "Um lugar meu na internet",
         prePrice: 1,
         desc: "Só quero que as pessoas me encontrem no Google e saibam o que faço.",
@@ -579,21 +591,21 @@ const questions: Question[] = [
         badge: "Mais econômico",
       },
       {
-        emoji: "📋",
+        icon: paste, // Ícone da opção 2
         title: "Controlar meu negócio",
         prePrice: 4,
         desc: "Quero organizar clientes, pedidos, estoque, vendas — ficou bagunçado.",
         value: "management",
       },
       {
-        emoji: "📱",
+        icon: cell,
         title: "Um aplicativo no celular",
         prePrice: 6,
         desc: "Quero que meus clientes ou equipe usem um app nativo.",
         value: "mobile",
       },
       {
-        emoji: "🤷",
+        icon:  man,
         title: "Ainda não sei ao certo",
         prePrice: 0,
         desc: "Tenho uma ideia mas preciso de ajuda para entender o que preciso.",
@@ -1196,7 +1208,7 @@ export default function QuizModal() {
             </div>
           </HeaderTop>
           <ProgressBar>
-            <ProgressFill $pct={progressPct} />
+            <ProgressFill $pct={progressPct} />/
           </ProgressBar>
           <StepCount>
             {isResult
@@ -1208,7 +1220,7 @@ export default function QuizModal() {
         {!isResult && currentQ && (
           <>
             <QuestionBody  >
-              <QuestionEmoji>{currentQ.emoji}</QuestionEmoji>
+              {/* <QuestionEmoji>{currentQ.emoji}</QuestionEmoji> */}
               <QuestionText>{currentQ.question}</QuestionText>
               <QuestionHint>{currentQ.hint}</QuestionHint>
 
@@ -1224,10 +1236,18 @@ export default function QuizModal() {
                       $selected={selected}
                       onClick={() => handleSelect(opt.value)}
                     >
-                      <OptionEmoji>{opt.emoji}</OptionEmoji>
+                        {opt.emoji && (
+
+                      <OptionEmoji style={{color: "#0C1445" 
+                      }}>{opt.emoji}</OptionEmoji>
+                   )}
+
+                        {opt.icon && (
+                   <img style={{width: 24, margin: "14px 0 0 16px" }} src={opt.icon} alt={opt.title}   />
+                   )}
                       <OptionContent>
-                        <OptionTitle $selected={selected}>{opt.title}</OptionTitle>
-                        <OptionDesc>{opt.desc}</OptionDesc>
+                        <OptionTitle style={{margin: "4px 0 4px 0"}} $selected={selected}>{opt.title}</OptionTitle>
+                        <OptionDesc style={{margin: 0}} >{opt.desc}</OptionDesc>
                       </OptionContent>
                       {opt.badge && !selected && (
                         <OptionBadge>{opt.badge}</OptionBadge>
