@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => {
   const qaProxyTarget = env.QA_DEVTOOLS_PROXY_TARGET || 'https://localhost:7193'
 
   return {
-    base: '/',
+    base: '/OG/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
