@@ -43,6 +43,7 @@ import { resolveAutomaticTicketTarget, type AutomaticTicketTarget } from "./netw
 import { getTicketMapping } from "./ticketMappingCache";
 import { useNetworkLogger, type NetworkLog } from "./useNetworkLogger";
 import { useDevErrors } from "./devErrorMonitor";
+import { useResizableColumns } from "./useResizableColumns";
 import { useNetworkSimulator, type SimulationMode } from "./networkSimulator";
 import { setNetworkLoggerRoute, stageNetworkReplayApplication } from "./networkLogger";
 import { useNavigationCounters, type NavigationCountKey } from "./navigationCounters";
@@ -165,7 +166,7 @@ function MetricCard({ label, value, sub, trend, icon: Icon, color = "blue" }: {
     purple: "text-purple-400 bg-purple-500/10",
   };
   return (
-    <div className="bg-card border border-border rounded-md p-4 flex flex-col gap-3 hover:border-primary/30 transition-colors">
+    <div data-card-tone={color} className="qa-resizable-card bg-card border border-border rounded-md p-4 flex flex-col gap-3 hover:border-primary/30 transition-colors">
       <div className="flex items-center justify-between">
         <span className="text-xs text-muted-foreground font-mono uppercase tracking-wider">{label}</span>
         <span className={`p-1.5 rounded ${colorMap[color]}`}>
@@ -1340,6 +1341,7 @@ export default function App({
   saveStatus,
   saveError,
 }: AppProps) {
+  useResizableColumns();
   const dark = preferences?.isDark ?? true;
   const [colorTheme, setColorTheme] = useState<ColorTheme>(initialColorTheme);
   const [env, setEnv] = useState<Env>("DEV");

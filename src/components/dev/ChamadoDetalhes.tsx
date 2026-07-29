@@ -55,7 +55,7 @@ function toEditState(data: ChamadoDetalhesResponse): EditState {
 }
 
 function Section({ title, description, children }: { title: string; description?: string; children: ReactNode }) {
-  return <section className="rounded-md border border-border bg-card p-4"><div className="mb-4"><h3 className="text-xs font-semibold">{title}</h3>{description && <p className="mt-1 text-[10px] font-mono text-muted-foreground">{description}</p>}</div>{children}</section>;
+  return <section className="qa-resizable-card rounded-md border border-border bg-card p-4"><div className="mb-4"><h3 className="text-xs font-semibold">{title}</h3>{description && <p className="mt-1 text-[10px] font-mono text-muted-foreground">{description}</p>}</div>{children}</section>;
 }
 
 function TextField({ label, value, onChange, type = "text", min, max }: { label: string; value: string | number | null; onChange: (value: string) => void; type?: string; min?: number; max?: number }) {
@@ -168,7 +168,7 @@ export function ChamadoDetalhes({ chamadoId, onBack }: { chamadoId: number; onBa
         <div><button className="mb-2 inline-flex items-center gap-1 text-[10px] font-mono text-muted-foreground hover:text-foreground" onClick={onBack}><ArrowLeft size={12} />Todos os chamados</button><div className="flex items-center gap-2"><span className="text-xs font-mono text-primary">{chamado.codigo}</span><span className="inline-flex items-center gap-1.5 rounded border border-border bg-muted/30 px-2 py-0.5 text-[10px] font-mono"><span className="h-2 w-2 rounded-full" style={{ backgroundColor: chamado.status.corHex ?? "var(--muted-foreground)" }} />{chamado.status.nome}</span></div><h2 className="mt-1 text-base font-semibold">{chamado.titulo}</h2><p className="mt-1 text-[10px] font-mono text-muted-foreground">Criado por {chamado.criadoPor.nome} em {new Date(chamado.dataCriacao).toLocaleString("pt-BR")} · versao {chamado.versao}</p></div>
         <div className="flex gap-2"><button className={buttonClass} disabled={saving} onClick={() => void load()}><RefreshCw size={13} />Recarregar</button>{tab === "geral" && <button className="inline-flex items-center gap-1.5 rounded bg-primary px-3 py-2 text-xs font-mono text-primary-foreground disabled:opacity-50" disabled={saving || !canEdit} onClick={save}>{saving ? <Loader2 size={13} className="animate-spin" /> : <Save size={13} />}Salvar alteracoes</button>}</div>
       </div>
-      <nav className="mt-4 flex gap-1 overflow-x-auto">{tabs.map(([id, label]) => <button key={id} onClick={() => setTab(id)} className={tab === id ? "rounded bg-primary/15 px-3 py-1.5 text-[10px] font-mono text-primary" : "rounded px-3 py-1.5 text-[10px] font-mono text-muted-foreground hover:bg-muted"}>{label}</button>)}</nav>
+      <nav role="tablist" aria-label="Seções do chamado" className="qa-tablist mt-4 flex gap-1 overflow-x-auto">{tabs.map(([id, label]) => <button key={id} role="tab" aria-selected={tab === id} onClick={() => setTab(id)} className="qa-tab px-3 py-1.5 text-[10px] font-mono">{label}</button>)}</nav>
     </header>
     <main className="flex-1 overflow-y-auto p-5">
       {error && <div className="mb-4 rounded border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs font-mono text-red-400">{error}</div>}
@@ -195,7 +195,7 @@ function GeneralTab({ data, catalogos, modules, assignmentUsers, edit, set, setM
     setResponsibleId(chamado.atribuidoPara?.id ? String(chamado.atribuidoPara.id) : "");
   }, [chamado.atribuidoPara?.id]);
   
-  return <div className="grid grid-cols-[minmax(0,2fr)_minmax(280px,1fr)] gap-4">
+  return <div className="qa-resizable-columns grid grid-cols-[minmax(0,2fr)_minmax(280px,1fr)] gap-4">
     <div className="space-y-4">
       <Section title="Identificacao e descricao"><div className="space-y-3"><TextField label="Titulo" value={edit.titulo} onChange={value => set("titulo", value)} /><label><span className={labelClass}>Descricao</span><textarea className={inputClass} rows={8} value={edit.descricao} onChange={event => set("descricao", event.target.value)} /></label></div></Section>
       <Section title="Reproducao e resultados" description="Use uma linha para cada passo ou criterio."><div className="grid grid-cols-2 gap-3"><label><span className={labelClass}>Passos para reproducao</span><textarea className={inputClass} rows={8} value={edit.passosTexto} onChange={event => set("passosTexto", event.target.value)} /></label><label><span className={labelClass}>Criterios de aceite</span><textarea className={inputClass} rows={8} value={edit.criteriosTexto} onChange={event => set("criteriosTexto", event.target.value)} /></label><label><span className={labelClass}>Resultado esperado</span><textarea className={inputClass} rows={5} value={edit.resultadoEsperado ?? ""} onChange={event => set("resultadoEsperado", event.target.value)} /></label><label><span className={labelClass}>Resultado obtido</span><textarea className={inputClass} rows={5} value={edit.resultadoObtido ?? ""} onChange={event => set("resultadoObtido", event.target.value)} /></label><label className="col-span-2"><span className={labelClass}>Impacto no negocio</span><textarea className={inputClass} rows={4} value={edit.impactoNegocio ?? ""} onChange={event => set("impactoNegocio", event.target.value)} /></label></div></Section>
@@ -379,7 +379,7 @@ function AttachmentCard({ chamadoId, item, canEdit, run }: { chamadoId: number; 
       </div>
     </header>
 
-    {isImage ? <div className="grid gap-4 p-3 lg:grid-cols-[minmax(0,1.25fr)_minmax(280px,.75fr)]">
+    {isImage ? <div className="qa-resizable-columns grid gap-4 p-3 lg:grid-cols-[minmax(0,1.25fr)_minmax(280px,.75fr)]">
       <div className="min-w-0">
         {objectUrl ? <TicketImageMarkerPreview
           evidenceId={`attachment-${item.id}`}

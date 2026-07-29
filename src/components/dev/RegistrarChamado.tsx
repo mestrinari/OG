@@ -145,7 +145,7 @@ function SectionHeader({ icon: Icon, title, description }: { icon: any; title: s
 }
 
 function FormCard({ children }: { children: React.ReactNode }) {
-  return <div className="bg-card border border-border rounded-md p-5 space-y-4">{children}</div>;
+  return <div className="qa-resizable-card bg-card border border-border rounded-md p-5 space-y-4">{children}</div>;
 }
 
 function Textarea({ value, onChange, placeholder, rows = 4, maxLength, error }: {
@@ -688,11 +688,10 @@ export function RegistrarChamado({ onSuccess, onCancel, initialTarget = null }: 
 
           {/* Content tabs */}
           <FormCard>
-            <div className="flex gap-0 border-b border-border -mx-5 px-5 mb-4 -mt-1">
+            <div role="tablist" aria-label="Conteúdo do chamado" className="qa-tablist flex gap-1 -mx-5 px-5 mb-4 -mt-1 overflow-x-auto">
               {CONTENT_TABS.map(tab => (
-                <button key={tab.id} type="button" onClick={() => setActiveTab(tab.id)}
-                  className={`px-3 py-2 text-[11px] font-mono font-medium border-b-2 transition-colors whitespace-nowrap -mb-px
-                    ${activeTab === tab.id ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"}`}>
+                <button key={tab.id} type="button" role="tab" aria-selected={activeTab === tab.id} onClick={() => setActiveTab(tab.id)}
+                  className="qa-tab whitespace-nowrap px-3 py-2 text-[11px] font-mono font-medium transition-colors">
                   {tab.label}
                   {tab.required && <span className="text-destructive ml-0.5">*</span>}
                   {tab.id === "imagens" && imageEvidences.length > 0 && (
@@ -770,7 +769,7 @@ export function RegistrarChamado({ onSuccess, onCancel, initialTarget = null }: 
                       </button>
                     </div>
 
-                    <div className="grid grid-cols-[minmax(0,1.25fr)_minmax(280px,.75fr)] gap-4 p-3">
+                    <div className="qa-resizable-columns grid grid-cols-[minmax(0,1.25fr)_minmax(280px,.75fr)] gap-4 p-3">
                       <div>
                         <TicketImageMarkerPreview
                           evidenceId={evidence.id}

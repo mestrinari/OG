@@ -26,7 +26,7 @@ const csv = (value: string) => value.split(",").map(item => item.trim()).filter(
 const dateText = (value?: string | null) => value ? new Date(value).toLocaleString("pt-BR") : "Não informado";
 
 function Card({ title, children, actions }: { title: string; children: ReactNode; actions?: ReactNode }) {
-  return <section className="rounded-md border border-border bg-card"><header className="flex items-center justify-between gap-3 border-b border-border px-4 py-3"><h3 className="text-xs font-mono font-semibold uppercase tracking-wide">{title}</h3>{actions}</header><div className="p-4">{children}</div></section>;
+  return <section className="qa-resizable-card rounded-md border border-border bg-card"><header className="flex items-center justify-between gap-3 border-b border-border px-4 py-3"><h3 className="text-xs font-mono font-semibold uppercase tracking-wide">{title}</h3>{actions}</header><div className="p-4">{children}</div></section>;
 }
 
 function Label({ title, children }: { title: string; children: ReactNode }) {
@@ -114,7 +114,7 @@ export function TestCasesWorkspace() {
     </div>
     {error && <div className="mb-4 rounded border border-red-500/30 bg-red-500/10 p-3 text-xs font-mono text-red-400">{error}</div>}
     {success && <div className="mb-4 rounded border border-emerald-500/30 bg-emerald-500/10 p-3 text-xs font-mono text-emerald-400">{success}</div>}
-    <nav className="mb-4 flex gap-1 border-b border-border">{(["casos", "passos", "planos", "ciclos"] as WorkspaceTab[]).map(value => <button key={value} onClick={() => setTab(value)} className={`border-b-2 px-4 py-2 text-xs font-mono capitalize ${tab === value ? "border-primary text-primary" : "border-transparent text-muted-foreground"}`}>{value}{value === "ciclos" ? " / execução" : ""}</button>)}</nav>
+    <nav role="tablist" aria-label="Áreas de testes" className="qa-tablist mb-4 flex gap-1 overflow-x-auto">{(["casos", "passos", "planos", "ciclos"] as WorkspaceTab[]).map(value => <button key={value} role="tab" aria-selected={tab === value} onClick={() => setTab(value)} className="qa-tab px-4 py-2 text-xs font-mono capitalize">{value}{value === "ciclos" ? " / execução" : ""}</button>)}</nav>
     {loading ? <div className="flex items-center justify-center gap-2 py-20 text-xs font-mono text-muted-foreground"><Loader2 size={16} className="animate-spin" />Carregando banco...</div> : <>
       {tab === "casos" && <CasesPanel cases={cases} selected={selectedCase} setSelected={setSelectedCase} onCreate={() => setCreateCaseOpen(true)} saving={saving} run={run} />}
       {tab === "passos" && <SharedStepsPanel items={sharedSteps} draft={stepDraft} setDraft={setStepDraft} saving={saving} run={run} />}
