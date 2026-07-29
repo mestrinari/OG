@@ -31,6 +31,8 @@ export interface NetworkLog {
   authType?: string;
   actionId?: string;
   traceId?: string;
+  /** Requisição iniciada manualmente no simulador; nunca abre chamado automático. */
+  suppressAutomaticTicket?: boolean;
   page: string;
   navigationId: string;
 }
@@ -122,6 +124,7 @@ export const useNetworkLogger = create<NetworkStore>((set) => ({
           log.status === undefined &&
           updated.status !== undefined &&
           (updated.status === 0 || updated.status >= 400) &&
+          !log.suppressAutomaticTicket &&
           !isTicketDiagnosticRequest(log.url);
         if (becameFailure) failure = updated;
         return updated;
@@ -182,6 +185,5 @@ export const useNetworkLogger = create<NetworkStore>((set) => ({
     });
   },
 }));
-
 
 

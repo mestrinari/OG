@@ -7,6 +7,7 @@ import type {
   TestCycleSummary,
   TestExecution,
   TestPlan,
+  TestWorkspace,
 } from "./types";
 import { qaFetch } from "../../qaApiClient";
 
@@ -35,6 +36,7 @@ const json = (method: string, body?: unknown): RequestInit => ({
 });
 
 export const testesApi = {
+  workspace: () => request<TestWorkspace>("/api/qa/testes/workspace"),
   catalogos: () => request<TestCatalogs>("/api/qa/testes/catalogos"),
   listarCasos: (termo = "", status = "") => {
     const params = new URLSearchParams();
@@ -70,6 +72,13 @@ export const testesApi = {
         tipo: file.type,
         tamanho: file.size,
       }),
+    ),
+  listarPassosCompartilhados: () =>
+    request<TestCatalogs["passosCompartilhados"]>("/api/qa/testes/passos-compartilhados"),
+  criarPassoCompartilhado: (body: { nome: string; acao: string; resultadoEsperado: string }) =>
+    request<TestCatalogs["passosCompartilhados"][number]>(
+      "/api/qa/testes/passos-compartilhados",
+      json("POST", body),
     ),
   listarPlanos: () => request<TestPlan[]>("/api/qa/testes/planos"),
   criarPlano: (body: {
@@ -121,5 +130,3 @@ export const testesApi = {
   relatorio: (id: number) =>
     request<Record<string, unknown>>(`/api/qa/testes/ciclos/${id}/relatorio`),
 };
-
-

@@ -8,7 +8,7 @@
   inset: 0;
   z-index: 2147483645;
   overflow: auto;
-  background: #f0f2f5;
+  background: var(--background, #f3f6fa);
 }
 
 .qa-package-standalone > .qa-devtools-app {
@@ -96,10 +96,10 @@
   max-height: calc(100vh - 8px);
   overflow: hidden;
   resize: both;
-  border: 1px solid #334155;
+  border: 1px solid var(--border, #334155);
   border-radius: 14px;
-  background: #f5f7fa;
-  box-shadow: 0 24px 80px #0f172a66;
+  background: var(--background, #f3f6fa);
+  box-shadow: 0 24px 80px var(--shadow-color, #0f172a66);
   isolation: isolate;
 }
 
@@ -141,7 +141,14 @@
   color: #94a3b8;
 }
 
-.qa-package-close {
+.qa-package-titlebar-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.qa-package-close,
+.qa-package-minimize {
   border: 1px solid #475569;
   border-radius: 7px;
   background: #1e293b;
@@ -153,6 +160,50 @@
   cursor: pointer;
 }
 
+.qa-package-minimize:hover,
+.qa-package-close:hover {
+  background: #334155;
+}
+
+.qa-package-window.is-minimized {
+  width: min(570px, calc(100vw - 8px)) !important;
+  height: 112px !important;
+  min-width: 0;
+  min-height: 0;
+  resize: none;
+  overflow: visible;
+}
+
+.qa-package-window.is-minimized .qa-package-titlebar small {
+  display: none;
+}
+
+.qa-package-window.is-minimized .qa-package-content {
+  flex: none;
+  height: 64px;
+  overflow: visible;
+  contain: none;
+  transform: none;
+}
+
+.qa-package-window.is-minimized .qa-devtools-app {
+  height: 64px !important;
+  min-height: 0;
+  overflow: visible;
+}
+
+.qa-package-window.is-minimized .qa-devtools-app > :not(.qa-global-launchers) {
+  display: none !important;
+}
+
+.qa-package-window.is-minimized .qa-global-launchers {
+  position: static !important;
+  width: 100%;
+  height: 64px;
+  justify-content: center;
+  padding: 8px;
+}
+
 .qa-package-content {
   position: relative;
   flex: 1;
@@ -160,6 +211,15 @@
   overflow: hidden;
   transform: translateZ(0);
   contain: layout paint;
+}
+
+.qa-devtools-pip-root {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--background);
+  color: var(--foreground);
 }
 
 .qa-package-content .qa-devtools-app {
@@ -171,6 +231,39 @@
 
 .qa-package-content .fixed {
   position: fixed;
+}
+
+.qa-package-content .qa-internal-modal-layer {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: clamp(6px, 2%, 16px) !important;
+}
+
+.qa-package-content .qa-internal-modal-dialog {
+  min-width: 0;
+  min-height: 0;
+  max-height: 100% !important;
+  overflow: hidden;
+}
+
+.qa-package-content .qa-internal-modal-content {
+  min-width: 0;
+  min-height: 0;
+  max-height: 100%;
+  overflow: auto !important;
+}
+
+.qa-package-content .qa-internal-modal-content > .flex.flex-col {
+  min-height: 0 !important;
+  height: 100%;
+  max-height: 100% !important;
+  overflow: hidden;
 }
 
 .qa-package-content > .app-shell {

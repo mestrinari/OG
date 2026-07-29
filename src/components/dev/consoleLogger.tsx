@@ -522,10 +522,18 @@ export function useConsoleLogger() {
   };
 }
 
-export function ConsoleLoggerProvider({ children }: { children: ReactNode }) {
-  useEffect(() => installConsoleInterceptor(), []);
+export function ConsoleLoggerProvider({
+  children,
+  enabled = true,
+}: {
+  children: ReactNode;
+  enabled?: boolean;
+}) {
+  useEffect(() => {
+    if (!enabled) return;
+    return installConsoleInterceptor();
+  }, [enabled]);
 
   return children;
 }
-
 

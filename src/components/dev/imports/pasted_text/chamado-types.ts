@@ -250,9 +250,16 @@ export type ChamadoComentario = {
 };
 export type ChamadoAnexo = {
   id: number;
+  tipoAnexo: string | null;
   nomeArquivo: string;
   mimeType: string | null;
   tamanhoBytes: number | null;
+  url: string | null;
+  legenda: string | null;
+  descricao: string | null;
+  larguraImagem: number | null;
+  alturaImagem: number | null;
+  exibirInline: boolean;
   sensivel: boolean;
   criadoEm: string;
 };
@@ -327,5 +334,3 @@ export type ApiErrorResponse = {
   currentVersion?: string;
   existingTicket?: ChamadoExistenteResumo;
 };
-
-

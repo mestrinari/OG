@@ -69,7 +69,7 @@ function childValues(value: object): ChildValue[] {
 function FunctionSource({ value }: { value: Function }) {
   const source = (() => { try { return Function.prototype.toString.call(value); } catch { return "[Código-fonte indisponível]"; } })();
   const tokens = source.split(/(\/\*[\s\S]*?\*\/|\/\/[^\n]*|`(?:\\.|[^`])*`|"(?:\\.|[^"])*"|'(?:\\.|[^'])*'|\b(?:async|await|function|return|const|let|var|if|else|for|while|switch|case|new|throw|try|catch|finally|class|extends|this|typeof|instanceof|in|of|yield)\b|\b\d+(?:\.\d+)?\b)/g);
-  return <pre className="mt-2 max-h-72 overflow-auto whitespace-pre-wrap break-all rounded border border-border/70 bg-[#0d1117] p-3 text-[11px] leading-5 select-text">{tokens.map((token, index) => {
+  return <pre className="mt-2 max-h-72 overflow-auto whitespace-pre-wrap break-all rounded border border-border bg-muted/50 p-3 text-[11px] leading-5 text-foreground select-text">{tokens.map((token, index) => {
     const className = /^\/[/*]/.test(token) ? "text-muted-foreground" : /^[`"']/.test(token) ? "text-emerald-300" : /^\d/.test(token) ? "text-amber-300" : /^(async|await|function|return|const|let|var|if|else|for|while|switch|case|new|throw|try|catch|finally|class|extends|this|typeof|instanceof|in|of|yield)$/.test(token) ? "text-violet-300" : "text-foreground";
     return <span key={index} className={className}>{token}</span>;
   })}</pre>;
@@ -101,5 +101,4 @@ export function ConsoleValueInspector({ value, name, depth = 0, ancestors = [] }
     {open && children.map((child, index) => <ConsoleValueInspector key={`${child.key}-${index}`} value={child.value} name={child.key} depth={depth + 1} ancestors={objectValue ? [...ancestors, objectValue] : ancestors}/>)}
   </div>;
 }
-
 

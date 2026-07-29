@@ -5,6 +5,7 @@ import {
   AlertCircle, ShieldAlert,
   FileText, Repeat, RotateCcw,
   ChevronRight, ArrowUp, ArrowDown,
+  Image as ImageIcon, MousePointer2,
 } from "lucide-react";
 import type {
   ChamadoCatalogosResponse,
@@ -16,8 +17,11 @@ import type {
   CriarChamadoRequest,
   ChamadoExistenteResumo,
 } from "./imports/pasted_text/chamado-types";
-import { ApiError, chamadosApi } from "./features/chamados/chamadosApi";
+import { ApiError, chamadosApi, createAnexoFormData } from "./features/chamados/chamadosApi";
 import type { AutomaticTicketTarget } from "./networkTicketContext";
+import { Styled } from "styled-components";
+import { useTicketImageEvidence, type TicketImageStep } from "./ticketImageEvidence";
+import { TicketImageMarkerPreview } from "./TicketImageMarkerPreview";
 
 // ─── Mock Catalogos ────────────────────────────────────────────────────────────
 
@@ -77,6 +81,21 @@ function createInitialForm(initialTarget: AutomaticTicketTarget | null = null): 
     salvarComoRascunho: false,
     etiquetaIds: [],
   };
+}
+
+function trackedStepText(step: TicketImageStep, index: number) {
+  const description = step.description.trim();
+  return `${index + 1}. [${step.code.trim() || "SEM-ID"}] ${step.name.trim() || "Passo sem nome"}${description ? ` — ${description}` : ""}`;
+}
+
+function dataUrlToFile(dataUrl: string, fileName: string) {
+  const [header, encoded] = dataUrl.split(",", 2);
+  if (!header || !encoded) throw new Error("A evidência de imagem está inválida.");
+  const mimeType = header.match(/^data:([^;]+)/)?.[1] ?? "image/png";
+  const binary = atob(encoded);
+  const bytes = new Uint8Array(binary.length);
+  for (let index = 0; index < binary.length; index++) bytes[index] = binary.charCodeAt(index);
+  return new File([bytes], fileName, { type: mimeType });
 }
 // ─── Validation ────────────────────────────────────────────────────────────────
 
@@ -155,8 +174,8 @@ function Textarea({ value, onChange, placeholder, rows = 4, maxLength, error }: 
   );
 }
 
-function Input({ value, onChange, placeholder, maxLength, error, type = "text" }: {
-  value: string; onChange: (v: string) => void; placeholder?: string; maxLength?: number; error?: string; type?: string;
+function Input({ value, onChange, placeholder, maxLength, error, type = "text", style }: {
+  value: string; onChange: (v: string) => void; placeholder?: string; maxLength?: number; error?: string; type?: string; style?: string
 }) {
   return (
     <div>
@@ -195,9 +214,9 @@ function Select({ value, onChange, options, placeholder, error }: {
           ${!value ? "text-muted-foreground/60" : "text-foreground"}
           ${error ? "border-destructive/60 focus:border-destructive" : "border-border focus:border-primary"}`}
       >
-        {placeholder && <option  style={{color: "#21262d" }} value="">{placeholder}</option>}
+        {placeholder && <option value="">{placeholder}</option>}
         {options.map(o => (
-          <option style={{color: "#21262d" }} key={o.value} value={o.value}>{o.label}</option>
+          <option key={o.value} value={o.value}>{o.label}</option>
         ))}
       </select>
       <FieldError msg={error} />
@@ -282,6 +301,17 @@ function DynamicList({ items, onChange, placeholder, addLabel }: {
 
 // ─── Tipo Selector (pill style) ───────────────────────────────────────────────
 
+function readableTextColor(background: string | null | undefined) {
+  const match = /^#([\da-f]{6})$/i.exec(background ?? "");
+  if (!match) return "var(--primary-foreground)";
+  const value = Number.parseInt(match[1], 16);
+  const red = (value >> 16) & 255;
+  const green = (value >> 8) & 255;
+  const blue = value & 255;
+  const luminance = (0.2126 * red + 0.7152 * green + 0.0722 * blue) / 255;
+  return luminance > 0.56 ? "#111827" : "#ffffff";
+}
+
 function TipoSelector({ value, onChange, tipos }: {
   value: number; onChange: (v: number) => void; tipos: Entity[];
 }) {
@@ -293,7 +323,7 @@ function TipoSelector({ value, onChange, tipos }: {
           <button key={t.id} type="button" onClick={() => onChange(t.id)}
             className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono font-semibold border transition-all
               ${active ? "border-transparent text-white shadow-sm" : "border-border text-muted-foreground hover:text-foreground hover:border-border/80"}`}
-            style={active ? { background: t.corHex ?? "#4f8ef7" } : {}}>
+            style={active ? { background: t.corHex ?? "var(--primary)", color: readableTextColor(t.corHex) } : {}}>
             {active && <Check size={10} />}
             {t.nome}
           </button>
@@ -316,7 +346,7 @@ function PrioridadeSelector({ value, onChange, prioridades }: {
           <button key={p.id} type="button" onClick={() => onChange(p.id)}
             className={`flex flex-col items-center gap-1 py-2 rounded border text-center transition-all
               ${active ? "border-current/40 shadow-sm" : "border-border text-muted-foreground hover:text-foreground"}`}
-            style={active ? { borderColor: p.corHex + "50", background: p.corHex + "15", color: p.corHex ?? undefined } : {}}>
+            style={active ? { borderColor: p.corHex ?? "var(--primary)", background: `color-mix(in srgb, ${p.corHex ?? "var(--primary)"} 12%, transparent)`, color: "var(--foreground)" } : {}}>
             <span className="w-2.5 h-2.5 rounded-full" style={{ background: p.corHex ?? "#8b949e" }} />
             <span className="text-[9px] font-mono font-bold leading-none">{p.nome}</span>
           </button>
@@ -341,7 +371,7 @@ function EtiquetaSelector({ value, onChange, etiquetas }: {
           <button key={e.id} type="button" onClick={() => toggle(e.id)}
             className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono border transition-all
               ${active ? "border-transparent text-white" : "border-border text-muted-foreground hover:text-foreground"}`}
-            style={active ? { background: e.corHex ?? "#4f8ef7" } : {}}>
+            style={active ? { background: e.corHex ?? "var(--primary)", color: readableTextColor(e.corHex) } : {}}>
             <Tag size={9} />{e.nome}
             {active && <X size={9} className="ml-0.5" />}
           </button>
@@ -388,7 +418,15 @@ export function RegistrarChamado({ onSuccess, onCancel, initialTarget = null }: 
   const [loading, setLoading] = useState(true);
   const [apiError, setApiError] = useState<string | null>(null);
   const [existingTicket, setExistingTicket] = useState<ChamadoExistenteResumo | null>(null);
-  const [activeTab, setActiveTab] = useState<"descricao" | "passos" | "resultados" | "impacto" | "criterios">("descricao");
+  const [activeTab, setActiveTab] = useState<"descricao" | "passos" | "imagens" | "resultados" | "impacto" | "criterios">("descricao");
+  const imageEvidences = useTicketImageEvidence(state => state.evidences);
+  const updateImageStep = useTicketImageEvidence(state => state.updateStep);
+  const removeImageEvidence = useTicketImageEvidence(state => state.removeEvidence);
+  const clearImageEvidences = useTicketImageEvidence(state => state.clear);
+
+  useEffect(() => {
+    if (imageEvidences.length) setActiveTab("imagens");
+  }, [imageEvidences.length]);
 
   const set = useCallback(<K extends keyof FormState>(key: K, val: FormState[K]) => {
     setForm(f => ({ ...f, [key]: val }));
@@ -463,8 +501,8 @@ export function RegistrarChamado({ onSuccess, onCancel, initialTarget = null }: 
     chamadosApi.disponibilidadeItem(Number(form.itemPaginaId))
       .then(value => {
         if (!current) return;
-        setExistingTicket(value.existingTicket);
-        if (!value.disponivel) setApiError(`Este item já possui o chamado ${value.existingTicket?.codigo ?? "registrado"}.`);
+        setExistingTicket(value.disponivel ? null : value.existingTicket);
+        if (!value.disponivel) setApiError(`Este item já possui o chamado ${value.existingTicket?.codigo ?? "registrado"}. Finalize-o antes de abrir outro para o mesmo item.`);
       })
       .catch(error => current && setApiError(error instanceof Error ? error.message : "Falha ao verificar disponibilidade."));
     return () => { current = false; };
@@ -483,12 +521,18 @@ export function RegistrarChamado({ onSuccess, onCancel, initialTarget = null }: 
     if (Object.keys(newErrors).length > 0 || existingTicket) return;
     setSubmitted(true);
     setApiError(null);
+    const imageStepTexts = imageEvidences.flatMap(evidence =>
+      evidence.steps.map((step, index) => trackedStepText(step, index)),
+    );
     const payload: CriarChamadoRequest = {
       paginaId: Number(form.paginaId),
       itemPaginaId: Number(form.itemPaginaId),
       titulo: form.titulo.trim(),
       descricao: form.descricao.trim(),
-      passosReproducao: form.passosReproducao.map(x => x.trim()).filter(Boolean),
+      passosReproducao: Array.from(new Set([
+        ...form.passosReproducao.map(x => x.trim()).filter(Boolean),
+        ...imageStepTexts,
+      ])),
       resultadoEsperado: form.resultadoEsperado.trim() || null,
       resultadoObtido: form.resultadoObtido.trim() || null,
       impactoNegocio: form.impactoNegocio.trim() || null,
@@ -510,7 +554,45 @@ export function RegistrarChamado({ onSuccess, onCancel, initialTarget = null }: 
       etiquetaIds: form.etiquetaIds,
     };
     try {
-      await chamadosApi.criar(payload);
+      const availability = await chamadosApi.disponibilidadeItem(payload.itemPaginaId);
+      if (!availability.disponivel) {
+        setExistingTicket(availability.existingTicket);
+        setApiError(`Este item já possui o chamado ${availability.existingTicket?.codigo ?? "registrado"}. Finalize-o antes de abrir outro para o mesmo item.`);
+        setSubmitted(false);
+        return;
+      }
+      const createdTicket = await chamadosApi.criar(payload);
+      try {
+        for (let index = 0; index < imageEvidences.length; index++) {
+          const evidence = imageEvidences[index];
+          const file = dataUrlToFile(
+            evidence.imageDataUrl,
+            `evidencia-editor-${index + 1}-${Date.now()}.png`,
+          );
+          await chamadosApi.uploadAnexo(createdTicket.chamado.id, createAnexoFormData({
+            file,
+            tipoAnexo: "IMAGEM",
+            legenda: `Evidência visual com ${evidence.steps.length} passo(s) rastreado(s)`,
+            descricao: JSON.stringify({
+              schema: "qa-ticket-image-evidence/v2",
+              width: evidence.width,
+              height: evidence.height,
+              steps: evidence.steps,
+              editorItems: evidence.editorItems,
+              trackingSteps: evidence.trackingSteps,
+            }),
+            larguraImagem: evidence.width,
+            alturaImagem: evidence.height,
+            exibirInline: true,
+            sensivel: false,
+          }));
+        }
+        clearImageEvidences();
+      } catch (attachmentError) {
+        setSubmitted(false);
+        setApiError(`O chamado ${createdTicket.chamado.codigo} foi criado, mas a imagem não pôde ser anexada: ${attachmentError instanceof Error ? attachmentError.message : "erro desconhecido"}`);
+        return;
+      }
       setSubmitted(false);
       onSuccess?.();
     } catch (error) {
@@ -533,6 +615,7 @@ export function RegistrarChamado({ onSuccess, onCancel, initialTarget = null }: 
   const CONTENT_TABS = [
     { id: "descricao",  label: "Descrição",          required: true  },
     { id: "passos",     label: "Passos de Reprodução", required: false },
+    { id: "imagens",    label: "Imagens e Passos",      required: false },
     { id: "resultados", label: "Resultados",          required: false },
     { id: "impacto",    label: "Impacto",             required: false },
     { id: "criterios",  label: "Critérios de Aceite", required: false },
@@ -575,7 +658,7 @@ export function RegistrarChamado({ onSuccess, onCancel, initialTarget = null }: 
         <div className="flex-1 overflow-y-auto p-5 space-y-4 [scrollbar-width:thin] [scrollbar-color:var(--border)_transparent]">
           {loading && <div className="text-xs font-mono text-muted-foreground">Carregando catálogos e mapeamento...</div>}
           {initialTarget && (
-            <div style={{ background: "#6c2410" }} className="rounded border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs font-mono text-amber-200 space-y-1">
+            <div className="rounded border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs font-mono text-amber-200 space-y-1">
               <div>Chamado preparado automaticamente a partir da falha {initialTarget.method} {initialTarget.endpointPath}. Revise os dados antes de registrar.</div>
               <div className="text-[10px] text-amber-100/80">Origem: {initialTarget.paginaNome} ({initialTarget.pagePath}) · Item: {initialTarget.itemNome} · Tipo do item: {initialTarget.itemTipo}</div>
             </div>
@@ -612,6 +695,11 @@ export function RegistrarChamado({ onSuccess, onCancel, initialTarget = null }: 
                     ${activeTab === tab.id ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"}`}>
                   {tab.label}
                   {tab.required && <span className="text-destructive ml-0.5">*</span>}
+                  {tab.id === "imagens" && imageEvidences.length > 0 && (
+                    <span className="ml-1.5 rounded-full bg-primary px-1.5 py-0.5 text-[9px] text-primary-foreground">
+                      {imageEvidences.length}
+                    </span>
+                  )}
                 </button>
               ))}
             </div>
@@ -641,6 +729,102 @@ export function RegistrarChamado({ onSuccess, onCancel, initialTarget = null }: 
                   placeholder="Ex: Acessar /checkout com produto no carrinho..."
                   addLabel="Adicionar passo"
                 />
+              </div>
+            )}
+
+            {activeTab === "imagens" && (
+              <div className="space-y-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <FieldLabel>Imagens e passos do editor</FieldLabel>
+                    <p className="text-[10px] text-muted-foreground font-mono">
+                      Os textos abaixo entram automaticamente nos passos de reprodução. Passe o mouse ou use Tab nos marcadores da imagem para visualizar cada descrição.
+                    </p>
+                  </div>
+                  <div className="shrink-0 rounded border border-primary/30 bg-primary/10 px-2.5 py-1.5 text-[10px] font-mono text-primary">
+                    {imageEvidences.length} imagem(ns)
+                  </div>
+                </div>
+
+                {!imageEvidences.length && (
+                  <div className="flex flex-col items-center justify-center gap-2 rounded border border-dashed border-border py-12 text-muted-foreground">
+                    <ImageIcon size={28} className="opacity-40" />
+                    <span className="text-xs font-mono">Envie uma imagem pelo botão “Enviar para chamado” do editor.</span>
+                  </div>
+                )}
+
+                {imageEvidences.map((evidence, evidenceIndex) => (
+                  <article key={evidence.id} className="overflow-visible rounded-md border border-border bg-muted/10">
+                    <div className="flex items-center justify-between border-b border-border px-3 py-2">
+                      <div className="flex items-center gap-2 text-xs font-mono">
+                        <ImageIcon size={13} className="text-primary" />
+                        <span className="font-semibold">Evidência {evidenceIndex + 1}</span>
+                        <span className="text-[10px] text-muted-foreground">{evidence.width} × {evidence.height}px</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => removeImageEvidence(evidence.id)}
+                        className="flex items-center gap-1 rounded border border-destructive/30 px-2 py-1 text-[10px] font-mono text-destructive hover:bg-destructive/10"
+                      >
+                        <Trash2 size={10} />Remover
+                      </button>
+                    </div>
+
+                    <div className="grid grid-cols-[minmax(0,1.25fr)_minmax(280px,.75fr)] gap-4 p-3">
+                      <div>
+                        <TicketImageMarkerPreview
+                          evidenceId={evidence.id}
+                          src={evidence.imageDataUrl}
+                          alt={`Evidência ${evidenceIndex + 1} do editor`}
+                          steps={evidence.steps}
+                          editorItems={evidence.editorItems}
+                          width={evidence.width}
+                          height={evidence.height}
+                        />
+                        <div className="mt-2 flex items-center gap-1.5 text-[10px] font-mono text-muted-foreground">
+                          <MousePointer2 size={10} />Passe o mouse sobre um marcador para abrir o overlay do passo.
+                        </div>
+                      </div>
+
+                      <div className="space-y-3">
+                        {evidence.steps.length ? evidence.steps.map((step, stepIndex) => (
+                          <div key={step.id} className="space-y-2 rounded border border-border bg-card p-3" style={{ borderLeftColor: step.color, borderLeftWidth: 4 }}>
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="text-[10px] font-mono font-bold" style={{ color: step.color }}>PASSO {stepIndex + 1}</span>
+                              <span className="text-[9px] font-mono text-muted-foreground">{step.markers.length} marcador(es)</span>
+                            </div>
+                            <input
+                              value={step.code}
+                              onChange={event => updateImageStep(evidence.id, step.id, { code: event.target.value })}
+                              placeholder="ID do passo"
+                              className="w-full rounded border border-border bg-muted/40 px-2.5 py-1.5 text-xs font-mono outline-none focus:border-primary"
+                            />
+                            <input
+                              value={step.name}
+                              onChange={event => updateImageStep(evidence.id, step.id, { name: event.target.value })}
+                              placeholder="Nome do passo"
+                              className="w-full rounded border border-border bg-muted/40 px-2.5 py-1.5 text-xs font-mono outline-none focus:border-primary"
+                            />
+                            <textarea
+                              value={step.description}
+                              onChange={event => updateImageStep(evidence.id, step.id, { description: event.target.value })}
+                              placeholder="Descrição do passo"
+                              rows={3}
+                              className="w-full resize-y rounded border border-border bg-muted/40 px-2.5 py-1.5 text-xs font-mono outline-none focus:border-primary"
+                            />
+                            <div className="rounded bg-muted/30 px-2 py-1.5 text-[10px] font-mono text-muted-foreground">
+                              {trackedStepText(step, stepIndex)}
+                            </div>
+                          </div>
+                        )) : (
+                          <div className="rounded border border-dashed border-border p-4 text-center text-[10px] font-mono text-muted-foreground">
+                            A imagem foi recebida sem passos rastreados.
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </article>
+                ))}
               </div>
             )}
 
@@ -754,7 +938,7 @@ export function RegistrarChamado({ onSuccess, onCancel, initialTarget = null }: 
                 return sev ? (
                   <div className="mt-1.5 flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full" style={{ background: sev.corHex ?? "#8b949e" }} />
-                    <span className="text-[10px] font-mono" style={{ color: sev.corHex ?? undefined }}>{sev.nome}</span>
+                    <span className="text-[10px] font-mono text-foreground">{sev.nome}</span>
                   </div>
                 ) : null;
               })()}
@@ -773,7 +957,7 @@ export function RegistrarChamado({ onSuccess, onCancel, initialTarget = null }: 
                         ? `text-white border-transparent`
                         : "border-border text-muted-foreground hover:text-foreground"
                       }`}
-                    style={form.ambienteId === a.id ? { background: a.corHex ?? "#4f8ef7", borderColor: a.corHex ?? "#4f8ef7" } : {}}>
+                    style={form.ambienteId === a.id ? { background: a.corHex ?? "var(--primary)", borderColor: a.corHex ?? "var(--primary)", color: readableTextColor(a.corHex) } : {}}>
                     <span className="w-1.5 h-1.5 rounded-full" style={{ background: form.ambienteId === a.id ? "rgba(255,255,255,0.7)" : (a.corHex ?? "#8b949e") }} />
                     {a.codigo ?? a.nome}
                   </button>
@@ -909,5 +1093,3 @@ export function RegistrarChamado({ onSuccess, onCancel, initialTarget = null }: 
     </div>
   );
 }
-
-

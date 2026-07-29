@@ -3,6 +3,10 @@ import { recordDevEvent } from "./devTimeline";
 import { simulateNetwork } from "./networkSimulator";
 
 declare global {
+  interface RequestInit {
+    /** Metadado local consumido pelo interceptor; não é enviado pela rede. */
+    qaSuppressAutomaticTicket?: boolean;
+  }
   interface Window {
     __fetchInterceptorInstalled?: boolean;
     __originalFetch?: typeof fetch;
@@ -219,6 +223,7 @@ export function setupFetchInterceptor() {
       authType: safeHeaders(resource, config).authorization
         ? "Bearer (oculto)"
         : "sessão/cookie ou anônima",
+      suppressAutomaticTicket: config?.qaSuppressAutomaticTicket === true,
     });
     recordDevEvent({
       kind: "http",
@@ -292,5 +297,4 @@ export function setupFetchInterceptor() {
     }
   };
 }
-
 

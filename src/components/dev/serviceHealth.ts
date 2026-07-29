@@ -20,7 +20,7 @@ type ServiceProbe = Pick<ServiceHealthItem, "id" | "name" | "endpoint"> & {
 };
 
 const SERVICES: ServiceProbe[] = [
-  { id: "chamados", name: "Chamados", endpoint: "/api/qa/chamados?pagina=1&tamanhoPagina=1", counterKey: "bugs", readCount: value => Number((value as { totalItens?: number })?.totalItens ?? 0) },
+  { id: "chamados", name: "Chamados", endpoint: "/api/qa/chamados?pagina=1&tamanhoPagina=1" },
   { id: "testes", name: "Testes", endpoint: "/api/qa/testes/casos", counterKey: "testcases", readCount: value => Array.isArray(value) ? value.length : 0 },
   { id: "devtools", name: "DevTools", endpoint: "/api/qa/devtools/flags", counterKey: "flags", readCount: value => Array.isArray((value as { items?: unknown[] })?.items) ? (value as { items: unknown[] }).items.length : 0 },
   { id: "insights", name: "Insights", endpoint: "/api/qa/insights/performance" },
@@ -89,4 +89,3 @@ export function setupServiceHealthMonitor() {
   window.setInterval(() => void refreshServiceHealth(), 60_000);
   window.addEventListener("qa:network-replay-success", () => void refreshServiceHealth());
 }
-

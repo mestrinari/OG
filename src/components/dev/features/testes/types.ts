@@ -167,5 +167,12 @@ export type TestCycle = {
 
 export type TestCycleSummary = Omit<TestCycle, "execucoes">;
 
+export type TestWorkspace = {
+  casos: TestCase[];
+  planos: TestPlan[];
+  ciclos: TestCycle[];
+  passosCompartilhados: SharedStep[];
+  catalogos: TestCatalogs;
+};
 
 

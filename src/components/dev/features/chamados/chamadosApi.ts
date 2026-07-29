@@ -17,6 +17,7 @@ import type {
   MapeamentoPaginasResponse,
   ModuloSistema,
   PaginatedResponse,
+  UsuarioResumo,
 } from "./types";
 import { qaFetch } from "../../qaApiClient";
 
@@ -60,6 +61,19 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   return response.json() as Promise<T>;
 }
 
+async function requestBlob(path: string): Promise<Blob> {
+  const response = await qaFetch(path, {
+    headers: { Accept: "*/*" },
+  });
+  if (!response.ok) {
+    throw new ApiError(response.status, {
+      code: `HTTP_${response.status}`,
+      message: "Não foi possível carregar o conteúdo do anexo.",
+    });
+  }
+  return response.blob();
+}
+
 function queryString(query: ListarChamadosQuery): string {
   const params = new URLSearchParams();
   Object.entries(query).forEach(([key, value]) => {
@@ -92,6 +106,8 @@ export const chamadosApi = {
     request<PaginatedResponse<ChamadoResumo>>(
       `/api/qa/chamados${queryString(query)}`,
     ),
+  usuariosAtribuicao: () =>
+    request<UsuarioResumo[]>("/api/qa/chamados/usuarios-atribuicao"),
   obter: (chamadoId: number) =>
     request<ChamadoDetalhesResponse>(`/api/qa/chamados/${chamadoId}`),
   criar: (body: CriarChamadoRequest) =>
@@ -140,6 +156,19 @@ export const chamadosApi = {
       method: "POST",
       body: formData,
     }),
+  conteudoAnexo: (chamadoId: number, anexoId: number) =>
+    requestBlob(`/api/qa/chamados/${chamadoId}/anexos/${anexoId}/conteudo`),
+  atualizarImagemAnexo: (chamadoId: number, anexoId: number, file: File, descricao: string, larguraImagem: number, alturaImagem: number) => {
+    const form = new FormData();
+    form.append("file", file);
+    form.append("descricao", descricao);
+    form.append("larguraImagem", String(larguraImagem));
+    form.append("alturaImagem", String(alturaImagem));
+    return request<ChamadoAnexo>(
+      `/api/qa/chamados/${chamadoId}/anexos/${anexoId}/conteudo`,
+      { method: "PUT", body: form },
+    );
+  },
   criarChecklist: (
     chamadoId: number,
     body: {
@@ -240,6 +269,8 @@ export function createAnexoFormData(input: {
   comentarioId?: number | null;
   legenda?: string;
   descricao?: string;
+  larguraImagem?: number;
+  alturaImagem?: number;
   exibirInline: boolean;
   sensivel: boolean;
   ordem?: number;
@@ -255,8 +286,8 @@ export function createAnexoFormData(input: {
     form.append("comentarioId", String(input.comentarioId));
   if (input.legenda) form.append("legenda", input.legenda);
   if (input.descricao) form.append("descricao", input.descricao);
+  if (input.larguraImagem) form.append("larguraImagem", String(input.larguraImagem));
+  if (input.alturaImagem) form.append("alturaImagem", String(input.alturaImagem));
   if (input.ordem != null) form.append("ordem", String(input.ordem));
   return form;
 }
-
-

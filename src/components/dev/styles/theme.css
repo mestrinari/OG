@@ -1,185 +1,301 @@
 @custom-variant dark (&:is(.dark *));
 
-.qa-package-window {
+/*
+ * Tokens globais do pacote. Todas as superfícies usam estes valores para que
+ * texto, borda, foco e estados mantenham contraste tanto no claro quanto no escuro.
+ */
+.qa-package-window,
+.qa-devtools-app,
+.qa-devtools-pip-root {
+  color-scheme: light;
   --font-size: 14px;
-  --background: #f0f2f5;
-  --foreground: #0d1117;
+  --background: #f3f6fa;
+  --foreground: #111827;
   --card: #ffffff;
-  --card-foreground: #0d1117;
+  --card-foreground: #111827;
   --popover: #ffffff;
-  --popover-foreground: #0d1117;
-  --primary: #3b7df8;
+  --popover-foreground: #111827;
+  --primary: #1d4ed8;
   --primary-foreground: #ffffff;
-  --secondary: #e8ecf2;
-  --secondary-foreground: #0d1117;
-  --muted: #e8ecf2;
-  --muted-foreground: #64748b;
+  --secondary: #e4eaf2;
+  --secondary-foreground: #172033;
+  --muted: #e9eef5;
+  --muted-foreground: #526176;
   --accent: #dbeafe;
-  --accent-foreground: #1e40af;
-  --destructive: #dc2626;
+  --accent-foreground: #1e3a8a;
+  --destructive: #b42318;
   --destructive-foreground: #ffffff;
-  --border: rgba(0, 0, 0, 0.08);
-  --input: transparent;
-  --input-background: #f0f2f5;
-  --switch-background: #cbd5e1;
-  --font-weight-medium: 500;
-  --font-weight-normal: 400;
-  --ring: #3b7df8;
-  --chart-1: #3b7df8;
-  --chart-2: #10b981;
-  --chart-3: #f59e0b;
-  --chart-4: #8b5cf6;
-  --chart-5: #ef4444;
+  --destructive-solid: #b42318;
+  --success: #08783f;
+  --success-foreground: #066a38;
+  --success-solid: #08783f;
+  --warning: #9a4d00;
+  --warning-foreground: #854200;
+  --warning-solid: #9a4d00;
+  --info: #075ea8;
+  --info-foreground: #075391;
+  --info-solid: #075ea8;
+  --special: #6d28d9;
+  --special-foreground: #5b21b6;
+  --special-solid: #6d28d9;
+  --border: #c9d3e1;
+  --input: #aebbcf;
+  --input-background: #ffffff;
+  --switch-background: #9aabc1;
+  --overlay: rgb(15 23 42 / 0.62);
+  --shadow-color: rgb(15 23 42 / 0.22);
+  --ring: #2563eb;
+  --chart-1: #1d4ed8;
+  --chart-2: #08783f;
+  --chart-3: #a64b00;
+  --chart-4: #6d28d9;
+  --chart-5: #b42318;
   --radius: 0.375rem;
   --sidebar: #ffffff;
-  --sidebar-foreground: #0d1117;
-  --sidebar-primary: #3b7df8;
+  --sidebar-foreground: #111827;
+  --sidebar-primary: #1d4ed8;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f0f2f5;
-  --sidebar-accent-foreground: #0d1117;
-  --sidebar-border: rgba(0, 0, 0, 0.08);
-  --sidebar-ring: #3b7df8;
+  --sidebar-accent: #e9eef5;
+  --sidebar-accent-foreground: #172033;
+  --sidebar-border: #c9d3e1;
+  --sidebar-ring: #2563eb;
 }
 
-.qa-package-window .dark {
-  --background: #0d1117;
-  --foreground: #e6edf3;
-  --card: #161b22;
-  --card-foreground: #e6edf3;
-  --popover: #1c2128;
-  --popover-foreground: #e6edf3;
-  --primary: #4f8ef7;
-  --primary-foreground: #ffffff;
-  --secondary: #21262d;
-  --secondary-foreground: #e6edf3;
-  --muted: #21262d;
-  --muted-foreground: #8b949e;
-  --accent: #1f3461;
-  --accent-foreground: #a2c0f8;
-  --destructive: #f85149;
-  --destructive-foreground: #ffffff;
-  --border: rgba(255, 255, 255, 0.07);
-  --input: #21262d;
-  --input-background: #21262d;
-  --switch-background: #373e47;
-  --ring: #4f8ef7;
-  --font-weight-medium: 500;
-  --font-weight-normal: 400;
-  --chart-1: #4f8ef7;
-  --chart-2: #3fb950;
-  --chart-3: #e3b341;
-  --chart-4: #a371f7;
-  --chart-5: #f85149;
-  --sidebar: #0d1117;
-  --sidebar-foreground: #e6edf3;
-  --sidebar-primary: #4f8ef7;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #21262d;
-  --sidebar-accent-foreground: #e6edf3;
-  --sidebar-border: rgba(255, 255, 255, 0.07);
-  --sidebar-ring: #4f8ef7;
+.qa-devtools-app.dark,
+.qa-devtools-pip-root.dark {
+  color-scheme: dark;
+  --background: #0b1220;
+  --foreground: #edf3fb;
+  --card: #111c2e;
+  --card-foreground: #edf3fb;
+  --popover: #162238;
+  --popover-foreground: #f4f7fb;
+  --primary: #78a9ff;
+  --primary-foreground: #071329;
+  --secondary: #1c2a40;
+  --secondary-foreground: #edf3fb;
+  --muted: #1a2940;
+  --muted-foreground: #aebbd0;
+  --accent: #203b68;
+  --accent-foreground: #d9e7ff;
+  --destructive: #ff7b72;
+  --destructive-foreground: #2a0705;
+  --destructive-solid: #b42318;
+  --success: #56d58b;
+  --success-foreground: #70e6a0;
+  --success-solid: #08783f;
+  --warning: #f5b94c;
+  --warning-foreground: #ffd07a;
+  --warning-solid: #965500;
+  --info: #67c4ff;
+  --info-foreground: #8bd2ff;
+  --info-solid: #075ea8;
+  --special: #c4a1ff;
+  --special-foreground: #d6bdff;
+  --special-solid: #7041b2;
+  --border: #35465f;
+  --input: #4a5e7a;
+  --input-background: #101a2b;
+  --switch-background: #52647d;
+  --overlay: rgb(0 0 0 / 0.72);
+  --shadow-color: rgb(0 0 0 / 0.5);
+  --ring: #78a9ff;
+  --chart-1: #78a9ff;
+  --chart-2: #56d58b;
+  --chart-3: #f5b94c;
+  --chart-4: #c4a1ff;
+  --chart-5: #ff7b72;
+  --sidebar: #0d1727;
+  --sidebar-foreground: #edf3fb;
+  --sidebar-primary: #78a9ff;
+  --sidebar-primary-foreground: #071329;
+  --sidebar-accent: #1a2940;
+  --sidebar-accent-foreground: #f4f7fb;
+  --sidebar-border: #35465f;
+  --sidebar-ring: #78a9ff;
+}
+
+/* Perfil 1: Oceano */
+.qa-devtools-app[data-color-theme="ocean"],
+.qa-devtools-pip-root[data-color-theme="ocean"] {
+  --background: #eef8fa; --foreground: #092a31; --card: #ffffff; --card-foreground: #092a31;
+  --popover: #ffffff; --popover-foreground: #092a31; --primary: #087f8c; --primary-foreground: #ffffff;
+  --secondary: #d8ecef; --secondary-foreground: #103a42; --muted: #e1f0f2; --muted-foreground: #46666d;
+  --accent: #cceff2; --accent-foreground: #07515a; --border: #b7d4d9; --input: #91b9c0;
+  --input-background: #ffffff; --switch-background: #86adb4; --ring: #087f8c;
+  --chart-1: #087f8c; --chart-2: #17785b; --chart-3: #a85d00; --chart-4: #4057b2; --chart-5: #b02b45;
+  --sidebar: #e4f3f5; --sidebar-foreground: #092a31; --sidebar-primary: #087f8c;
+  --sidebar-primary-foreground: #ffffff; --sidebar-accent: #cfe7ea; --sidebar-accent-foreground: #103a42;
+  --sidebar-border: #b7d4d9; --sidebar-ring: #087f8c;
+}
+.qa-devtools-app.dark[data-color-theme="ocean"],
+.qa-devtools-pip-root.dark[data-color-theme="ocean"] {
+  --background: #06191d; --foreground: #e4f7f8; --card: #0b252b; --card-foreground: #e4f7f8;
+  --popover: #103139; --popover-foreground: #f1fcfc; --primary: #55d5df; --primary-foreground: #032328;
+  --secondary: #15343b; --secondary-foreground: #e4f7f8; --muted: #143139; --muted-foreground: #a5c7cc;
+  --accent: #16444c; --accent-foreground: #c7f5f7; --border: #2d5660; --input: #3d6972;
+  --input-background: #0a2228; --switch-background: #47717a; --ring: #55d5df;
+  --chart-1: #55d5df; --chart-2: #62d6a7; --chart-3: #ffc266; --chart-4: #9fafff; --chart-5: #ff8297;
+  --sidebar: #071e23; --sidebar-foreground: #e4f7f8; --sidebar-primary: #55d5df;
+  --sidebar-primary-foreground: #032328; --sidebar-accent: #143139; --sidebar-accent-foreground: #f1fcfc;
+  --sidebar-border: #2d5660; --sidebar-ring: #55d5df;
+}
+
+/* Perfil 2: Floresta */
+.qa-devtools-app[data-color-theme="forest"],
+.qa-devtools-pip-root[data-color-theme="forest"] {
+  --background: #f1f7f2; --foreground: #12251a; --card: #ffffff; --card-foreground: #12251a;
+  --popover: #ffffff; --popover-foreground: #12251a; --primary: #18794e; --primary-foreground: #ffffff;
+  --secondary: #deebe2; --secondary-foreground: #193d2a; --muted: #e6efe8; --muted-foreground: #526b5b;
+  --accent: #d5f0df; --accent-foreground: #145b3c; --border: #bfd2c4; --input: #9fbaa7;
+  --input-background: #ffffff; --switch-background: #91ab99; --ring: #18794e;
+  --chart-1: #18794e; --chart-2: #477a16; --chart-3: #9b6300; --chart-4: #5653a6; --chart-5: #a93434;
+  --sidebar: #e8f2eb; --sidebar-foreground: #12251a; --sidebar-primary: #18794e;
+  --sidebar-primary-foreground: #ffffff; --sidebar-accent: #d9e9de; --sidebar-accent-foreground: #193d2a;
+  --sidebar-border: #bfd2c4; --sidebar-ring: #18794e;
+}
+.qa-devtools-app.dark[data-color-theme="forest"],
+.qa-devtools-pip-root.dark[data-color-theme="forest"] {
+  --background: #08160e; --foreground: #e8f5ec; --card: #0e2317; --card-foreground: #e8f5ec;
+  --popover: #142d1e; --popover-foreground: #f2fbf5; --primary: #65d995; --primary-foreground: #042414;
+  --secondary: #193726; --secondary-foreground: #e8f5ec; --muted: #183424; --muted-foreground: #abc8b5;
+  --accent: #1c4930; --accent-foreground: #cef4dc; --border: #315b40; --input: #426e50;
+  --input-background: #0c2014; --switch-background: #4b7658; --ring: #65d995;
+  --chart-1: #65d995; --chart-2: #a3db67; --chart-3: #f7c460; --chart-4: #aaa5ff; --chart-5: #ff8787;
+  --sidebar: #0a1c12; --sidebar-foreground: #e8f5ec; --sidebar-primary: #65d995;
+  --sidebar-primary-foreground: #042414; --sidebar-accent: #183424; --sidebar-accent-foreground: #f2fbf5;
+  --sidebar-border: #315b40; --sidebar-ring: #65d995;
+}
+
+/* Perfil 3: Violeta */
+.qa-devtools-app[data-color-theme="violet"],
+.qa-devtools-pip-root[data-color-theme="violet"] {
+  --background: #f7f3fb; --foreground: #251535; --card: #ffffff; --card-foreground: #251535;
+  --popover: #ffffff; --popover-foreground: #251535; --primary: #7041b2; --primary-foreground: #ffffff;
+  --secondary: #ebe1f3; --secondary-foreground: #3e2854; --muted: #f0e9f5; --muted-foreground: #6c5a7b;
+  --accent: #eadcf7; --accent-foreground: #512785; --border: #d2c2df; --input: #bba8ca;
+  --input-background: #ffffff; --switch-background: #ad99be; --ring: #7041b2;
+  --chart-1: #7041b2; --chart-2: #27755a; --chart-3: #a15a00; --chart-4: #315fad; --chart-5: #ad315b;
+  --sidebar: #eee6f5; --sidebar-foreground: #251535; --sidebar-primary: #7041b2;
+  --sidebar-primary-foreground: #ffffff; --sidebar-accent: #e4d8ee; --sidebar-accent-foreground: #3e2854;
+  --sidebar-border: #d2c2df; --sidebar-ring: #7041b2;
+}
+.qa-devtools-app.dark[data-color-theme="violet"],
+.qa-devtools-pip-root.dark[data-color-theme="violet"] {
+  --background: #160d20; --foreground: #f4ebfb; --card: #22142f; --card-foreground: #f4ebfb;
+  --popover: #2c1a3c; --popover-foreground: #fbf5ff; --primary: #c7a0f5; --primary-foreground: #251039;
+  --secondary: #382348; --secondary-foreground: #f4ebfb; --muted: #342144; --muted-foreground: #c8b3d7;
+  --accent: #4b2c65; --accent-foreground: #ecd9ff; --border: #5c4070; --input: #705686;
+  --input-background: #20122c; --switch-background: #79608e; --ring: #c7a0f5;
+  --chart-1: #c7a0f5; --chart-2: #75d9aa; --chart-3: #f8c66c; --chart-4: #8fb6ff; --chart-5: #ff8eb2;
+  --sidebar: #1a1025; --sidebar-foreground: #f4ebfb; --sidebar-primary: #c7a0f5;
+  --sidebar-primary-foreground: #251039; --sidebar-accent: #342144; --sidebar-accent-foreground: #fbf5ff;
+  --sidebar-border: #5c4070; --sidebar-ring: #c7a0f5;
+}
+
+/* Perfil 4: Âmbar */
+.qa-devtools-app[data-color-theme="amber"],
+.qa-devtools-pip-root[data-color-theme="amber"] {
+  --background: #faf5eb; --foreground: #302113; --card: #fffdf9; --card-foreground: #302113;
+  --popover: #fffdf9; --popover-foreground: #302113; --primary: #a45108; --primary-foreground: #ffffff;
+  --secondary: #f0e3cf; --secondary-foreground: #4c341d; --muted: #f3e9da; --muted-foreground: #74614c;
+  --accent: #f8dfb8; --accent-foreground: #713a08; --border: #ddcbb3; --input: #c3aa8b;
+  --input-background: #fffdf9; --switch-background: #b69d80; --ring: #a45108;
+  --chart-1: #a45108; --chart-2: #397348; --chart-3: #a67900; --chart-4: #6751a5; --chart-5: #a93535;
+  --sidebar: #f4eadb; --sidebar-foreground: #302113; --sidebar-primary: #a45108;
+  --sidebar-primary-foreground: #ffffff; --sidebar-accent: #eadbc5; --sidebar-accent-foreground: #4c341d;
+  --sidebar-border: #ddcbb3; --sidebar-ring: #a45108;
+}
+.qa-devtools-app.dark[data-color-theme="amber"],
+.qa-devtools-pip-root.dark[data-color-theme="amber"] {
+  --background: #1b1209; --foreground: #fbf1e3; --card: #291b0e; --card-foreground: #fbf1e3;
+  --popover: #352313; --popover-foreground: #fff8ef; --primary: #f2ae62; --primary-foreground: #351803;
+  --secondary: #402c19; --secondary-foreground: #fbf1e3; --muted: #3c2918; --muted-foreground: #d2bda5;
+  --accent: #5a391b; --accent-foreground: #ffe3bd; --border: #6a4b2d; --input: #80603f;
+  --input-background: #25180c; --switch-background: #896847; --ring: #f2ae62;
+  --chart-1: #f2ae62; --chart-2: #7ed59a; --chart-3: #f2d06a; --chart-4: #b9a5ff; --chart-5: #ff8b84;
+  --sidebar: #21160b; --sidebar-foreground: #fbf1e3; --sidebar-primary: #f2ae62;
+  --sidebar-primary-foreground: #351803; --sidebar-accent: #3c2918; --sidebar-accent-foreground: #fff8ef;
+  --sidebar-border: #6a4b2d; --sidebar-ring: #f2ae62;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-input-background: var(--input-background);
-  --color-switch-background: var(--switch-background);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+  --color-background: var(--background); --color-foreground: var(--foreground);
+  --color-card: var(--card); --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover); --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary); --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary); --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted); --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent); --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive); --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success); --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning); --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info); --color-info-foreground: var(--info-foreground);
+  --color-special: var(--special); --color-special-foreground: var(--special-foreground);
+  --color-border: var(--border); --color-input: var(--input); --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background); --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1); --color-chart-2: var(--chart-2); --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4); --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px); --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius); --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar); --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary); --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent); --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border); --color-sidebar-ring: var(--sidebar-ring);
 }
 
 @layer base {
-  .qa-package-window,
-  .qa-package-window * {
-    @apply border-border outline-ring/50;
+  .qa-package-window, .qa-package-window *, .qa-devtools-app, .qa-devtools-app *,
+  .qa-devtools-pip-root, .qa-devtools-pip-root * { @apply border-border outline-ring/60; }
+  .qa-package-window, .qa-devtools-app, .qa-devtools-pip-root { @apply bg-background text-foreground; }
+  .qa-package-window, .qa-devtools-app, .qa-devtools-pip-root { font-size: var(--font-size); }
+  .qa-devtools-app h1, .qa-devtools-pip-root h1 { font-size: var(--text-2xl); font-weight: 600; line-height: 1.4; }
+  .qa-devtools-app h2, .qa-devtools-pip-root h2 { font-size: var(--text-xl); font-weight: 600; line-height: 1.4; }
+  .qa-devtools-app h3, .qa-devtools-pip-root h3 { font-size: var(--text-lg); font-weight: 600; line-height: 1.4; }
+  .qa-devtools-app h4, .qa-devtools-pip-root h4 { font-size: var(--text-base); font-weight: 600; line-height: 1.4; }
+  .qa-devtools-app button, .qa-devtools-pip-root button,
+  .qa-devtools-app label, .qa-devtools-pip-root label { font-weight: 500; line-height: 1.45; }
+  .qa-devtools-app input, .qa-devtools-app select, .qa-devtools-app textarea,
+  .qa-devtools-pip-root input, .qa-devtools-pip-root select, .qa-devtools-pip-root textarea {
+    color: var(--foreground); background-color: var(--input-background); border-color: var(--input);
   }
-
-  .qa-package-window {
-    @apply bg-background text-foreground;
-  }
-
-  /**
-  * Default typography styles for HTML elements (h1-h4, p, label, button, input).
-  * These are in @layer base, so Tailwind utility classes (like text-sm, text-lg) automatically override them.
-  */
-
-  .qa-package-window {
-    font-size: var(--font-size);
-  }
-
-  .qa-package-window h1 {
-    font-size: var(--text-2xl);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  .qa-package-window h2 {
-    font-size: var(--text-xl);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  .qa-package-window h3 {
-    font-size: var(--text-lg);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  .qa-package-window h4 {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  .qa-package-window label {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  .qa-package-window button {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  .qa-package-window input {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-normal);
-    line-height: 1.5;
-  }
+  .qa-devtools-app input::placeholder, .qa-devtools-app textarea::placeholder,
+  .qa-devtools-pip-root input::placeholder, .qa-devtools-pip-root textarea::placeholder { color: var(--muted-foreground); opacity: 0.9; }
+  .qa-devtools-app select option, .qa-devtools-pip-root select option { color: var(--popover-foreground); background: var(--popover); }
+  .qa-devtools-app :focus-visible, .qa-devtools-pip-root :focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+  .qa-devtools-app ::selection, .qa-devtools-pip-root ::selection { color: var(--primary-foreground); background: var(--primary); }
 }
 
+/* Compatibilidade para componentes antigos: as utilities de cor passam a
+ * apontar para tokens semânticos e, portanto, acompanham todos os perfis. */
+.qa-devtools-app :is(.text-red-300, .text-red-400),
+.qa-devtools-pip-root :is(.text-red-300, .text-red-400) { color: var(--destructive) !important; }
+.qa-devtools-app :is(.text-emerald-300, .text-emerald-400),
+.qa-devtools-pip-root :is(.text-emerald-300, .text-emerald-400) { color: var(--success-foreground) !important; }
+.qa-devtools-app :is(.text-amber-100\/80, .text-amber-200, .text-amber-300, .text-amber-400, .text-orange-300),
+.qa-devtools-pip-root :is(.text-amber-100\/80, .text-amber-200, .text-amber-300, .text-amber-400, .text-orange-300) { color: var(--warning-foreground) !important; }
+.qa-devtools-app :is(.text-blue-200, .text-blue-300, .text-blue-400, .text-blue-400\/80),
+.qa-devtools-pip-root :is(.text-blue-200, .text-blue-300, .text-blue-400, .text-blue-400\/80) { color: var(--info-foreground) !important; }
+.qa-devtools-app :is(.text-purple-300, .text-purple-400, .text-violet-300),
+.qa-devtools-pip-root :is(.text-purple-300, .text-purple-400, .text-violet-300) { color: var(--special-foreground) !important; }
+
+.qa-devtools-app :is(.bg-red-400, .bg-red-500), .qa-devtools-pip-root :is(.bg-red-400, .bg-red-500) { background-color: var(--destructive-solid) !important; }
+.qa-devtools-app :is(.bg-emerald-400, .bg-emerald-500), .qa-devtools-pip-root :is(.bg-emerald-400, .bg-emerald-500) { background-color: var(--success-solid) !important; }
+.qa-devtools-app :is(.bg-amber-400, .bg-amber-500), .qa-devtools-pip-root :is(.bg-amber-400, .bg-amber-500) { background-color: var(--warning-solid) !important; }
+.qa-devtools-app .bg-blue-500, .qa-devtools-pip-root .bg-blue-500 { background-color: var(--info-solid) !important; }
+.qa-devtools-app .bg-violet-500, .qa-devtools-pip-root .bg-violet-500 { background-color: var(--special-solid) !important; }
+
+.qa-devtools-app :is(.bg-red-500\/5, .bg-red-500\/10), .qa-devtools-pip-root :is(.bg-red-500\/5, .bg-red-500\/10) { background-color: color-mix(in srgb, var(--destructive) 12%, transparent) !important; }
+.qa-devtools-app .bg-emerald-500\/10, .qa-devtools-pip-root .bg-emerald-500\/10 { background-color: color-mix(in srgb, var(--success) 12%, transparent) !important; }
+.qa-devtools-app :is(.bg-amber-500\/5, .bg-amber-500\/10), .qa-devtools-pip-root :is(.bg-amber-500\/5, .bg-amber-500\/10) { background-color: color-mix(in srgb, var(--warning) 12%, transparent) !important; }
+.qa-devtools-app .bg-blue-500\/10, .qa-devtools-pip-root .bg-blue-500\/10 { background-color: color-mix(in srgb, var(--info) 12%, transparent) !important; }
+.qa-devtools-app :is(.bg-purple-500\/10, .bg-violet-500\/10), .qa-devtools-pip-root :is(.bg-purple-500\/10, .bg-violet-500\/10) { background-color: color-mix(in srgb, var(--special) 12%, transparent) !important; }
+
+.qa-devtools-app [class*="border-red-500"], .qa-devtools-pip-root [class*="border-red-500"] { border-color: color-mix(in srgb, var(--destructive) 45%, var(--border)) !important; }
+.qa-devtools-app [class*="border-emerald-500"], .qa-devtools-pip-root [class*="border-emerald-500"] { border-color: color-mix(in srgb, var(--success) 45%, var(--border)) !important; }
+.qa-devtools-app [class*="border-amber-500"], .qa-devtools-pip-root [class*="border-amber-500"] { border-color: color-mix(in srgb, var(--warning) 45%, var(--border)) !important; }
+.qa-devtools-app [class*="border-blue-500"], .qa-devtools-pip-root [class*="border-blue-500"] { border-color: color-mix(in srgb, var(--info) 45%, var(--border)) !important; }
+.qa-devtools-app [class*="border-violet-500"], .qa-devtools-pip-root [class*="border-violet-500"] { border-color: color-mix(in srgb, var(--special) 45%, var(--border)) !important; }
+
+.qa-devtools-app :is(.bg-black\/20, .bg-black\/40, .bg-black\/60, .bg-black\/70),
+.qa-devtools-pip-root :is(.bg-black\/20, .bg-black\/40, .bg-black\/60, .bg-black\/70) { background-color: var(--overlay) !important; }

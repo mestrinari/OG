@@ -10,7 +10,7 @@ import {
   AlertCircle, RefreshCw, Repeat, Download, Plus,
   Eye, Trash2,
   Clock, Activity, Code2, X,
-  Check, LogOut,
+  Check, LogOut, Palette,
   TrendingUp, TrendingDown
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -21,8 +21,6 @@ import {
 } from "recharts";
 import { chamadosApi } from "./features/chamados/chamadosApi";
 import type { ChamadoResumo } from "./features/chamados/types";
-import { testesApi } from "./features/testes/testesApi";
-import type { TestCaseSummary } from "./features/testes/types";
 import { devToolsApi } from "./features/devtools/devToolsApi";
 import type { FeatureFlag } from "./features/devtools/devToolsApi";
 import { insightsApi } from "./features/insights/insightsApi";
@@ -50,11 +48,19 @@ import { setNetworkLoggerRoute, stageNetworkReplayApplication } from "./networkL
 import { useNavigationCounters, type NavigationCountKey } from "./navigationCounters";
 import { usePerformanceMonitor } from "./performanceMonitor";
 import { refreshServiceHealth, useServiceHealth, type ServiceHealthStatus } from "./serviceHealth";
+import type { QaDevToolsUser } from "./package";
+import { FloatingWindow, type FloatingWindowHandle } from "./PictureInPictureOptions";
+import type { UsuarioConfigPreferences } from "./auth/usuarioConfigAuth";
+import { ImageEditorExample } from "./ImageEditorExample";
+import { TICKET_IMAGE_EVIDENCE_EVENT, useTicketImageEvidence } from "./ticketImageEvidence";
+import { TestCasesWorkspace } from "./TestCasesWorkspace";
+import { ApiSimulatorWorkspace } from "./ApiSimulatorWorkspace";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type Env = "DEV" | "HML" | "PROD";
 type Role = "DEV" | "QA" | "ADMIN";
+type ColorTheme = "classic" | "ocean" | "forest" | "violet" | "amber";
 type Module =
   | "dashboard" | "logs" | "http" | "state" | "errors"
   | "performance" | "flags" | "simulator" | "generator"
@@ -80,6 +86,21 @@ const TICKET_ENVIRONMENT_CODE: Record<Env, string> = {
   HML: "HOMOLOGACAO",
   PROD: "PRODUCAO",
 };
+
+const COLOR_THEME_STORAGE_KEY = "qa-devtools.color-theme";
+const COLOR_THEMES: Array<{ id: ColorTheme; label: string }> = [
+  { id: "classic", label: "Clássico" },
+  { id: "ocean", label: "Oceano" },
+  { id: "forest", label: "Floresta" },
+  { id: "violet", label: "Violeta" },
+  { id: "amber", label: "Âmbar" },
+];
+
+function initialColorTheme(): ColorTheme {
+  if (typeof window === "undefined") return "classic";
+  const saved = window.localStorage.getItem(COLOR_THEME_STORAGE_KEY);
+  return COLOR_THEMES.some(theme => theme.id === saved) ? saved as ColorTheme : "classic";
+}
 
 interface NavItem {
   id: Module;
@@ -211,16 +232,16 @@ function Modal({ open, onClose, title, children, size = "md" }: {
   if (!open) return null;
   const sizeMap = { sm: "max-w-md", md: "max-w-2xl", lg: "max-w-4xl", xl: "max-w-6xl" };
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="qa-internal-modal-layer fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
-      <div className={`relative bg-card border border-border rounded-lg shadow-2xl w-full ${sizeMap[size]} flex flex-col`}>
+      <div className={`qa-internal-modal-dialog relative bg-card border border-border rounded-lg shadow-2xl w-full ${sizeMap[size]} flex flex-col`}>
         <div className="flex items-center justify-between px-4 py-3 border-b border-border">
           <span className="text-sm font-semibold font-mono text-muted-foreground ">{title}</span>
           <button onClick={onClose} aria-label="Fechar modal" className="text-muted-foreground hover:text-foreground transition-colors p-0.5 rounded hover:bg-muted">
             <X size={15} />
           </button>
         </div>
-        <div className="overflow-y-overlay flex-1 text-muted-foreground h-auto">{children}</div>
+        <div className="qa-internal-modal-content overflow-y-overlay flex-1 text-muted-foreground h-auto">{children}</div>
       </div>
     </div>
   );
@@ -290,7 +311,7 @@ function jsonDisplayValue(value: unknown) {
 function JsonCodeBlock({ value, emptyLabel }: { value: unknown; emptyLabel: string }) {
   if (value === undefined) return <div className="text-[11px] font-mono text-muted-foreground italic">{emptyLabel}</div>;
   return (
-    <div className="bg-[#0d1117] border border-border/70 rounded p-3 max-h-72 overflow-auto select-text leading-5">
+    <div className="bg-muted/50 border border-border rounded p-3 max-h-72 overflow-auto select-text leading-5">
       <JsonTree data={jsonDisplayValue(value)} />
     </div>
   );
@@ -351,7 +372,6 @@ function DashboardView({ env: _env, onOpenHttp }: { env: Env; onOpenHttp: () => 
     });
     return () => { active = false; };
   }, []);
-
   const completedLogs = logs.filter(log => log.status !== undefined);
   const lastMinuteLogs = completedLogs.filter(log => log.startTime >= Date.now() - 60_000);
   const averageLatency = lastMinuteLogs.length
@@ -368,9 +388,9 @@ function DashboardView({ env: _env, onOpenHttp }: { env: Env; onOpenHttp: () => 
   const criticalTickets = openTickets.filter(ticket => ticket.bloqueante || /P0|CRIT|BLOCK/i.test(ticket.prioridade.codigo));
   const consoleErrorCount = consoleEntries.filter(entry => entry.level === "error").reduce((sum, entry) => sum + entry.count, 0);
   const httpDistribution = [
-    { name: "2xx", value: completedLogs.filter(log => (log.status ?? 0) >= 200 && (log.status ?? 0) < 300).length, color: "#3fb950" },
-    { name: "4xx", value: completedLogs.filter(log => (log.status ?? 0) >= 400 && (log.status ?? 0) < 500).length, color: "#e3b341" },
-    { name: "5xx/rede", value: completedLogs.filter(log => log.status === 0 || (log.status ?? 0) >= 500).length, color: "#f85149" },
+    { name: "2xx", value: completedLogs.filter(log => (log.status ?? 0) >= 200 && (log.status ?? 0) < 300).length, color: "var(--chart-2)" },
+    { name: "4xx", value: completedLogs.filter(log => (log.status ?? 0) >= 400 && (log.status ?? 0) < 500).length, color: "var(--chart-3)" },
+    { name: "5xx/rede", value: completedLogs.filter(log => log.status === 0 || (log.status ?? 0) >= 500).length, color: "var(--chart-5)" },
   ];
   return (
     <div className="p-5 space-y-5">
@@ -397,24 +417,23 @@ function DashboardView({ env: _env, onOpenHttp }: { env: Env; onOpenHttp: () => 
             <AreaChart data={performanceSamples}>
               <defs>
                 <linearGradient id="cLatency" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#4f8ef7" stopOpacity={0.2} />
-                  <stop offset="95%" stopColor="#4f8ef7" stopOpacity={0} />
+                  <stop offset="5%" stopColor="var(--chart-1)" stopOpacity={0.28} />
+                  <stop offset="95%" stopColor="var(--chart-1)" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="cCpu" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#3fb950" stopOpacity={0.2} />
-                  <stop offset="95%" stopColor="#3fb950" stopOpacity={0} />
+                  <stop offset="5%" stopColor="var(--chart-2)" stopOpacity={0.28} />
+                  <stop offset="95%" stopColor="var(--chart-2)" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-              <XAxis dataKey="label" tick={{ fill: "#8b949e", fontSize: 10, fontFamily: "JetBrains Mono" }} />
-              <YAxis tick={{ fill: "#8b949e", fontSize: 10, fontFamily: "JetBrains Mono" }} />
-              <Tooltip contentStyle={{ background: "#1c2128", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 4, fontSize: 11, fontFamily: "JetBrains Mono" }} />
-              <Area type="monotone" dataKey="latency" stroke="#4f8ef7" fill="url(#cLatency)" strokeWidth={1.5} name="Latência HTTP (ms)" />
-              <Area type="monotone" dataKey="cpu" stroke="#3fb950" fill="url(#cCpu)" strokeWidth={1.5} name="Carga da UI (%)" />
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" strokeOpacity={0.65} />
+              <XAxis dataKey="label" tick={{ fill: "var(--muted-foreground)", fontSize: 10, fontFamily: "JetBrains Mono" }} />
+              <YAxis tick={{ fill: "var(--muted-foreground)", fontSize: 10, fontFamily: "JetBrains Mono" }} />
+              <Tooltip contentStyle={{ background: "var(--popover)", color: "var(--popover-foreground)", border: "1px solid var(--border)", borderRadius: 4, fontSize: 11, fontFamily: "JetBrains Mono" }} />
+              <Area type="monotone" dataKey="latency" stroke="var(--chart-1)" fill="url(#cLatency)" strokeWidth={1.5} name="Latência HTTP (ms)" />
+              <Area type="monotone" dataKey="cpu" stroke="var(--chart-2)" fill="url(#cCpu)" strokeWidth={1.5} name="Carga da UI (%)" />
             </AreaChart>
           </ResponsiveContainer>
         </div>
-
         <div className="bg-card border border-border rounded-md p-4">
           <span className="text-xs font-mono font-semibold text-muted-foreground uppercase tracking-wider">Distribuição HTTP</span>
           <div className="flex items-center justify-center mt-2">
@@ -423,7 +442,7 @@ function DashboardView({ env: _env, onOpenHttp }: { env: Env; onOpenHttp: () => 
                 <Pie data={httpDistribution} cx="50%" cy="50%" innerRadius={38} outerRadius={55} dataKey="value" strokeWidth={0}>
                   {httpDistribution.map((entry) => <Cell key={entry.name} fill={entry.color} />)}
                 </Pie>
-                <Tooltip contentStyle={{ background: "#1c2128", border: "1px solid rgba(255,255,255,0.1)", fontSize: 11, fontFamily: "JetBrains Mono" }} />
+                <Tooltip contentStyle={{ background: "var(--popover)", color: "var(--popover-foreground)", border: "1px solid var(--border)", fontSize: 11, fontFamily: "JetBrains Mono" }} />
               </PieChart>
             </ResponsiveContainer>
           </div>
@@ -529,9 +548,9 @@ function ConsoleEntryDetails({ entry, onRemove, onTogglePinned }: { entry: Conso
     <div className="flex flex-wrap gap-2"><button onClick={onTogglePinned} className="px-3 py-1.5 border border-border rounded hover:bg-muted">{entry.pinned ? "Desafixar" : "Fixar"}</button><button onClick={() => void navigator.clipboard.writeText(copyPayload)} className="px-3 py-1.5 border border-border rounded hover:bg-muted">Copiar registro completo</button><button onClick={onRemove} className="px-3 py-1.5 border border-red-500/30 text-red-400 rounded hover:bg-red-500/10">Remover</button></div>
     <div className="grid grid-cols-2 md:grid-cols-3 gap-2"><NetworkMetric label="Nível"><LogLevel level={entry.level.toUpperCase()}/></NetworkMetric><NetworkMetric label="Horário">{new Date(entry.timestamp).toLocaleString("pt-BR", { hour12: false })}</NetworkMetric><NetworkMetric label="Ocorrências">{entry.count}</NetworkMetric><NetworkMetric label="Fixado">{entry.pinned ? "Sim" : "Não"}</NetworkMetric><NetworkMetric label="Argumentos">{entry.args.length}</NetworkMetric><NetworkMetric label="ID"><span className="break-all text-[10px]">{entry.id}</span></NetworkMetric></div>
     <div className="grid grid-cols-1 md:grid-cols-2 gap-2"><NetworkMetric label="Origem"><span className="break-all">{entry.source ?? "Indisponível"}</span></NetworkMetric><NetworkMetric label="Assinatura"><span className="break-all text-[10px]">{entry.signature}</span></NetworkMetric></div>
-    <ConsoleDetailSection title="Mensagem consolidada" defaultOpen><div className="rounded border border-border/70 bg-[#0d1117] p-3 text-foreground select-text whitespace-pre-wrap break-all">{entry.searchText || "(sem conteúdo)"}</div></ConsoleDetailSection>
-    <ConsoleDetailSection title={`Argumentos (${entry.args.length})`} defaultOpen><div className="rounded border border-border/70 bg-[#0d1117] py-2 overflow-auto select-text">{entry.args.length ? entry.args.map((argument, index) => <ConsoleValueInspector key={index} value={argument} name={`args[${index}]`}/>) : <span className="px-3 text-muted-foreground">Nenhum argumento informado.</span>}</div></ConsoleDetailSection>
-    <ConsoleDetailSection title="Stack de captura"><pre className="max-h-72 overflow-auto rounded border border-border/70 bg-[#0d1117] p-3 text-[10px] leading-5 text-muted-foreground whitespace-pre-wrap select-text">{entry.stack ?? "Stack indisponível"}</pre></ConsoleDetailSection>
+    <ConsoleDetailSection title="Mensagem consolidada" defaultOpen><div className="rounded border border-border bg-muted/50 p-3 text-foreground select-text whitespace-pre-wrap break-all">{entry.searchText || "(sem conteúdo)"}</div></ConsoleDetailSection>
+    <ConsoleDetailSection title={`Argumentos (${entry.args.length})`} defaultOpen><div className="rounded border border-border bg-muted/50 py-2 overflow-auto select-text">{entry.args.length ? entry.args.map((argument, index) => <ConsoleValueInspector key={index} value={argument} name={`args[${index}]`}/>) : <span className="px-3 text-muted-foreground">Nenhum argumento informado.</span>}</div></ConsoleDetailSection>
+    <ConsoleDetailSection title="Stack de captura"><pre className="max-h-72 overflow-auto rounded border border-border bg-muted/50 p-3 text-[10px] leading-5 text-muted-foreground whitespace-pre-wrap select-text">{entry.stack ?? "Stack indisponível"}</pre></ConsoleDetailSection>
     {entry.args.some(argument => argument instanceof Error) && <ConsoleDetailSection title="Stack dos erros" defaultOpen><pre className="max-h-72 overflow-auto rounded border border-red-500/20 bg-red-500/5 p-3 text-[10px] leading-5 text-red-300 whitespace-pre-wrap select-text">{entry.args.filter((argument): argument is Error => argument instanceof Error).map(error => error.stack ?? `${error.name}: ${error.message}`).join("\n\n")}</pre></ConsoleDetailSection>}
   </div>;
 }
@@ -820,16 +839,16 @@ function NetworkDetails({ log }: { log: NetworkLog }) {
         </div>
         <label className="block space-y-1.5">
           <span className="text-[10px] uppercase tracking-wider text-muted-foreground">URL</span>
-          <input value={replayUrl} onChange={event => setReplayUrl(event.target.value)} spellCheck={false} className="w-full rounded border border-border bg-[#0d1117] px-3 py-2 text-xs font-mono outline-none focus:border-primary"/>
+          <input value={replayUrl} onChange={event => setReplayUrl(event.target.value)} spellCheck={false} className="w-full rounded border border-input bg-input-background px-3 py-2 text-xs font-mono outline-none focus:border-primary"/>
         </label>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
           <label className="block space-y-1.5">
             <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Headers (JSON)</span>
-            <textarea value={replayHeaders} onChange={event => setReplayHeaders(event.target.value)} spellCheck={false} rows={9} className="w-full resize-y rounded border border-border bg-[#0d1117] p-3 text-xs leading-5 font-mono outline-none focus:border-primary"/>
+            <textarea value={replayHeaders} onChange={event => setReplayHeaders(event.target.value)} spellCheck={false} rows={9} className="w-full resize-y rounded border border-input bg-input-background p-3 text-xs leading-5 font-mono outline-none focus:border-primary"/>
           </label>
           <label className="block space-y-1.5">
             <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Payload {!["GET", "HEAD"].includes(log.method.toUpperCase()) ? "(JSON ou texto)" : "(não enviado para este método)"}</span>
-            <textarea value={replayPayload} onChange={event => setReplayPayload(event.target.value)} disabled={["GET", "HEAD"].includes(log.method.toUpperCase())} spellCheck={false} rows={9} placeholder="Sem payload" className="w-full resize-y rounded border border-border bg-[#0d1117] p-3 text-xs leading-5 font-mono outline-none focus:border-primary disabled:cursor-not-allowed disabled:opacity-50"/>
+            <textarea value={replayPayload} onChange={event => setReplayPayload(event.target.value)} disabled={["GET", "HEAD"].includes(log.method.toUpperCase())} spellCheck={false} rows={9} placeholder="Sem payload" className="w-full resize-y rounded border border-input bg-input-background p-3 text-xs leading-5 font-mono outline-none focus:border-primary disabled:cursor-not-allowed disabled:opacity-50"/>
           </label>
         </div>
         {replayFeedback && <div role="status" className={`rounded border px-3 py-2 text-[11px] ${replayFeedback.kind === "success" ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-400" : "border-red-500/30 bg-red-500/10 text-red-400"}`}>{replayFeedback.message}</div>}
@@ -941,24 +960,74 @@ function GlobalNetworkModal({ open, onClose }: { open: boolean; onClose: () => v
   );
 }
 
-function GlobalDevToolsLaunchers() {
-  const [networkOpen, setNetworkOpen] = useState(false);
-  const [consoleOpen, setConsoleOpen] = useState(false);
+function GlobalChamadosModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [creating, setCreating] = useState(false);
+  const [revision, setRevision] = useState(0);
+  const evidenceCount = useTicketImageEvidence(state => state.evidences.length);
+  const refreshCounters = () => void useNavigationCounters.getState().refresh();
+  useEffect(() => {
+    if (!evidenceCount) return;
+    setSelectedId(null);
+    setCreating(true);
+  }, [evidenceCount]);
+  return (
+    <Modal open={open} onClose={onClose} title="Chamados" size="xl">
+      <div className="max-h-[85vh] overflow-y-auto">
+        {creating ? (
+          <RegistrarChamado
+            onCancel={() => setCreating(false)}
+            onSuccess={() => {
+              setCreating(false);
+              setRevision(value => value + 1);
+              refreshCounters();
+            }}
+          />
+        ) : selectedId ? (
+          <ChamadoDetalhes chamadoId={selectedId} onBack={() => {
+            setSelectedId(null);
+            setRevision(value => value + 1);
+            refreshCounters();
+          }} />
+        ) : (
+          <BugsView key={revision} onNew={() => setCreating(true)} onOpen={setSelectedId} />
+        )}
+      </div>
+    </Modal>
+  );
+}
+
+function GlobalDevToolsLaunchers({ dark, colorTheme }: { dark: boolean; colorTheme: ColorTheme }) {
   const networkLogs = useNetworkLogger(state => state.logs);
   const consoleLogger = useConsoleLogger();
+  const chamadosCount = useNavigationCounters(state => state.counts.bugs ?? 0);
+  const chamadosWindowRef = useRef<FloatingWindowHandle>(null);
+  useEffect(() => {
+    const openTicketEvidence = () => chamadosWindowRef.current?.open();
+    window.addEventListener(TICKET_IMAGE_EVIDENCE_EVENT, openTicketEvidence);
+    return () => window.removeEventListener(TICKET_IMAGE_EVIDENCE_EVENT, openTicketEvidence);
+  }, []);
   return <>
-    <div className="fixed bottom-5 right-5 z-40 flex items-center gap-2">
-      <button type="button" onClick={() => setConsoleOpen(true)} aria-label="Abrir console global" title="Abrir console global" className="relative flex items-center gap-2 rounded-full border border-violet-500/40 bg-card px-3 py-2.5 text-violet-300 shadow-2xl shadow-black/30 hover:bg-violet-500/10 transition-colors">
-        <Terminal size={16}/><span className="text-[10px] font-mono font-semibold">CONSOLE</span><span className="min-w-5 rounded-full bg-violet-500 px-1.5 py-0.5 text-center text-[9px] font-mono font-bold text-white">{consoleLogger.entries.length}</span>
-        {consoleLogger.entries.some(entry => entry.level === "error") && <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border-2 border-card bg-destructive"/>}
-      </button>
-      <button type="button" onClick={() => setNetworkOpen(true)} aria-label="Abrir chamadas HTTP" title="Abrir chamadas HTTP" className="relative flex items-center gap-2 rounded-full border border-primary/40 bg-card px-3 py-2.5 text-primary shadow-2xl shadow-black/30 hover:bg-primary/10 transition-colors">
-        <Wifi size={16}/><span className="text-[10px] font-mono font-semibold">HTTP</span><span className="min-w-5 rounded-full bg-primary px-1.5 py-0.5 text-center text-[9px] font-mono font-bold text-primary-foreground">{networkLogs.length}</span>
-        {networkLogs.some(log => log.status === 0 || Number(log.status) >= 400) && <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border-2 border-card bg-destructive"/>}
-      </button>
+    <div className="qa-global-launchers fixed bottom-5 right-5 z-40 flex items-center gap-2">
+      <FloatingWindow windowId="console" title="Console global" width={1100} height={760} dark={dark} colorTheme={colorTheme}
+        renderTrigger={(open, state) => <button type="button" onClick={open} disabled={state.isOpening} aria-label="Abrir console global" title="Abrir console global em Picture-in-Picture" className="relative flex items-center gap-2 rounded-full border border-violet-500/40 bg-card px-3 py-2.5 text-violet-300 shadow-2xl shadow-black/30 hover:bg-violet-500/10 transition-colors disabled:opacity-60">
+          <Terminal size={16}/><span className="text-[10px] font-mono font-semibold">CONSOLE</span><span className="min-w-5 rounded-full bg-violet-500 px-1.5 py-0.5 text-center text-[9px] font-mono font-bold text-white">{consoleLogger.entries.length}</span>
+          {consoleLogger.entries.some(entry => entry.level === "error") && <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border-2 border-card bg-destructive"/>}
+        </button>}
+      >{close => <GlobalConsoleModal open onClose={close}/>}</FloatingWindow>
+      <FloatingWindow windowId="http" title="Chamadas HTTP" width={1200} height={800} dark={dark} colorTheme={colorTheme}
+        renderTrigger={(open, state) => <button type="button" onClick={open} disabled={state.isOpening} aria-label="Abrir chamadas HTTP" title="Abrir chamadas HTTP em Picture-in-Picture" className="relative flex items-center gap-2 rounded-full border border-primary/40 bg-card px-3 py-2.5 text-primary shadow-2xl shadow-black/30 hover:bg-primary/10 transition-colors disabled:opacity-60">
+          <Wifi size={16}/><span className="text-[10px] font-mono font-semibold">HTTP</span><span className="min-w-5 rounded-full bg-primary px-1.5 py-0.5 text-center text-[9px] font-mono font-bold text-primary-foreground">{networkLogs.length}</span>
+          {networkLogs.some(log => log.status === 0 || Number(log.status) >= 400) && <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border-2 border-card bg-destructive"/>}
+        </button>}
+      >{close => <GlobalNetworkModal open onClose={close}/>}</FloatingWindow>
+      <FloatingWindow ref={chamadosWindowRef} windowId="chamados" title="Chamados" width={1200} height={820} dark={dark} colorTheme={colorTheme}
+        renderTrigger={(open, state) => <button type="button" onClick={open} disabled={state.isOpening} aria-label="Abrir chamados" title="Abrir chamados em Picture-in-Picture" className="relative flex items-center gap-2 rounded-full border border-red-500/40 bg-card px-3 py-2.5 text-red-400 shadow-2xl shadow-black/30 hover:bg-red-500/10 transition-colors disabled:opacity-60">
+          <Bug size={16}/><span className="text-[10px] font-mono font-semibold">CHAMADOS</span><span className="min-w-5 rounded-full bg-red-500 px-1.5 py-0.5 text-center text-[9px] font-mono font-bold text-white">{chamadosCount}</span>
+        </button>}
+      >{close => <GlobalChamadosModal open onClose={close}/>}</FloatingWindow>
+      <ImageEditorExample dark={dark} colorTheme={colorTheme} />
     </div>
-    {networkOpen && <GlobalNetworkModal open onClose={() => setNetworkOpen(false)}/>}
-    {consoleOpen && <GlobalConsoleModal open onClose={() => setConsoleOpen(false)}/>}
   </>;
 }
 
@@ -1057,52 +1126,6 @@ function FlagsView() {
   );
 }
 
-function TestCasesView() {
-  const [cases, setCases] = useState<TestCaseSummary[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  useEffect(() => {
-    testesApi.listarCasos().then(setCases)
-      .catch(reason => setError(reason instanceof Error ? reason.message : "Falha ao carregar casos de teste."))
-      .finally(() => setLoading(false));
-  }, []);
-  const activeCases = cases.filter(item => item.status === "ATIVO").length;
-  const parameterizedCases = cases.filter(item => item.parametrizado).length;
-  const reusableCases = cases.filter(item => item.reutilizavel).length;
-
-  return (
-    <div className="p-5 space-y-4">
-      <div className="grid grid-cols-4 gap-3">
-        <MetricCard label="Total" value={String(cases.length)} icon={FlaskConical} color="blue" sub={String(activeCases) + " ativos"} />
-        <MetricCard label="Parametrizados" value={String(parameterizedCases)} icon={Settings} color="green" sub="com dados variáveis" />
-        <MetricCard label="Reutilizáveis" value={String(reusableCases)} icon={RefreshCw} color="purple" sub="compartilháveis" />
-        <MetricCard label="Arquivados" value={String(cases.length - activeCases)} icon={AlertCircle} color="amber" sub="fora de uso" />
-      </div>
-      {loading && <div className="text-xs font-mono text-muted-foreground">Carregando casos de teste...</div>}
-      {error && <div className="text-xs font-mono text-red-400">{error}</div>}
-      <div className="bg-card border border-border rounded-md overflow-hidden">
-        <div className="px-4 py-3 border-b border-border text-xs font-mono font-semibold text-muted-foreground uppercase tracking-wider">Casos de Teste</div>
-        <table className="w-full text-xs font-mono">
-          <thead><tr className="border-b border-border bg-muted/20">
-            {["Código", "Título", "Módulo", "Tipo", "Status", "Prioridade", "Versão"].map(h => <th key={h} className="text-left px-4 py-2.5 text-muted-foreground font-normal text-[10px] uppercase tracking-wider">{h}</th>)}
-          </tr></thead>
-          <tbody>{cases.map(item => (
-            <tr key={item.id} className="border-b border-border/40 hover:bg-muted/20">
-              <td className="px-4 py-3 text-primary">{item.codigo}</td>
-              <td className="px-4 py-3 text-foreground/90">{item.titulo}</td>
-              <td className="px-4 py-3"><Badge variant="neutral">{item.modulo}</Badge></td>
-              <td className="px-4 py-3 text-muted-foreground">{item.tipoTeste}</td>
-              <td className="px-4 py-3"><Badge variant={item.status === "ATIVO" ? "success" : "neutral"}>{item.status}</Badge></td>
-              <td className="px-4 py-3 text-muted-foreground">{item.prioridade}</td>
-              <td className="px-4 py-3 text-muted-foreground">{item.versao}</td>
-            </tr>
-          ))}</tbody>
-        </table>
-      </div>
-    </div>
-  );
-}
-
 function BugsView({ onNew, onOpen }: { onNew?: () => void; onOpen: (id: number) => void }) {
   const [tickets, setTickets] = useState<ChamadoResumo[]>([]);
   const [loading, setLoading] = useState(true);
@@ -1120,7 +1143,7 @@ function BugsView({ onNew, onOpen }: { onNew?: () => void; onOpen: (id: number) 
     <div className="p-5 space-y-4">
       <div className="flex items-center justify-between mb-1">
         <span className="text-sm font-semibold">Registro de Bugs</span>
-        <button onClick={onNew} className="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-primary-foreground text-xs font-mono rounded hover:bg-primary/90"><Plus size={12} />Novo Chamado</button>
+        {onNew && <button onClick={onNew} className="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-primary-foreground text-xs font-mono rounded hover:bg-primary/90"><Plus size={12} />Novo Chamado</button>}
       </div>
       <div className="grid grid-cols-4 gap-3">
         <MetricCard label="Em aberto" value={String(tickets.length - finalTickets)} icon={Bug} color="red" sub={String(criticalTickets) + " críticos"} />
@@ -1139,8 +1162,8 @@ function BugsView({ onNew, onOpen }: { onNew?: () => void; onOpen: (id: number) 
             <tr key={item.id} onClick={() => onOpen(item.id)} className="cursor-pointer border-b border-border/40 hover:bg-muted/20">
               <td className="px-4 py-3 text-primary">{item.codigo}</td>
               <td className="px-4 py-3 text-foreground/90">{item.titulo}</td>
-              <td className="px-4 py-3" style={{ color: item.prioridade.corHex ?? undefined }}>{item.prioridade.nome}</td>
-              <td className="px-4 py-3"><span className="px-1.5 py-0.5 rounded border border-border" style={{ color: item.status.corHex ?? undefined }}>{item.status.nome}</span></td>
+              <td className="px-4 py-3"><span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-full" style={{ backgroundColor: item.prioridade.corHex ?? "var(--muted-foreground)" }} />{item.prioridade.nome}</span></td>
+              <td className="px-4 py-3"><span className="inline-flex items-center gap-1.5 rounded border border-border bg-muted/30 px-1.5 py-0.5"><span className="h-2 w-2 rounded-full" style={{ backgroundColor: item.status.corHex ?? "var(--muted-foreground)" }} />{item.status.nome}</span></td>
               <td className="px-4 py-3">{item.ambiente.nome}</td>
               <td className="px-4 py-3 text-foreground/70">{item.atribuidoPara?.nome ?? "Não atribuído"}</td>
               <td className="px-4 py-3 text-muted-foreground">{new Date(item.dataAtualizacao).toLocaleString("pt-BR")}</td>
@@ -1180,8 +1203,8 @@ function PerformanceView() {
           <div className="text-xs font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Medições por rota</div>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={plans.map(plan => ({ route: plan.rota, medicoes: plan.medicoes.length, excedidos: plan.medicoes.reduce((sum, item) => sum + item.limitesExcedidos, 0) }))}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" /><XAxis dataKey="route" tick={{ fill: "#8b949e", fontSize: 9 }} /><YAxis tick={{ fill: "#8b949e", fontSize: 10 }} /><Tooltip />
-              <Bar dataKey="medicoes" fill="#4f8ef7" name="Medições" /><Bar dataKey="excedidos" fill="#e3b341" name="Limites excedidos" />
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" strokeOpacity={0.65} /><XAxis dataKey="route" tick={{ fill: "var(--muted-foreground)", fontSize: 9 }} /><YAxis tick={{ fill: "var(--muted-foreground)", fontSize: 10 }} /><Tooltip contentStyle={{ background: "var(--popover)", color: "var(--popover-foreground)", border: "1px solid var(--border)" }} />
+              <Bar dataKey="medicoes" fill="var(--chart-1)" name="Medições" /><Bar dataKey="excedidos" fill="var(--chart-3)" name="Limites excedidos" />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -1189,8 +1212,8 @@ function PerformanceView() {
           <div className="text-xs font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Últimas medições</div>
           <ResponsiveContainer width="100%" height={200}>
             <LineChart data={latest}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" /><XAxis dataKey="t" tick={{ fill: "#8b949e", fontSize: 10 }} /><YAxis tick={{ fill: "#8b949e", fontSize: 10 }} /><Tooltip />
-              <Line type="monotone" dataKey="latency" stroke="#4f8ef7" strokeWidth={2} dot={false} name="Latência" /><Line type="monotone" dataKey="mem" stroke="#a371f7" strokeWidth={2} dot={false} name="Memória MB" />
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" strokeOpacity={0.65} /><XAxis dataKey="t" tick={{ fill: "var(--muted-foreground)", fontSize: 10 }} /><YAxis tick={{ fill: "var(--muted-foreground)", fontSize: 10 }} /><Tooltip contentStyle={{ background: "var(--popover)", color: "var(--popover-foreground)", border: "1px solid var(--border)" }} />
+              <Line type="monotone" dataKey="latency" stroke="var(--chart-1)" strokeWidth={2} dot={false} name="Latência" /><Line type="monotone" dataKey="mem" stroke="var(--chart-4)" strokeWidth={2} dot={false} name="Memória MB" />
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -1283,16 +1306,46 @@ function ReportsView() {
 }
 
 // ─── Main App ─────────────────────────────────────────────────────────────────
-type positionType ={ position: [
+type AppProps = { position: [
   x: number,
   y: number
-] 
+];
+  user: QaDevToolsUser;
+  onLogout: () => void;
+  preferences: UsuarioConfigPreferences | null;
+  onPreferencesChange: (patch: Partial<UsuarioConfigPreferences>) => void;
+  onSavePreferences: () => Promise<boolean>;
+  saveStatus: "idle" | "saving" | "saved" | "error";
+  saveError: string | null;
 }
-  
-export default function App(position: positionType) {
-  const [dark, setDark] = useState(true);
+
+function roleFromProfile(profile: string | undefined): Role {
+  if (profile === "1" || profile === "DEV") return "DEV";
+  if (profile === "2" || profile === "QA") return "QA";
+  return "ADMIN";
+}
+
+function profileFromRole(role: Role): number {
+  if (role === "DEV") return 1;
+  if (role === "QA") return 2;
+  return 3;
+}
+
+export default function App({
+  user,
+  onLogout,
+  preferences,
+  onPreferencesChange,
+  onSavePreferences,
+  saveStatus,
+  saveError,
+}: AppProps) {
+  const dark = preferences?.isDark ?? true;
+  const [colorTheme, setColorTheme] = useState<ColorTheme>(initialColorTheme);
   const [env, setEnv] = useState<Env>("DEV");
-  const [role, setRole] = useState<Role>("ADMIN");
+  const role = roleFromProfile(
+    String(preferences?.perfilId ?? user.profile ?? ""),
+  );
   const [collapsed, setCollapsed] = useState(false);
   const [active, setActive] = useState<Module>("dashboard");
   const [searchOpen, setSearchOpen] = useState(false);
@@ -1313,11 +1366,23 @@ export default function App(position: positionType) {
       : active === "bugs"
         ? "/chamados"
         : `/devtools/${active}`;
+  const userName = user.name?.trim() || `Usuário ${user.id ?? ""}`.trim();
+  const userEmail = user.email?.trim() || "E-mail não informado";
+  const userInitials = userName
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join("") || "US";
   setNetworkLoggerRoute(currentViewPath);
 
   useEffect(() => {
     if (searchOpen) setTimeout(() => searchRef.current?.focus(), 50);
   }, [searchOpen]);
+
+  useEffect(() => {
+    window.localStorage.setItem(COLOR_THEME_STORAGE_KEY, colorTheme);
+  }, [colorTheme]);
 
   useEffect(() => {
     notifyNavigation(currentViewPath);
@@ -1362,11 +1427,14 @@ export default function App(position: positionType) {
     if (active === "errors")      return <RuntimeErrorsView />;
     if (active === "performance") return <PerformanceView />;
     if (active === "flags")       return <FlagsView />;
-    if (active === "simulator")   return <RuntimeSimulatorView />;
-    if (active === "testcases")   return <TestCasesView />;
-    if (active === "bugs" && selectedChamadoId) return <ChamadoDetalhes chamadoId={selectedChamadoId} onBack={() => setSelectedChamadoId(null)} />;
+    if (active === "simulator")   return <ApiSimulatorWorkspace />;
+    if (active === "testcases")   return <TestCasesWorkspace />;
+    if (active === "bugs" && selectedChamadoId) return <ChamadoDetalhes chamadoId={selectedChamadoId} onBack={() => {
+      setSelectedChamadoId(null);
+      void useNavigationCounters.getState().refresh();
+    }} />;
     if (active === "bugs")        return <BugsView onNew={() => setActive("newchamado")} onOpen={setSelectedChamadoId} />;
-    if (active === "newchamado")  return <RegistrarChamado key={automaticTicketTarget?.failureId ?? "manual"} initialTarget={automaticTicketTarget} onCancel={() => { setAutomaticTicketTarget(null); setActive("bugs"); }} onSuccess={() => { setAutomaticTicketTarget(null); setActive("bugs"); }} />;
+    if (active === "newchamado")  return <RegistrarChamado key={automaticTicketTarget?.failureId ?? "manual"} initialTarget={automaticTicketTarget} onCancel={() => { setAutomaticTicketTarget(null); setActive("bugs"); }} onSuccess={() => { setAutomaticTicketTarget(null); setActive("bugs"); void useNavigationCounters.getState().refresh(); }} />;
     if (active === "exploratory") return <ExploratoryView />;
     if (active === "evidence")    return <EvidenceView />;
     if (active === "generator")   return <GeneratorView />;
@@ -1401,7 +1469,7 @@ export default function App(position: positionType) {
   }
 
   return (
-    <div className={`qa-devtools-app flex h-screen w-screen overflow-hidden bg-background font-sans select-none ${dark ? "dark" : ""}`}>
+    <div data-color-theme={colorTheme} className={`qa-devtools-app flex h-screen w-screen overflow-hidden bg-background font-sans select-none ${dark ? "dark" : ""}`}>
       {/* Sidebar */}
       <aside className={`flex flex-col bg-sidebar border-r border-sidebar-border transition-all duration-200 shrink-0 ${collapsed ? "w-11" : "w-52"}`}>
         {/* Logo */}
@@ -1483,7 +1551,13 @@ export default function App(position: positionType) {
           <HeaderServiceStatus/>
 
           {/* Theme toggle */}
-          <button onClick={() => setDark(!dark)}
+          <label className="flex items-center gap-1 rounded border border-border bg-muted/40 px-1.5 py-0.5 text-muted-foreground" title="Perfil global de cores">
+            <Palette size={12} aria-hidden="true" />
+            <select aria-label="Perfil global de cores" value={colorTheme} onChange={event => setColorTheme(event.target.value as ColorTheme)} className="max-w-24 border-0 bg-transparent px-0 py-0.5 text-[10px] font-mono text-foreground outline-none">
+              {COLOR_THEMES.map(theme => <option key={theme.id} value={theme.id}>{theme.label}</option>)}
+            </select>
+          </label>
+          <button onClick={() => onPreferencesChange({ isDark: !dark })}
             className="text-muted-foreground hover:text-foreground p-1 rounded hover:bg-muted transition-colors">
             {dark ? <Sun size={14} /> : <Moon size={14} />}
           </button>
@@ -1496,23 +1570,24 @@ export default function App(position: positionType) {
 
           {/* User */}
           <div className="relative">
-            <button onClick={() => setUserMenuOpen(!userMenuOpen)}
+            <button onClick={() => setUserMenuOpen(!userMenuOpen)} aria-label="Abrir menu do usuário"
               className="flex items-center gap-1.5 hover:bg-muted rounded px-1.5 py-1 transition-colors">
               <div className="w-5 h-5 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center">
-                <span className="text-[8px] font-mono font-bold text-primary">AD</span>
+                <span className="text-[8px] font-mono font-bold text-primary">{userInitials}</span>
               </div>
-              {!collapsed && <span className={`text-[10px] font-mono font-bold ${ROLE_CONFIG[role].color}`}>{role}</span>}
+              <span className="hidden max-w-28 truncate text-[10px] font-mono font-bold text-foreground sm:inline">{userName}</span>
               <ChevronDown size={10} className="text-muted-foreground" />
             </button>
             {userMenuOpen && (
               <div className="absolute top-full mt-1 right-0 bg-popover border border-border rounded shadow-xl z-50 overflow-hidden min-w-40">
                 <div className="px-3 py-2 border-b border-border">
-                  <div className="text-xs font-mono font-semibold">Admin User</div>
-                  <div className="text-[10px] text-muted-foreground font-mono">admin@company.com</div>
+                  <div className="text-xs font-mono font-semibold">{userName}</div>
+                  <div className="text-[10px] text-muted-foreground font-mono">{userEmail}</div>
+                  <div className={`mt-1 text-[9px] font-mono font-bold ${ROLE_CONFIG[role].color}`}>{role}</div>
                 </div>
                 <div className="py-1">
                   {(["DEV","QA","ADMIN"] as Role[]).map(r => (
-                    <button key={r} onClick={() => { setRole(r); setUserMenuOpen(false); }}
+                    <button key={r} onClick={() => onPreferencesChange({ perfilId: profileFromRole(r) })}
                       className="w-full flex items-center gap-2 px-3 py-1.5 text-[10px] font-mono hover:bg-muted text-left">
                       <span className={ROLE_CONFIG[r].color}>{r}</span>
                       {role === r && <Check size={10} className="ml-auto text-primary" />}
@@ -1520,7 +1595,31 @@ export default function App(position: positionType) {
                   ))}
                 </div>
                 <div className="border-t border-border py-1">
-                  <button className="w-full flex items-center gap-2 px-3 py-1.5 text-[10px] font-mono hover:bg-muted text-left text-muted-foreground">
+                  <button
+                    onClick={() => void onSavePreferences().then(saved => {
+                      if (!saved) return;
+                      setViewRevision(current => current + 1);
+                      void useNavigationCounters.getState().refresh();
+                    })}
+                    disabled={saveStatus === "saving"}
+                    className="w-full flex items-center gap-2 px-3 py-1.5 text-[10px] font-mono hover:bg-muted text-left text-primary disabled:opacity-50"
+                  >
+                    {saveStatus === "saving" ? <RefreshCw size={11} className="animate-spin" /> : <CheckCircle2 size={11} />}
+                    {saveStatus === "saving"
+                      ? "Salvando..."
+                      : saveStatus === "saved"
+                        ? "Alterações salvas"
+                        : "Salvar alterações"}
+                  </button>
+                  {saveError && (
+                    <div className="px-3 py-1 text-[9px] font-mono text-red-400" role="alert">
+                      {saveError}
+                    </div>
+                  )}
+                  <button
+                    onClick={() => { setUserMenuOpen(false); onLogout(); }}
+                    className="w-full flex items-center gap-2 px-3 py-1.5 text-[10px] font-mono hover:bg-muted text-left text-muted-foreground"
+                  >
                     <LogOut size={11} />Sair
                   </button>
                 </div>
@@ -1537,13 +1636,13 @@ export default function App(position: positionType) {
         </main>
       </div>
 
-      <GlobalDevToolsLaunchers/>
+      <GlobalDevToolsLaunchers dark={dark} colorTheme={colorTheme}/>
 
       {/* Search Modal */}
       {searchOpen && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4">
+        <div className="qa-internal-modal-layer fixed inset-0 z-50 flex items-start justify-center pt-20 px-4">
           <div className="absolute inset-0 bg-black/60" onClick={() => setSearchOpen(false)} />
-          <div className="relative bg-card border border-border rounded-lg shadow-2xl w-full max-w-lg">
+          <div className="qa-internal-modal-dialog relative bg-card border border-border rounded-lg shadow-2xl w-full max-w-lg flex flex-col">
             <div className="flex items-center gap-2 px-4 py-3 border-b border-border">
               <Search size={14} className="text-muted-foreground" />
               <input ref={searchRef} placeholder="Buscar módulo, log, rota, erro, bug..."

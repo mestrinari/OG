@@ -14,6 +14,24 @@ const endpoints: Array<{ key: NavigationCountKey; endpoint: string; read: (value
   { key: "generator", endpoint: "/api/qa/operacoes/massas", read: value => Array.isArray(value) ? value.length : 0 },
 ];
 
+const BUG_TYPE_ID = 1;
+const OPEN_OR_RETURNED_STATUS_IDS = [2, 8] as const;
+
+async function readRelevantOpenBugsCount() {
+  const headers = { Accept: "application/json", "X-QA-Counter": "true" };
+  const params = new URLSearchParams({
+    pagina: "1",
+    tamanhoPagina: "1",
+    tipoIds: String(BUG_TYPE_ID),
+    somenteMeus: "true",
+  });
+  OPEN_OR_RETURNED_STATUS_IDS.forEach(statusId => params.append("statusIds", String(statusId)));
+  const response = await qaRawFetch(`/api/qa/chamados?${params}`, { headers });
+  if (!response.ok) throw new Error(String(response.status));
+  const value = await response.json() as { totalItens?: number };
+  return ["bugs", Number(value.totalItens ?? 0)] as const;
+}
+
 async function readCount(endpoint: (typeof endpoints)[number]) {
   const response = await qaRawFetch(endpoint.endpoint, { headers: { Accept: "application/json", "X-QA-Counter": "true" } });
   if (!response.ok) throw new Error(String(response.status));
@@ -24,7 +42,10 @@ export const useNavigationCounters = create<NavigationCounterState>((set) => ({
   counts: {},
   setCount: (key, count) => set(state => ({ counts: { ...state.counts, [key]: count } })),
   refresh: async () => {
-    const results = await Promise.allSettled(endpoints.map(readCount));
+    const results = await Promise.allSettled([
+      readRelevantOpenBugsCount(),
+      ...endpoints.map(readCount),
+    ]);
     set(state => ({
       counts: results.reduce<Partial<Record<NavigationCountKey, number>>>((counts, result) => {
         if (result.status === "fulfilled") counts[result.value[0]] = result.value[1];
@@ -47,4 +68,3 @@ export function setupNavigationCounters() {
   window.setInterval(() => void useNavigationCounters.getState().refresh(), 60_000);
   window.addEventListener("qa:network-replay-success", () => void useNavigationCounters.getState().refresh());
 }
-

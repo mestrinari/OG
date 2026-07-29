@@ -838,7 +838,7 @@ export default function StyleGuide() {
                   title={c.title}
                   text={c.text}
                   onClick={() => setServiceCard(c.id)}
-                  style={{ width: "var(--size-210)" }}
+                  style={{ width: "var(--size-10)" }}
                 />
               ))}
             </StateRow>

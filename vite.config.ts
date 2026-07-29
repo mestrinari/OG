@@ -22,6 +22,16 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           secure: false,
         },
+        '/api/usuario-config': {
+          target: qaProxyTarget,
+          changeOrigin: true,
+          secure: false,
+        },
+        '/api/auth': {
+          target: qaProxyTarget,
+          changeOrigin: true,
+          secure: false,
+        },
       },
     },
     assetsInclude: ['**/*.svg', '**/*.csv'],
